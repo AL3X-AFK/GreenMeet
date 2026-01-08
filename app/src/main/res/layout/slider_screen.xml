@@ -15,7 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:id="@+id/sliderImage"
-        android:src="@drawable/logo"/>
+        android:src="@drawable/logosvg"
+        app:tint="@color/green_300" />
 
     <TextView
         android:layout_marginTop="200dp"
