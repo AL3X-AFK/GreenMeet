@@ -8,37 +8,46 @@
     tools:context=".NavigationActivity">
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="parent"
-            android:layout_marginBottom="40dp"
-            >
+            <androidx.viewpager.widget.ViewPager
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/slideViewPager"
+                android:layout_marginVertical="100dp"
+                />
 
             <Button
-                android:id="@+id/btnSiguiente"
+                android:id="@+id/nextButton"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:text="Siguiente"
                 android:textAllCaps="true"
                 android:backgroundTint="@color/green_200"
                 android:textColor="@color/black"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/skipButton"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
             <Button
-                android:id="@+id/btnOmitir"
+                android:id="@+id/skipButton"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:text="Omitir"
                 android:textAllCaps="true"
                 android:backgroundTint="@color/black"
                 android:textColor="@color/green_200"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/dotIndicator"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
-
-
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dotIndicator"
+                android:orientation="horizontal"
+                android:layout_marginBottom="40dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
