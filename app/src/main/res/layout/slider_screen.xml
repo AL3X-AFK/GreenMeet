@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sliderLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="24dp"
+    app:flow_horizontalAlign="center"
+    >
+
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/sliderImage"
+        android:src="@drawable/logosvg"
+        app:tint="@color/green_300" />
+
+    <TextView
+        android:layout_marginTop="200dp"
+        android:id="@+id/sliderTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bienvenido a GreenMeet"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"/>
+
+    <TextView
+        android:id="@+id/sliderDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Descubre una aplicación para crear y realizar actividades al aire libre con personas que comparten tus intereses."
+        android:textSize="14sp"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="12dp"/>
+
+</LinearLayout>
