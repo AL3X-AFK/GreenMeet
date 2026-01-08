@@ -14,9 +14,6 @@ import androidx.viewpager.widget.PagerAdapter;
 public class ViewPageAdapter extends PagerAdapter {
 
     Context context;
-
-    int slidetAllImages[];
-    int sliderAllTitle[] = {R.string.screen1};
     int sliderAllDesc[] = {R.string.screen1desc, R.string.screen2desc, R.string.screen3desc};
     public ViewPageAdapter(Context context) {
         this.context = context;
@@ -24,7 +21,7 @@ public class ViewPageAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return sliderAllTitle.length;
+        return sliderAllDesc.length;
     }
 
     @Override

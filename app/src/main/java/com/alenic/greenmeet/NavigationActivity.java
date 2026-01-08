@@ -38,7 +38,7 @@ public class NavigationActivity extends AppCompatActivity {
             setDotIndicator(position);
 
             if(position==2){
-                nextButton.setText("Iniciio Sesión");
+                nextButton.setText("Inicio Sesión");
             } else{
                 nextButton.setText("Siguiente");
             }
@@ -91,7 +91,7 @@ public class NavigationActivity extends AppCompatActivity {
         slideViewPager.addOnPageChangeListener(viewPagerListener);
     }
     public void setDotIndicator(int position){
-        dots = new TextView[3];
+        dots = new TextView[viewPageAdapter.getCount()];
         dotIndicator.removeAllViews();
 
         for (int i = 0; i<dots.length; i++){
