@@ -5,5 +5,8 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.GreenMeet" parent="Base.Theme.GreenMeet" />
+    <style name="Theme.GreenMeet" parent="Base.Theme.GreenMeet">
+        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="fontFamily">@font/poppins_medium</item>
+    </style>
 </resources>

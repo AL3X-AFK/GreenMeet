@@ -22,8 +22,9 @@
     <ImageView
         android:id="@+id/imgLogo"
         android:layout_width="120dp"
-        android:layout_height="80dp"
-        android:src="@drawable/logo"
+        android:layout_height="100dp"
+        android:src="@drawable/logosvg"
+        app:tint="@color/green_300"
         android:contentDescription="Logo"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,8 +36,7 @@
         android:id="@+id/txtTitulo"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:layout_marginTop="24dp"
-        android:fontFamily="@font/poppins_medium"
+        android:layout_marginTop="4dp"
         android:text="Crear Cuenta"
         android:textColor="@android:color/white"
         android:textSize="28sp"
@@ -50,7 +50,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Nombre"
-        android:fontFamily="@font/poppins_medium"
         app:layout_constraintEnd_toEndOf="@id/guideline2"
         app:layout_constraintStart_toStartOf="@id/guideline1"
         app:layout_constraintTop_toBottomOf="@id/txtTitulo"
@@ -76,7 +75,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Email"
-        android:fontFamily="@font/poppins_medium"
         app:layout_constraintEnd_toEndOf="@id/guideline2"
         app:layout_constraintStart_toStartOf="@id/guideline1"
         app:layout_constraintTop_toBottomOf="@id/etNombre"
@@ -103,7 +101,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Contraseña"
-        android:fontFamily="@font/poppins_medium"
         app:layout_constraintEnd_toEndOf="@id/guideline2"
         app:layout_constraintStart_toStartOf="@id/guideline1"
         app:layout_constraintTop_toBottomOf="@id/etEmail"
@@ -126,7 +123,7 @@
 
     <!-- Botón Register -->
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnLogin"
+        android:id="@+id/btnRegister"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="REGISTRARSE"
@@ -159,7 +156,7 @@
         android:text="O continua con"
         android:textColor="#979797"
         android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/btnLogin"
+        app:layout_constraintTop_toBottomOf="@id/btnRegister"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"/>
@@ -190,8 +187,8 @@
         app:iconTint="@null"
         android:backgroundTint="@color/green_200"
         app:layout_constraintTop_toBottomOf="@id/txtO"
-        app:layout_constraintStart_toStartOf="@id/btnLogin"
-        app:layout_constraintEnd_toEndOf="@id/btnLogin"
+        app:layout_constraintStart_toStartOf="@id/btnRegister"
+        app:layout_constraintEnd_toEndOf="@id/btnRegister"
         android:layout_marginTop="16dp"/>
 
     <!-- Facebook -->
@@ -208,8 +205,8 @@
         app:iconTint="@null"
         android:backgroundTint="@color/green_200"
         app:layout_constraintTop_toBottomOf="@id/btnGoogle"
-        app:layout_constraintStart_toStartOf="@id/btnLogin"
-        app:layout_constraintEnd_toEndOf="@id/btnLogin" />
+        app:layout_constraintStart_toStartOf="@id/btnRegister"
+        app:layout_constraintEnd_toEndOf="@id/btnRegister" />
 
     <!-- Tienes cuenta -->
     <TextView

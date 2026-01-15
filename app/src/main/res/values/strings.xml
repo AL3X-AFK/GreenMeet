@@ -4,6 +4,8 @@
     <string name="screen1desc">Descubre una app para crear y realizar actividades que te gustan en el espacio urbano. La ciudad es tu espacio.</string>
     <string name="screen2desc">Conecta con personas que comparten tus ideas e intereses.  Crea experiencias juntos..</string>
     <string name="screen3desc">Entra y descubre.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

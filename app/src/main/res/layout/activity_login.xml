@@ -22,8 +22,9 @@
     <ImageView
         android:id="@+id/imgLogo"
         android:layout_width="120dp"
-        android:layout_height="80dp"
-        android:src="@drawable/logo"
+        android:layout_height="100dp"
+        android:src="@drawable/logosvg"
+        app:tint="@color/green_300"
         android:contentDescription="Logo"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,8 +36,7 @@
         android:id="@+id/txtTitulo"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:layout_marginTop="24dp"
-        android:fontFamily="@font/poppins_medium"
+        android:layout_marginTop="4dp"
         android:text="Iniciar Sesión"
         android:textColor="@android:color/white"
         android:textSize="28sp"
@@ -50,7 +50,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Email"
-        android:fontFamily="@font/poppins_medium"
         app:layout_constraintEnd_toEndOf="@id/guideline2"
         app:layout_constraintStart_toStartOf="@id/guideline1"
         app:layout_constraintTop_toBottomOf="@id/txtTitulo"
@@ -77,7 +76,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Contraseña"
-        android:fontFamily="@font/poppins_medium"
         app:layout_constraintEnd_toEndOf="@id/guideline2"
         app:layout_constraintStart_toStartOf="@id/guideline1"
         app:layout_constraintTop_toBottomOf="@id/etEmail"
@@ -207,6 +205,19 @@
         app:layout_constraintTop_toBottomOf="@id/btnGoogle"
         app:layout_constraintStart_toStartOf="@id/btnLogin"
         app:layout_constraintEnd_toEndOf="@id/btnLogin" />
+
+    <!--No Tienes cuenta -->
+    <TextView
+        android:id="@+id/txtPregunta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¿No tienes cuenta? Regístrate"
+        android:textColor="#979797"
+        android:textSize="15sp"
+        android:paddingVertical="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <!-- Guideline 1 -->
     <androidx.constraintlayout.widget.Guideline
