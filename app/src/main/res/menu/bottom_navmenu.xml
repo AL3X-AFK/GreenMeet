@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- IZQUIERDA -->
     <item
         android:id="@+id/home"
         android:icon="@drawable/home_icon"
-        android:title="Inicio" />
+        android:title="Inicio"
+        app:showAsAction="always"/>
+
     <item
         android:id="@+id/explore"
         android:icon="@drawable/explore_icon"
-        android:title="Explorar" />
+        android:title="Explorar"
+        app:showAsAction="always"/>
+
+    <!-- DERECHA -->
     <item
         android:id="@+id/collection"
         android:icon="@drawable/save_icon"
-        android:title="Guardado" />
+        android:title="Guardado"
+        app:showAsAction="always"/>
+
     <item
         android:id="@+id/profile"
         android:icon="@drawable/profile_icon"
-        android:title="Perfil" />
+        android:title="Perfil"
+        app:showAsAction="always"/>
 </menu>
