@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,10 +20,6 @@ public class SaveFragment extends Fragment {
     private RecyclerView rvProximos;
     private RecyclerView rvRealizadas;
 
-    public SaveFragment() {
-        // Required empty public constructor
-    }
-
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater,
@@ -33,7 +28,6 @@ public class SaveFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_save, container, false);
 
-        // Inicializar vistas
         TabLayout tabLayout = view.findViewById(R.id.tabLayout);
         rvProximos = view.findViewById(R.id.rvProximos);
         rvRealizadas = view.findViewById(R.id.rvRealizadas);
@@ -42,12 +36,18 @@ public class SaveFragment extends Fragment {
         rvProximos.setLayoutManager(new LinearLayoutManager(getContext()));
         rvRealizadas.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        GuardadosAdapter adapterProximos = new GuardadosAdapter(getListaProximos());
 
-        // Mostrar por defecto "Próximos"
+        GuardadosAdapter adapterRealizadas = new GuardadosAdapter(getListaRealizadas());
+
+        rvProximos.setAdapter(adapterProximos);
+        rvRealizadas.setAdapter(adapterRealizadas);
+
+        // Mostrar por defecto
         rvProximos.setVisibility(View.VISIBLE);
         rvRealizadas.setVisibility(View.GONE);
 
-        // Listener de tabs
+        // Tabs
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -67,11 +67,15 @@ public class SaveFragment extends Fragment {
         return view;
     }
 
-    // 🔽 Datos de ejemplo (luego los conectas a BD o API)
+    // Datos de ejemplo
     private List<String> getListaProximos() {
         List<String> lista = new ArrayList<>();
         lista.add("Jardinería");
         lista.add("Limpieza de Parque");
+        lista.add("Limpieza de Playa");
+        lista.add("Pintar mural");
+        lista.add("Clase de yoga gratis");
+
         return lista;
     }
 
