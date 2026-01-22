@@ -240,14 +240,30 @@
         android:id="@+id/rvAcciones"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:clipToPadding="false"
-        android:paddingEnd="16dp"
-        tools:listitem="@layout/action_card"
+        android:layout_marginStart="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/actionsTitle"/>
 
-
+    <!-- Sugerencias -->
+    <TextView
+        android:id="@+id/tvSuggestions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sugerencias"
+        app:layout_constraintTop_toBottomOf="@id/rvAcciones"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="16dp"
+        android:textColor="@color/darkgreen"
+        android:textSize="20dp"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAccionesSugeridas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/actionsTitle"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
