@@ -98,10 +98,10 @@ public class NavigationActivity extends AppCompatActivity {
             dots[i] = new TextView(this);
             dots[i].setText(Html.fromHtml("&#8226", Html.FROM_HTML_MODE_LEGACY));
             dots[i].setTextSize(35);
-            dots[i].setTextColor(getResources().getColor(R.color.green_300, getApplicationContext().getTheme()));
+            dots[i].setTextColor(getResources().getColor(R.color.darkgreen, getApplicationContext().getTheme()));
             dotIndicator.addView(dots[i]);
         }
-        dots[position].setTextColor(getResources().getColor(R.color.darkgreen, getApplicationContext().getTheme()));
+        dots[position].setTextColor(getResources().getColor(R.color.green_200, getApplicationContext().getTheme()));
     }
     private int getItem(int i){
         return slideViewPager.getCurrentItem() + i;

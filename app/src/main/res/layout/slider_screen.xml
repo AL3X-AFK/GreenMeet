@@ -9,34 +9,44 @@
     app:flow_horizontalAlign="center"
     >
 
-
-
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:id="@+id/sliderImage"
         android:src="@drawable/logosvg"
-        app:tint="@color/green_300" />
+        app:tint="@color/green_200"
+        />
 
     <TextView
-        android:layout_marginTop="200dp"
+        android:fontFamily="@font/poppins_medium"
         android:id="@+id/sliderTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Bienvenido a GreenMeet"
-        android:textSize="26sp"
+        android:layout_marginTop="300dp"
+        android:textSize="28sp"
         android:textStyle="bold"
         android:textAlignment="center"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/white"
+        android:shadowColor="#80000000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="4"
+        />
 
     <TextView
+        android:fontFamily="@font/poppins_medium"
         android:id="@+id/sliderDesc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Descubre una aplicación para crear y realizar actividades al aire libre con personas que comparten tus intereses."
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:textAlignment="center"
         android:textColor="@android:color/white"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="12dp"
+        android:shadowColor="#80000000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="4"/>
 
 </LinearLayout>
