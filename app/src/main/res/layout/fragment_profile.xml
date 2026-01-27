@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:layout_marginTop="32dp">
+        android:layout_marginTop="64dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -18,26 +18,31 @@
             android:text="Perfil"
             android:textSize="32sp"
             android:textStyle="bold"
-            android:layout_centerInParent="true" />
+            android:layout_centerInParent="true"
+            android:textColor="@color/black"/>
     </RelativeLayout>
 
     <!-- Profile Card -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/green_200"
+        android:background="@drawable/rounded_background"
         android:padding="16dp"
         android:orientation="horizontal"
         android:layout_margin="16dp"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:elevation="4dp"
+        >
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
+            app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:src="@drawable/slidebg1"
             android:scaleType="centerCrop" />
 
         <LinearLayout
+            android:id="@+id/editProfile"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -90,7 +95,10 @@
         android:layout_marginTop="8dp">
 
         <!-- Notificaciones -->
+
+
         <LinearLayout
+            android:id="@+id/menu_notifications"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:orientation="horizontal"
@@ -101,7 +109,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_notifications" />
+                android:src="@drawable/bell" />
 
             <TextView
                 android:layout_width="0dp"
@@ -118,7 +126,9 @@
         </LinearLayout>
 
         <!-- Idioma -->
+
         <LinearLayout
+            android:id="@+id/menu_language"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:orientation="horizontal"
@@ -130,7 +140,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_language" />
+                android:src="@drawable/language" />
 
             <TextView
                 android:layout_width="0dp"
@@ -147,7 +157,9 @@
         </LinearLayout>
 
         <!-- Favoritos -->
+
         <LinearLayout
+            android:id="@+id/menu_favorites"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:orientation="horizontal"
@@ -159,7 +171,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_favorite" />
+                android:src="@drawable/star" />
 
             <TextView
                 android:layout_width="0dp"
@@ -177,6 +189,7 @@
 
         <!-- Política de privacidad -->
         <LinearLayout
+            android:id="@+id/menu_privacity"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:orientation="horizontal"
@@ -188,7 +201,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_privacy" />
+                android:src="@drawable/doc" />
 
             <TextView
                 android:layout_width="0dp"
@@ -203,6 +216,38 @@
                 android:layout_height="20dp"
                 android:src="@drawable/arrow_right" />
         </LinearLayout>
+
+        <!-- Desconectarse -->
+        <LinearLayout
+            android:id="@+id/disconnect"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:clickable="true">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/exit"
+                app:tint="@color/red"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Desconectase"
+                android:textSize="18sp"
+                android:layout_marginStart="16dp"
+                android:textColor="@color/red"/>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/arrow_right" />
+        </LinearLayout>
+
 
     </LinearLayout>
 
