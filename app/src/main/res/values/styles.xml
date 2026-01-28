@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="DatePickerTheme" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <!-- Color principal (header, botones) -->
+        <item name="colorPrimary">@color/green_100</item>
+        <item name="colorAccent">@color/darkgreen</item>
+
+        <!-- Fondo del calendario -->
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+</resources>

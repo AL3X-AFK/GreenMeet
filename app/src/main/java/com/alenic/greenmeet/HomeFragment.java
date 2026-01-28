@@ -28,8 +28,14 @@ public class HomeFragment extends Fragment {
 
         RecyclerView rvAcciones = view.findViewById(R.id.rvAcciones);
 
+        RecyclerView rvAccionesSugeridas = view.findViewById(R.id.rvAccionesSugeridas);
+
         // Layout horizontal
         rvAcciones.setLayoutManager(
+                new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
+        );
+
+        rvAccionesSugeridas.setLayoutManager(
                 new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
         );
 
@@ -42,6 +48,8 @@ public class HomeFragment extends Fragment {
 
         AccionAdapter adapter = new AccionAdapter(acciones);
         rvAcciones.setAdapter(adapter);
+
+        rvAccionesSugeridas.setAdapter(adapter);
 
         return view;
     }
