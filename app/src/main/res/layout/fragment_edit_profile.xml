@@ -20,13 +20,14 @@
 
             <ImageButton
                 android:id="@+id/btnBack"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:src="@drawable/arrow_back"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:contentDescription="Volver"
-                android:background="@color/white"/>
+                android:background="@color/white"
+                app:tint="@color/black"/>
 
             <TextView
                 android:id="@+id/tvTitle"
@@ -61,7 +62,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:src="@drawable/arrow_back"
-                android:background="@color/darkgreen"
+                android:background="@color/green_300"
                 app:tint="@color/white"
                 android:layout_gravity="bottom|end"
                 android:layout_margin="4dp"
