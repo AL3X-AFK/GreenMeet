@@ -18,8 +18,8 @@
     <!-- DERECHA -->
     <item
         android:id="@+id/collection"
-        android:icon="@drawable/save_icon"
-        android:title="Guardado"
+        android:icon="@drawable/fertile"
+        android:title="Mis actividades"
         app:showAsAction="always"/>
 
     <item
