@@ -19,37 +19,66 @@
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/slidebg2" />
+            android:src="@drawable/arte" />
 
-        <!-- Contenido -->
+        <!-- Contenido horizontal: texto a la izquierda, botón a la derecha -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="12dp">
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/txtTitulo"
-                android:layout_width="wrap_content"
+            <!-- Texto vertical a la izquierda -->
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Jardinería"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="" />
+                android:orientation="vertical"
+                android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/txtFecha"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="14 Feb - 18 Feb"
-                android:textSize="13sp" />
+                <TextView
+                    android:id="@+id/txtTitulo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ejemplo Título"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/txtVerMas"
+                <TextView
+                    android:id="@+id/txtFecha"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="14 Feb - 18 Feb"
+                    android:textSize="13sp"
+                    android:textColor="#666666"
+                    android:layout_marginTop="2dp" />
+
+                <TextView
+                    android:id="@+id/txtDescripcion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Aquí va la descripción del evento"
+                    android:textSize="14sp"
+                    android:textColor="#333333"
+                    android:layout_marginTop="4dp"
+                    android:maxLines="2"
+                    android:ellipsize="end" />
+
+            </LinearLayout>
+
+            <!-- Botón Ver más a la derecha -->
+            <Button
+                android:id="@+id/btnVerMas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ver más"
-                android:textColor="@color/darkgreen"/>
+                android:textColor="@color/black"
+                android:backgroundTint="@color/green_200"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"/>
 
         </LinearLayout>
 
