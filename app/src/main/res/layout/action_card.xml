@@ -44,7 +44,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_alignParentEnd="true"
-                    android:src="@drawable/start_icon_outline"/>
+                    android:src="@drawable/save_icon"/>
             </RelativeLayout>
 
             <TextView
