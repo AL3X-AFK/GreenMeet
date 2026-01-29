@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.alenic.greenmeet.databinding.ActivityMainBinding;
+import com.alenic.greenmeet.objects.Accion;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,12 +43,18 @@ public class MainActivity extends AppCompatActivity {
 
             return true;
         });
+
+        binding.fabAdd.setOnClickListener(v -> {
+            replaceFragment(new CreateActionFragment());
+        });
     }
 
     private void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout,fragment);
+        fragmentTransaction.addToBackStack(null); // Si pulsas Atrás no cierra la app
         fragmentTransaction.commit();
     }
+
 }

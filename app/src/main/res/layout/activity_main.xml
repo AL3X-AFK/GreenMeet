@@ -30,6 +30,7 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAdd"
+        app:shapeAppearanceOverlay="@style/FabRound"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/add_icon"
@@ -39,5 +40,5 @@
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:translationY="32dp"/>
+        android:translationY="28dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
