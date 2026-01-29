@@ -75,15 +75,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nombre"
-            android:textSize="14sp"
-            android:textColor="#666666"
-            android:layout_marginBottom="4dp"/>
+            android:textSize="16sp"
+            android:textColor="@color/darkgreen"
+            android:textStyle="bold"/>
 
         <EditText
             android:id="@+id/etName"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:padding="8dp"
+            android:padding="2dp"
             android:text="Antoni"
             android:inputType="textPersonName"
             android:layout_marginBottom="16dp"/>
@@ -92,10 +92,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Email"
-            android:textSize="14sp"
-            android:textColor="#666666"
-            android:layout_marginBottom="4dp"/>
+            android:text="Correo"
+            android:textSize="16sp"
+            android:textColor="@color/darkgreen"
+            android:textStyle="bold"/>
 
         <EditText
             android:id="@+id/etEmail"
@@ -111,9 +111,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Teléfono"
-            android:textSize="14sp"
-            android:textColor="#666666"
-            android:layout_marginBottom="4dp"/>
+            android:textSize="16sp"
+            android:textColor="@color/darkgreen"
+            android:textStyle="bold"/>
 
         <EditText
             android:id="@+id/etPhone"
@@ -129,9 +129,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Género"
-            android:textSize="14sp"
-            android:textColor="#666666"
-            android:layout_marginBottom="4dp"/>
+            android:textSize="16sp"
+            android:textColor="@color/darkgreen"
+            android:textStyle="bold"/>
 
         <Spinner
             android:id="@+id/spinnerGender"
@@ -140,13 +140,13 @@
             android:layout_marginBottom="32dp"/>
 
         <!-- Botón Guardar -->
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSave"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:text="Guardar"
             android:textColor="#000000"
-            android:background="@color/green_300" />
+            android:background="@color/green_200" />
 
     </LinearLayout>
 

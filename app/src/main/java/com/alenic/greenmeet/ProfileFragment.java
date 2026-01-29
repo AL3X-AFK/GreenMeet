@@ -50,14 +50,12 @@ public class ProfileFragment extends Fragment {
         LinearLayout editProfile = view.findViewById(R.id.editProfile);
         LinearLayout notifications = view.findViewById(R.id.menu_notifications);
         LinearLayout language = view.findViewById(R.id.menu_language);
-        LinearLayout favorites = view.findViewById(R.id.menu_favorites);
         LinearLayout privacity = view.findViewById(R.id.menu_privacity);
         LinearLayout disconnect = view.findViewById(R.id.disconnect);
 
         editProfile.setOnClickListener(v -> openFragment(new EditProfileFragment()));
         notifications.setOnClickListener(v -> openFragment(new NotificationsFragment()));
         language.setOnClickListener(v -> openFragment(new LanguageFragment()));
-        favorites.setOnClickListener(v -> openFragment(new FavoritesFragment()));
         privacity.setOnClickListener(v -> openFragment(new PrivacyFragment()));
         disconnect.setOnClickListener(v -> {
             logout();
