@@ -3,6 +3,7 @@ package com.alenic.greenmeet;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,11 +47,33 @@ public class HomeFragment extends Fragment {
         acciones.add(new Accion("Plantar árboles", "Valencia", R.drawable.arte));
         acciones.add(new Accion("Recogida basura", "Sevilla", R.drawable.arte));
 
-        AccionAdapter adapter = new AccionAdapter(acciones);
-        rvAcciones.setAdapter(adapter);
+        // Configurar el adaptador con el listener
+        AccionAdapter adapter = new AccionAdapter(acciones, accion -> {
+            // Al hacer clic en una acción, abre el fragment de detalles
+            openDetailsActionFragment(accion);
+        });
 
+        rvAcciones.setAdapter(adapter);
         rvAccionesSugeridas.setAdapter(adapter);
 
         return view;
+    }
+
+    // Método para abrir DetailsActionFragment cuando se hace clic en una acción
+    private void openDetailsActionFragment(Accion accion) {
+        DetailsActionFragment fragment = new DetailsActionFragment();
+
+        // Pasar los datos de la acción como argumentos al fragmento
+        Bundle bundle = new Bundle();
+        bundle.putString("titulo", accion.titulo);
+        bundle.putString("ubicacion", accion.ubicacion);
+        bundle.putInt("imagen", accion.imagen); // Si quieres pasar la imagen también
+        fragment.setArguments(bundle);
+
+        // Reemplazar el fragmento con DetailsActionFragment
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout, fragment);
+        fragmentTransaction.addToBackStack(null); // Para permitir retroceder
+        fragmentTransaction.commit();
     }
 }

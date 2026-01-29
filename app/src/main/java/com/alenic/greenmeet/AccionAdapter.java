@@ -3,6 +3,7 @@ package com.alenic.greenmeet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,9 +17,10 @@ import java.util.List;
 public class AccionAdapter extends RecyclerView.Adapter<AccionAdapter.AccionViewHolder> {
 
     private List<Accion> lista;
-
-    public AccionAdapter(List<Accion> lista) {
+    private OnItemClickListener listener;
+    public AccionAdapter(List<Accion> lista, OnItemClickListener listener) {
         this.lista = lista;
+        this.listener = listener;
     }
 
     @NonNull
@@ -35,6 +37,8 @@ public class AccionAdapter extends RecyclerView.Adapter<AccionAdapter.AccionView
         holder.txtTitulo.setText(accion.titulo);
         holder.txtUbicacion.setText(accion.ubicacion);
         holder.imgAccion.setImageResource(accion.imagen);
+
+        holder.itemView.setOnClickListener(v -> listener.onItemClick(accion));
     }
 
     @Override
@@ -53,5 +57,9 @@ public class AccionAdapter extends RecyclerView.Adapter<AccionAdapter.AccionView
             txtTitulo = itemView.findViewById(R.id.txtTitulo);
             txtUbicacion = itemView.findViewById(R.id.txtUbicacion);
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Accion accion);
     }
 }
