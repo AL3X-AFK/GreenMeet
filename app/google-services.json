@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "736310735735",
+    "project_id": "greenmeet-4a350",
+    "storage_bucket": "greenmeet-4a350.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:736310735735:android:494da7cfd841ba2c0d6772",
+        "android_client_info": {
+          "package_name": "com.alenic.greenmeet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAT-LEv8cxRGsRtK1X7EIa4DJAX9fjL1pM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
