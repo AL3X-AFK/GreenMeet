@@ -1,13 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SavesFragment">
+    tools:context=".SaveFragment">
 
-    <TextView
+    <!-- Toolbar con flecha y título -->
+    <LinearLayout
+        android:id="@+id/ll1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="24dp"
+            android:layout_marginTop="58dp">
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/arrow_back"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="Volver"
+                android:background="@color/white"
+                app:tint="@color/black"/>
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Act. Guardadas"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_toEndOf="@id/btnBack"
+                android:layout_centerVertical="true"
+                android:singleLine="false"
+                android:ellipsize="none"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+    <!-- Recycler Próximos -->
+    <androidx.recyclerview.widget.RecyclerView
+
+        android:id="@+id/actGuardadasList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Lista de guardados ... Proximamente" />
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/ll1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="0dp"
+        android:paddingHorizontal="20dp"
+        />
 
-</FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
