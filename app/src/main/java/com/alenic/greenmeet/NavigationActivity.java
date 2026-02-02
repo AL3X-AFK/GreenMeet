@@ -65,21 +65,12 @@ public class NavigationActivity extends AppCompatActivity {
                 if(getItem(0)<2){
                     slideViewPager.setCurrentItem(getItem(1), true);
                 } else{
-                    Intent intent = new Intent(NavigationActivity.this, Login.class);
-                    startActivity(intent);
-                    finish();
+                    finishNavigation();
                 }
             }
         });
 
-        skipButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(NavigationActivity.this, Login.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+        skipButton.setOnClickListener(v-> finishNavigation());
 
         slideViewPager = (ViewPager) findViewById(R.id.slideViewPager);
         dotIndicator = (LinearLayout) findViewById(R.id.dotIndicator);
@@ -106,4 +97,15 @@ public class NavigationActivity extends AppCompatActivity {
     private int getItem(int i){
         return slideViewPager.getCurrentItem() + i;
     }
+
+    private void finishNavigation() {
+        getSharedPreferences("prefs", MODE_PRIVATE)
+                .edit()
+                .putBoolean("onboarding_done", true)
+                .apply();
+
+        startActivity(new Intent(NavigationActivity.this, Login.class));
+        finish();
+    }
+
 }
