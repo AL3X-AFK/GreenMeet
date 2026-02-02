@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class ProfileFragment extends Fragment {
 
 
@@ -47,23 +49,18 @@ public class ProfileFragment extends Fragment {
         if (getActivity() != null) {
             getActivity().getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.frame_layout, fragment) // Usamos el mismo contenedor que en MainActivity
+                    .replace(R.id.frame_layout, fragment) // Usamos el mismo contenedo  r que en MainActivity
                     .addToBackStack(null) // Para permitir volver con el botón de retroceso
                     .commit();
         }
     }
 
     private void logout() {
-        // Aquí puedes limpiar cualquier dato de sesión, SharedPreferences, token, etc.
-        // Por ahora solo vamos a abrir Login y cerrar MainActivity
+        FirebaseAuth.getInstance().signOut();
 
-        if (getActivity() != null) {
-            Intent intent = new Intent(getActivity(), Login.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            // FLAG_ACTIVITY_CLEAR_TASK + NEW_TASK asegura que MainActivity se cierre y no puedas volver con back
-            startActivity(intent);
-            getActivity().finish();
-        }
+        Intent intent = new Intent(getActivity(), Login.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
 

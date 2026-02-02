@@ -50,7 +50,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:paddingHorizontal="20dp"/>
 
     <!-- Recycler Realizadas -->
     <androidx.recyclerview.widget.RecyclerView
@@ -62,6 +63,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:paddingHorizontal="20dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
