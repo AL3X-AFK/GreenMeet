@@ -42,10 +42,10 @@ public class HomeFragment extends Fragment {
 
         // Datos estáticos (4 cards)
         List<Accion> acciones = new ArrayList<>();
-        acciones.add(new Accion("Pintar mural", "Madrid", R.drawable.arte));
-        acciones.add(new Accion("Limpieza parque", "Barcelona", R.drawable.arte));
-        acciones.add(new Accion("Plantar árboles", "Valencia", R.drawable.arte));
-        acciones.add(new Accion("Recogida basura", "Sevilla", R.drawable.arte));
+        acciones.add(new Accion("Pintar mural","28/10/2024", "Madrid","lalalallaa", "R.drawable.arte"));
+        acciones.add(new Accion("Pintar mural","28/10/2024", "Madrid","lalalallaa", "R.drawable.arte"));
+        acciones.add(new Accion("Pintar mural","28/10/2024", "Madrid","lalalallaa", "R.drawable.arte"));
+        acciones.add(new Accion("Pintar mural","28/10/2024", "Madrid","lalalallaa", "R.drawable.arte"));
 
         // Configurar el adaptador con el listener
         AccionAdapter adapter = new AccionAdapter(acciones, accion -> {
@@ -65,9 +65,9 @@ public class HomeFragment extends Fragment {
 
         // Pasar los datos de la acción como argumentos al fragmento
         Bundle bundle = new Bundle();
-        bundle.putString("titulo", accion.titulo);
-        bundle.putString("ubicacion", accion.ubicacion);
-        bundle.putInt("imagen", accion.imagen); // Si quieres pasar la imagen también
+        bundle.putString("titulo", accion.getTitulo());
+        bundle.putString("ubicacion", accion.getUbicacion());
+//        bundle.putInt("imagen", accion.imagen); // Si quieres pasar la imagen también
         fragment.setArguments(bundle);
 
         // Reemplazar el fragmento con DetailsActionFragment

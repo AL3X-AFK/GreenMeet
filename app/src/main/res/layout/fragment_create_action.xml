@@ -47,6 +47,7 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <ImageView
+                android:id="@+id/imgUpload"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/upload_icon"
@@ -84,6 +85,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tietTitle"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:textColorHint="@color/gray"
@@ -149,6 +151,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tietLocation"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:hint="Introduce la ubicación"
@@ -178,6 +181,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tietDescription"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:gravity="top"

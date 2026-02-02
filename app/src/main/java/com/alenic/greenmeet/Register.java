@@ -15,16 +15,19 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.alenic.greenmeet.objects.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Register extends AppCompatActivity {
 
     private FirebaseAuth auth;
-    private EditText signinEmail,signinPassword;
+    private FirebaseFirestore db;
+    private EditText signinEmail,signinPassword,signinNombre;
     private MaterialButton signinButton;
 
     @Override
@@ -34,9 +37,12 @@ public class Register extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
         signinButton = findViewById(R.id.btnRegister);
         signinEmail = findViewById(R.id.etEmail);
         signinPassword = findViewById(R.id.etPassword);
+        signinNombre = findViewById(R.id.etNombre);
 
         TextView txtPregunta = findViewById(R.id.txtPregunta);
 
@@ -48,21 +54,47 @@ public class Register extends AppCompatActivity {
         signinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String user = signinEmail.getText().toString().trim();
+                String nombre = signinNombre.getText().toString().trim();
+                String email = signinEmail.getText().toString().trim();
                 String pass = signinPassword.getText().toString().trim();
 
-                if(user.isEmpty()){
+                if (nombre.isEmpty()) {
+                    signinNombre.setError("Campo obligatorio");
+                    return;
+                }
+                if(email.isEmpty()){
                     signinEmail.setError("Este campo es obligatorio");
                 }
                 if(pass.isEmpty()){
                     signinPassword.setError("Este campo es obligatorio");
                 } else{
-                    auth.createUserWithEmailAndPassword(user,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    auth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
-                                Toast.makeText(Register.this,"Registro exitoso",Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(Register.this,Login.class));
+
+                                String uid = auth.getCurrentUser().getUid();
+
+                                Usuario usuario = new Usuario(
+                                        nombre,
+                                        email,
+                                        "",
+                                        ""
+                                );
+
+                                db.collection("usuarios")
+                                        .document(uid)
+                                        .set(usuario)
+                                        .addOnSuccessListener(unused -> {
+                                            Toast.makeText(Register.this,
+                                                    "Registro exitoso", Toast.LENGTH_SHORT).show();
+                                            startActivity(new Intent(Register.this, Login.class));
+                                            finish();
+                                        })
+                                        .addOnFailureListener(e ->
+                                                Toast.makeText(Register.this,
+                                                        "Error al guardar datos", Toast.LENGTH_SHORT).show()
+                                        );
                             }else{
                                 Toast.makeText(Register.this,"Registro fallido "+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                             }

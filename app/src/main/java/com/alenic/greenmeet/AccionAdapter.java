@@ -34,9 +34,9 @@ public class AccionAdapter extends RecyclerView.Adapter<AccionAdapter.AccionView
     @Override
     public void onBindViewHolder(@NonNull AccionViewHolder holder, int position) {
         Accion accion = lista.get(position);
-        holder.txtTitulo.setText(accion.titulo);
-        holder.txtUbicacion.setText(accion.ubicacion);
-        holder.imgAccion.setImageResource(accion.imagen);
+        holder.txtTitulo.setText(accion.getTitulo());
+        holder.txtUbicacion.setText(accion.getUbicacion());
+//        holder.imgAccion.setImageResource(accion.getImagenUrl());
 
         holder.itemView.setOnClickListener(v -> listener.onItemClick(accion));
     }
