@@ -4,19 +4,24 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.alenic.greenmeet.objects.Accion;
+import com.alenic.greenmeet.data.Accion;
+import com.alenic.greenmeet.viewmodel.UserViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
+
+    private UserViewModel userViewModel;
 
     public HomeFragment() {
     }
@@ -26,6 +31,22 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        TextView tvNombre = view.findViewById(R.id.tvNombre);
+        TextView tvEmail = view.findViewById(R.id.tvEmail);
+
+        userViewModel = new ViewModelProvider(requireActivity())
+                .get(UserViewModel.class);
+
+        userViewModel.getUsuario().observe(getViewLifecycleOwner(), usuario -> {
+            if (usuario != null) {
+                tvNombre.setText(usuario.getNombre());
+            }
+        });
+
+        userViewModel.getEmail().observe(getViewLifecycleOwner(), email -> {
+            tvEmail.setText(email);
+        });
 
         RecyclerView rvAcciones = view.findViewById(R.id.rvAcciones);
 

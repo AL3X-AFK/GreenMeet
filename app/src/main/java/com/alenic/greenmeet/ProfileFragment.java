@@ -4,17 +4,19 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.alenic.greenmeet.viewmodel.UserViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ProfileFragment extends Fragment {
 
-
+    private UserViewModel userViewModel;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -25,21 +27,28 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        LinearLayout editProfile = view.findViewById(R.id.editProfile);
-        LinearLayout savesProfile = view.findViewById(R.id.menu_saves);
-        LinearLayout notifications = view.findViewById(R.id.menu_notifications);
-        LinearLayout language = view.findViewById(R.id.menu_language);
-        LinearLayout privacity = view.findViewById(R.id.menu_privacity);
-        LinearLayout disconnect = view.findViewById(R.id.disconnect);
+        TextView tvName = view.findViewById(R.id.tvProfileName);
+        TextView tvEmail = view.findViewById(R.id.tvProfileEmail);
 
-        savesProfile.setOnClickListener(v -> openFragment(new SavesFragment()));
-        editProfile.setOnClickListener(v -> openFragment(new EditProfileFragment()));
-        notifications.setOnClickListener(v -> openFragment(new NotificationsFragment()));
-        language.setOnClickListener(v -> openFragment(new LanguageFragment()));
-        privacity.setOnClickListener(v -> openFragment(new PrivacyFragment()));
-        disconnect.setOnClickListener(v -> {
-            logout();
+        userViewModel = new ViewModelProvider(requireActivity())
+                .get(UserViewModel.class);
+
+        userViewModel.getUsuario().observe(getViewLifecycleOwner(), usuario -> {
+            if (usuario != null) {
+                tvName.setText(usuario.getNombre());
+            }
         });
+
+        userViewModel.getEmail().observe(getViewLifecycleOwner(), email -> {
+            tvEmail.setText(email);
+        });
+
+        view.findViewById(R.id.menu_saves).setOnClickListener(v -> openFragment(new SavesFragment()));
+        view.findViewById(R.id.editProfile).setOnClickListener(v -> openFragment(new EditProfileFragment()));
+        view.findViewById(R.id.menu_notifications).setOnClickListener(v -> openFragment(new NotificationsFragment()));
+        view.findViewById(R.id.menu_language).setOnClickListener(v -> openFragment(new LanguageFragment()));
+        view.findViewById(R.id.menu_privacity).setOnClickListener(v -> openFragment(new PrivacyFragment()));
+        view.findViewById(R.id.disconnect).setOnClickListener(v -> logout());
 
         return view;
     }
@@ -57,13 +66,11 @@ public class ProfileFragment extends Fragment {
 
     private void logout() {
         FirebaseAuth.getInstance().signOut();
+        userViewModel.clearSession();
 
         Intent intent = new Intent(getActivity(), Login.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
-
-
-
 
 }

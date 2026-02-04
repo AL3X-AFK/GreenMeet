@@ -55,19 +55,20 @@ public class Login extends AppCompatActivity {
 
                 if(!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()){
                     if(!pass.isEmpty()){
-                        auth.signInWithEmailAndPassword(email,pass)
-                                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                                    @Override
-                                    public void onSuccess(AuthResult authResult) {
-                                        Toast.makeText(Login.this,"Inicio de sesión exitoso",Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(Login.this,MainActivity.class));
-                                        finish();
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(Login.this,"Inicio de sesión fallida",Toast.LENGTH_SHORT).show();
-                                    }
+                        auth.signInWithEmailAndPassword(email, pass)
+                                .addOnSuccessListener(authResult -> {
+                                    Toast.makeText(Login.this,
+                                            "Inicio de sesión exitoso",
+                                            Toast.LENGTH_SHORT).show();
+
+                                    Intent intent = new Intent(Login.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(Login.this,
+                                            "Inicio de sesión fallida",
+                                            Toast.LENGTH_SHORT).show();
                                 });
                     } else{
                         loginPassword.setError("Este campo no puede estar vacío.");

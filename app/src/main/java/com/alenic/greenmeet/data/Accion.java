@@ -1,4 +1,4 @@
-package com.alenic.greenmeet.objects;
+package com.alenic.greenmeet.data;
 
 public class Accion {
 
