@@ -9,8 +9,10 @@ import androidx.lifecycle.ViewModel;
 import com.alenic.greenmeet.data.Act;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ActViewModel extends ViewModel {
@@ -37,21 +39,42 @@ public class ActViewModel extends ViewModel {
     }
 
     public void loadActs() {
-        FirebaseUser user = auth.getCurrentUser();
-        if (user == null) {
-            Log.e("ActViewModel", "Usuario no logueado");
-            return;
-        }
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) return;
 
         db.collection("usuarios")
-                .document(user.getUid())
-                .collection("acciones") // cambia a "actividades" si tu subcolección se llama así
                 .get()
-                .addOnSuccessListener(snapshot -> {
-                    List<Act> lista = snapshot.toObjects(Act.class);
-                    acts.setValue(lista);
-                });
+                .addOnSuccessListener(usersSnapshot -> {
+                    List<Act> lista = new ArrayList<>();
+                    List<com.google.android.gms.tasks.Task<com.google.firebase.firestore.QuerySnapshot>> tasks = new ArrayList<>();
+
+                    // Recorrer todos los usuarios
+                    for (DocumentSnapshot userDoc : usersSnapshot.getDocuments()) {
+                        // Saltar el usuario logueado
+                        if (userDoc.getId().equals(currentUser.getUid())) continue;
+
+                        tasks.add(userDoc.getReference().collection("acciones").get());
+                    }
+
+                    if (tasks.isEmpty()) {
+                        acts.setValue(lista); // No hay otros usuarios
+                        return;
+                    }
+
+                    // Esperar a que todas las subcolecciones terminen
+                    com.google.android.gms.tasks.Tasks.whenAllSuccess(tasks)
+                            .addOnSuccessListener(results -> {
+                                for (Object snapObj : results) {
+                                    com.google.firebase.firestore.QuerySnapshot snap = (com.google.firebase.firestore.QuerySnapshot) snapObj;
+                                    lista.addAll(snap.toObjects(Act.class));
+                                }
+                                acts.setValue(lista); // Actualizamos LiveData
+                            })
+                            .addOnFailureListener(e -> Log.e("ActViewModel", "Error cargando actividades", e));
+                })
+                .addOnFailureListener(e -> Log.e("ActViewModel", "Error cargando usuarios", e));
     }
+
 
     // ---------------- Actividad seleccionada ----------------
     public LiveData<Act> getSelectedAct() {
