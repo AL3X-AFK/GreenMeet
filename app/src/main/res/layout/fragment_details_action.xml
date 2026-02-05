@@ -28,7 +28,8 @@
             app:tint="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_margin="16dp"/>
+            android:layout_margin="16dp"
+            android:clickable="true"/>
         <!-- Card blanca -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardContent"
