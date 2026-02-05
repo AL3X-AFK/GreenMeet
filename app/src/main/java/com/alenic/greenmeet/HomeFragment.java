@@ -1,100 +1,97 @@
 package com.alenic.greenmeet;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.alenic.greenmeet.data.Accion;
-import com.alenic.greenmeet.viewmodel.UserViewModel;
+import com.alenic.greenmeet.data.Act;
+import com.alenic.greenmeet.viewmodel.ActViewModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    private UserViewModel userViewModel;
+    private ActViewModel actViewModel;
+    private ActAdapter adapter;
 
     public HomeFragment() {
+        // Required empty constructor
     }
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(
+            @NonNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState
+    ) {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        TextView tvNombre = view.findViewById(R.id.tvNombre);
-        TextView tvEmail = view.findViewById(R.id.tvEmail);
-
-        userViewModel = new ViewModelProvider(requireActivity())
-                .get(UserViewModel.class);
-
-        userViewModel.getUsuario().observe(getViewLifecycleOwner(), usuario -> {
-            if (usuario != null) {
-                tvNombre.setText(usuario.getNombre());
-            }
-        });
-
-        userViewModel.getEmail().observe(getViewLifecycleOwner(), email -> {
-            tvEmail.setText(email);
-        });
-
         RecyclerView rvAcciones = view.findViewById(R.id.rvAcciones);
-
         RecyclerView rvAccionesSugeridas = view.findViewById(R.id.rvAccionesSugeridas);
 
         // Layout horizontal
         rvAcciones.setLayoutManager(
                 new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
         );
-
         rvAccionesSugeridas.setLayoutManager(
                 new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
         );
 
-        // Datos estáticos (4 cards)
-        List<Accion> acciones = new ArrayList<>();
-        acciones.add(new Accion("Pintar mural","28/10/2024", "Madrid","lalalallaa", "R.drawable.arte"));
-        acciones.add(new Accion("Pintar mural","28/10/2024", "Madrid","lalalallaa", "R.drawable.arte"));
-        acciones.add(new Accion("Pintar mural","28/10/2024", "Madrid","lalalallaa", "R.drawable.arte"));
-        acciones.add(new Accion("Pintar mural","28/10/2024", "Madrid","lalalallaa", "R.drawable.arte"));
+        // Adapter vacío al inicio
+        adapter = new ActAdapter(new ArrayList<>(), act -> {
+            // Guardamos la actividad seleccionada en el ViewModel
+            actViewModel.selectAct(act);
 
-        // Configurar el adaptador con el listener
-        AccionAdapter adapter = new AccionAdapter(acciones, accion -> {
-            // Al hacer clic en una acción, abre el fragment de detalles
-            openDetailsActionFragment(accion);
+            // Abrimos fragmento de detalles
+            openDetailsActivityFragment(act);
         });
 
         rvAcciones.setAdapter(adapter);
         rvAccionesSugeridas.setAdapter(adapter);
 
+        // ViewModel
+        actViewModel = new ViewModelProvider(requireActivity())
+                .get(ActViewModel.class);
+
+        // Observamos lista de actividades
+        actViewModel.getActs().observe(getViewLifecycleOwner(), acts -> {
+            adapter.setActs(acts);
+        });
+
+        // Cargar datos desde Firebase
+        actViewModel.loadActs();
+
         return view;
     }
 
-    // Método para abrir DetailsActionFragment cuando se hace clic en una acción
-    private void openDetailsActionFragment(Accion accion) {
+    private void openDetailsActivityFragment(Act act) {
         DetailsActionFragment fragment = new DetailsActionFragment();
 
-        // Pasar los datos de la acción como argumentos al fragmento
+        // Pasamos datos opcionales por bundle si quieres, pero puedes usar ViewModel
         Bundle bundle = new Bundle();
-        bundle.putString("titulo", accion.getTitulo());
-        bundle.putString("ubicacion", accion.getUbicacion());
-//        bundle.putInt("imagen", accion.imagen); // Si quieres pasar la imagen también
+        bundle.putString("titulo", act.getTitulo());
+        bundle.putString("descripcion", act.getDescripcion());
+        bundle.putString("fecha", act.getFecha());
+        bundle.putString("ubicacion", act.getUbicacion());
+        bundle.putString("imagenUrl", act.getImagenUrl());
         fragment.setArguments(bundle);
 
-        // Reemplazar el fragmento con DetailsActionFragment
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frame_layout, fragment);
-        fragmentTransaction.addToBackStack(null); // Para permitir retroceder
-        fragmentTransaction.commit();
+        // Abrir fragmento
+        FragmentTransaction transaction =
+                requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_layout, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }
