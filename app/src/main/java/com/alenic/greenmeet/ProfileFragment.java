@@ -45,7 +45,7 @@ public class ProfileFragment extends Fragment {
 
         view.findViewById(R.id.menu_saves).setOnClickListener(v -> openFragment(new SavesFragment()));
         view.findViewById(R.id.editProfile).setOnClickListener(v -> openFragment(new EditProfileFragment()));
-        view.findViewById(R.id.menu_notifications).setOnClickListener(v -> openFragment(new NotificationsFragment()));
+//        view.findViewById(R.id.menu_notifications).setOnClickListener(v -> openFragment(new NotificationsFragment()));
         view.findViewById(R.id.menu_language).setOnClickListener(v -> openFragment(new LanguageFragment()));
         view.findViewById(R.id.menu_privacity).setOnClickListener(v -> openFragment(new PrivacyFragment()));
         view.findViewById(R.id.disconnect).setOnClickListener(v -> logout());
