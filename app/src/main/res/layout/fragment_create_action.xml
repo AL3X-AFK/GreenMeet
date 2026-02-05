@@ -1,78 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:padding="16dp"
     android:layout_marginTop="30dp"
-    tools:context=".CreateActionFragment"
-    android:background="@color/white">
-
-        <!-- Boton atras -->
-        <ImageButton
-            android:id="@+id/btnBack"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:background="@drawable/circle_bg_back"
-            android:src="@drawable/arrow_back_icon"
-            app:tint="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-        <!-- Titulo -->
-        <TextView
-            android:id="@+id/tvTitle"
+    android:background="@color/white"
+    android:padding="16dp"
+    tools:context=".CreateActionFragment">
+    <!-- Boton atras -->
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@drawable/circle_bg_back"
+        android:src="@drawable/arrow_back_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/black" />
+    <!-- Titulo -->
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Crear Nueva Actividad"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/btnBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnBack"
+        app:layout_constraintTop_toTopOf="@id/btnBack" />
+    <!-- Subir imagen -->
+    <LinearLayout
+        android:id="@+id/layoutUpload"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/border_upload"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnBack">
+        <!-- Vista previa -->
+        <ImageView
+            android:id="@+id/imgUpload"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:visibility="gone" />
+        <!-- Placeholder -->
+        <LinearLayout
+            android:id="@+id/layoutPlaceholder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Crear Nueva Acción"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="@id/btnBack"
-            app:layout_constraintBottom_toBottomOf="@id/btnBack"
-            app:layout_constraintStart_toEndOf="@id/btnBack"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-        <!-- Subir imagen -->
-        <LinearLayout
-            android:id="@+id/layoutUpload"
-            android:layout_width="0dp"
-            android:layout_height="120dp"
-            android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/border_upload"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/btnBack"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/imgUpload"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/upload_icon"
-                app:tint="@color/gray"/>
+                app:tint="@color/gray" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Subir Una Imagen"
-                android:textSize="13sp"
+                android:layout_marginTop="6dp"
+                android:text="Subir una imagen"
                 android:textColor="@color/gray"
-                android:layout_marginTop="6dp"/>
+                android:textSize="13sp" />
         </LinearLayout>
-
-        <!-- Título -->
+    </LinearLayout>
+    <!-- Título -->
     <TextView
         android:id="@+id/tvTitleLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="Título"
-        android:textSize="15sp"
         android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/layoutUpload"
+        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="10dp"/>
+        app:layout_constraintTop_toBottomOf="@id/layoutUpload" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilTitle"
@@ -80,95 +91,95 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         app:boxBackgroundMode="outline"
-        app:layout_constraintTop_toBottomOf="@id/tvTitleLabel"
+        app:hintEnabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/tvTitleLabel">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tietTitle"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:textColorHint="@color/gray"
+            android:layout_height="wrap_content"
             android:hint="Introduce el título"
-            android:textSize="14sp"/>
+            android:textColorHint="@color/gray"
+            android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Fecha -->
+    <!-- Fecha -->
     <TextView
         android:id="@+id/tvDateLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Fecha Acción"
-        android:textSize="15sp"
+        android:layout_marginTop="10dp"
+        android:text="Fecha Actividad"
         android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/tilTitle"
+        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="10dp"/>
+        app:layout_constraintTop_toBottomOf="@id/tilTitle" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        app:endIconMode="custom"
-        app:endIconDrawable="@drawable/calendar_icon"
         app:boxBackgroundMode="outline"
-        app:layout_constraintTop_toBottomOf="@id/tvDateLabel"
+        app:endIconDrawable="@drawable/calendar_icon"
+        app:endIconMode="custom"
+        app:hintEnabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/tvDateLabel">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etDate"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="wrap_content"
             android:focusable="false"
             android:hint="Selecciona la fecha"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Ubicación -->
+    <!-- Ubicación -->
     <TextView
         android:id="@+id/tvLocationLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="Ubicación"
-        android:textSize="15sp"
         android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/tilDate"
+        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="10dp"/>
+        app:layout_constraintTop_toBottomOf="@id/tilDate" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilLocation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        app:endIconMode="custom"
-        app:endIconDrawable="@drawable/location_icon"
         app:boxBackgroundMode="outline"
-        app:layout_constraintTop_toBottomOf="@id/tvLocationLabel"
+        app:endIconDrawable="@drawable/location_icon"
+        app:endIconMode="custom"
+        app:hintEnabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/tvLocationLabel">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tietLocation"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:hint="Introduce la ubicación"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Descripción -->
+    <!-- Descripción -->
     <TextView
         android:id="@+id/tvDescriptionLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="Descripción"
-        android:textSize="15sp"
         android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/tilLocation"
+        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="10dp"/>
+        app:layout_constraintTop_toBottomOf="@id/tilLocation" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilDescription"
@@ -176,9 +187,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         app:boxBackgroundMode="outline"
-        app:layout_constraintTop_toBottomOf="@id/tvDescriptionLabel"
+        app:hintEnabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/tvDescriptionLabel">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tietDescription"
@@ -186,35 +198,32 @@
             android:layout_height="100dp"
             android:gravity="top"
             android:hint="Introduce la descripción..."
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Guardar -->
-        <Button
-            android:id="@+id/btnNext"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:text="Guardar"
-            android:backgroundTint="@color/green_100"
-            android:textColor="@color/black"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/tilDescription"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-        <!-- Cancelar -->
-        <Button
-            android:id="@+id/btnCancel"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:text="Cancelar"
-            android:layout_marginTop="5dp"
-            android:backgroundTint="@android:color/transparent"
-            android:textColor="@color/green_100"
-            app:strokeColor="@color/green_100"
-            app:strokeWidth="2dp"
-            app:layout_constraintTop_toBottomOf="@id/btnNext"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Guardar -->
+    <Button
+        android:id="@+id/btnNext"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/green_100"
+        android:text="Guardar"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tilDescription" />
+    <!-- Cancelar -->
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:backgroundTint="@android:color/transparent"
+        android:text="Cancelar"
+        android:textColor="@color/green_100"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnNext"
+        app:strokeColor="@color/green_100"
+        app:strokeWidth="2dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
