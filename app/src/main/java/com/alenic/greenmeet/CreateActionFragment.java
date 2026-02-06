@@ -12,15 +12,18 @@ import androidx.fragment.app.Fragment;
 
 
 import android.util.Base64;
-import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,8 +32,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import okhttp3.*;
@@ -44,6 +50,7 @@ public class CreateActionFragment extends Fragment {
 
     private TextInputEditText etDate;
     private TextInputLayout tilDate;
+    private LinearLayout layoutPlaceholder;
 
     private ImageView imgUpload;
     private Uri imageUri;
@@ -62,13 +69,18 @@ public class CreateActionFragment extends Fragment {
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                     imageUri = result.getData().getData();
+
                     imgUpload.setImageURI(imageUri);
+                    imgUpload.setVisibility(View.VISIBLE);
+                    layoutPlaceholder.setVisibility(View.GONE);
                 }
             });
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
 
         View view = inflater.inflate(R.layout.fragment_create_action, container, false);
 
@@ -90,6 +102,8 @@ public class CreateActionFragment extends Fragment {
 
         LinearLayout layoutUpload = view.findViewById(R.id.layoutUpload);
 
+        layoutPlaceholder = view.findViewById(R.id.layoutPlaceholder);
+
         layoutUpload.setOnClickListener(v -> openFileChooser());
 
         View.OnClickListener openCalendarListener = v -> showDatePicker();
@@ -107,16 +121,22 @@ public class CreateActionFragment extends Fragment {
     }
 
     private void showDatePicker() {
-        Calendar calendar = Calendar.getInstance();
 
-        new DatePickerDialog(
-                requireContext(),
-                R.style.DatePickerTheme,
-                (view, y, m, d) -> etDate.setText(d + "/" + (m + 1) + "/" + y),
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-        ).show();
+        MaterialDatePicker<Long> picker =
+                MaterialDatePicker.Builder.datePicker()
+                        .setTitleText("Selecciona fecha")
+                        .setTheme(R.style.MyMaterialCalendarTheme)
+                        .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                        .build();
+
+        picker.show(getParentFragmentManager(), "DATE_PICKER");
+
+        picker.addOnPositiveButtonClickListener(selection -> {
+            // selection viene en millis (Long)
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            String fecha = sdf.format(new Date(selection));
+            etDate.setText(fecha);
+        });
     }
 
 
