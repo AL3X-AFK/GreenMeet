@@ -34,7 +34,6 @@ public class UserViewModel extends ViewModel {
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser == null) return;
 
-        // Email SIEMPRE desde Auth
         email.setValue(currentUser.getEmail());
 
         db.collection("usuarios")

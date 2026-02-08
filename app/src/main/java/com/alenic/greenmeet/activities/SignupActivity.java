@@ -1,4 +1,4 @@
-package com.alenic.greenmeet;
+package com.alenic.greenmeet.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.alenic.greenmeet.R;
 import com.alenic.greenmeet.data.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -19,7 +20,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class Register extends AppCompatActivity {
+public class SignupActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private FirebaseFirestore db;
@@ -30,7 +31,7 @@ public class Register extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_signup);
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -43,7 +44,7 @@ public class Register extends AppCompatActivity {
         TextView txtPregunta = findViewById(R.id.txtPregunta);
 
         txtPregunta.setOnClickListener( v -> {
-            Intent intent = new Intent(Register.this, Login.class);
+            Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
             startActivity(intent);
         });
 
@@ -81,17 +82,17 @@ public class Register extends AppCompatActivity {
                                         .document(uid)
                                         .set(usuario)
                                         .addOnSuccessListener(unused -> {
-                                            Toast.makeText(Register.this,
+                                            Toast.makeText(SignupActivity.this,
                                                     "Registro exitoso", Toast.LENGTH_SHORT).show();
-                                            startActivity(new Intent(Register.this, Login.class));
+                                            startActivity(new Intent(SignupActivity.this, LoginActivity.class));
                                             finish();
                                         })
                                         .addOnFailureListener(e ->
-                                                Toast.makeText(Register.this,
+                                                Toast.makeText(SignupActivity.this,
                                                         "Error al guardar datos", Toast.LENGTH_SHORT).show()
                                         );
                             }else{
-                                Toast.makeText(Register.this,"Registro fallido "+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SignupActivity.this,"Registro fallido "+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

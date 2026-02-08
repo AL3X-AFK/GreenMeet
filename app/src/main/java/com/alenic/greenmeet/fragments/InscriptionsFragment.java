@@ -1,4 +1,4 @@
-package com.alenic.greenmeet;
+package com.alenic.greenmeet.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,12 +10,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alenic.greenmeet.adapters.GuardadosAdapter;
+import com.alenic.greenmeet.R;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SaveFragment extends Fragment {
+public class InscriptionsFragment extends Fragment {
 
     private RecyclerView rvProximos;
     private RecyclerView rvRealizadas;
@@ -26,7 +28,7 @@ public class SaveFragment extends Fragment {
             ViewGroup container,
             Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_save, container, false);
+        View view = inflater.inflate(R.layout.fragment_inscriptions, container, false);
 
         TabLayout tabLayout = view.findViewById(R.id.tabLayout);
         rvProximos = view.findViewById(R.id.rvProximos);

@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/backgroundregister"
-    tools:context=".Register">
+    tools:context=".activities.SignupActivity">
     <View
         android:id="@+id/overlayGreen"
         android:layout_width="0dp"
@@ -137,76 +137,76 @@
         android:layout_marginTop="16dp"/>
 
     <!-- Separador con texto en medio -->
-    <View
-        android:id="@+id/line1"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="#979797"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/txtO"
-        app:layout_constraintTop_toTopOf="@id/txtO"
-        app:layout_constraintBottom_toBottomOf="@id/txtO"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="8dp"/>
+<!--    <View-->
+<!--        android:id="@+id/line1"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:background="#979797"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toStartOf="@id/txtO"-->
+<!--        app:layout_constraintTop_toTopOf="@id/txtO"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/txtO"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginEnd="8dp"/>-->
 
-    <TextView
-        android:id="@+id/txtO"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="O continua con"
-        android:textColor="#979797"
-        android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/btnRegister"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+<!--    <TextView-->
+<!--        android:id="@+id/txtO"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="O continua con"-->
+<!--        android:textColor="#979797"-->
+<!--        android:textSize="14sp"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/btnRegister"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:layout_marginTop="16dp"/>-->
 
-    <View
-        android:id="@+id/line2"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="#979797"
-        app:layout_constraintStart_toEndOf="@id/txtO"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/txtO"
-        app:layout_constraintBottom_toBottomOf="@id/txtO"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"/>
+<!--    <View-->
+<!--        android:id="@+id/line2"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:background="#979797"-->
+<!--        app:layout_constraintStart_toEndOf="@id/txtO"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="@id/txtO"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/txtO"-->
+<!--        android:layout_marginStart="8dp"-->
+<!--        android:layout_marginEnd="16dp"/>-->
 
-    <!-- Google -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnGoogle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:cornerRadius="6dp"
-        android:text="Continuar con Google"
-        android:textColor="@android:color/black"
-        app:icon="@drawable/ic_google"
-        app:iconGravity="textStart"
-        app:iconPadding="8dp"
-        app:iconTint="@null"
-        android:backgroundTint="@color/green_200"
-        app:layout_constraintTop_toBottomOf="@id/txtO"
-        app:layout_constraintStart_toStartOf="@id/btnRegister"
-        app:layout_constraintEnd_toEndOf="@id/btnRegister"
-        android:layout_marginTop="16dp"/>
+<!--    &lt;!&ndash; Google &ndash;&gt;-->
+<!--    <com.google.android.material.button.MaterialButton-->
+<!--        android:id="@+id/btnGoogle"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:cornerRadius="6dp"-->
+<!--        android:text="Continuar con Google"-->
+<!--        android:textColor="@android:color/black"-->
+<!--        app:icon="@drawable/ic_google"-->
+<!--        app:iconGravity="textStart"-->
+<!--        app:iconPadding="8dp"-->
+<!--        app:iconTint="@null"-->
+<!--        android:backgroundTint="@color/green_200"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/txtO"-->
+<!--        app:layout_constraintStart_toStartOf="@id/btnRegister"-->
+<!--        app:layout_constraintEnd_toEndOf="@id/btnRegister"-->
+<!--        android:layout_marginTop="16dp"/>-->
 
-    <!-- Facebook -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnFacebook"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:cornerRadius="6dp"
-        android:text="Continuar con Facebook"
-        android:textColor="@android:color/black"
-        app:icon="@drawable/ic_facebook"
-        app:iconGravity="textStart"
-        app:iconPadding="8dp"
-        app:iconTint="@null"
-        android:backgroundTint="@color/green_200"
-        app:layout_constraintTop_toBottomOf="@id/btnGoogle"
-        app:layout_constraintStart_toStartOf="@id/btnRegister"
-        app:layout_constraintEnd_toEndOf="@id/btnRegister" />
+<!--    &lt;!&ndash; Facebook &ndash;&gt;-->
+<!--    <com.google.android.material.button.MaterialButton-->
+<!--        android:id="@+id/btnFacebook"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:cornerRadius="6dp"-->
+<!--        android:text="Continuar con Facebook"-->
+<!--        android:textColor="@android:color/black"-->
+<!--        app:icon="@drawable/ic_facebook"-->
+<!--        app:iconGravity="textStart"-->
+<!--        app:iconPadding="8dp"-->
+<!--        app:iconTint="@null"-->
+<!--        android:backgroundTint="@color/green_200"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/btnGoogle"-->
+<!--        app:layout_constraintStart_toStartOf="@id/btnRegister"-->
+<!--        app:layout_constraintEnd_toEndOf="@id/btnRegister" />-->
 
     <!-- Tienes cuenta -->
     <TextView

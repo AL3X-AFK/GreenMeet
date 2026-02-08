@@ -1,4 +1,4 @@
-package com.alenic.greenmeet;
+package com.alenic.greenmeet.fragments;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -6,27 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.alenic.greenmeet.R;
 import com.alenic.greenmeet.viewmodel.UserViewModel;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthProvider;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class EditProfileFragment extends Fragment {
 
@@ -34,12 +24,9 @@ public class EditProfileFragment extends Fragment {
     private Spinner spinnerGender;
     private AppCompatButton btnSave;
     private ImageButton btnBack;
-
     private UserViewModel userViewModel;
 
-    public EditProfileFragment() {
-        // Required empty public constructor
-    }
+    public EditProfileFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -91,13 +78,7 @@ public class EditProfileFragment extends Fragment {
 
         userViewModel.getEmail().observe(getViewLifecycleOwner(), etEmail::setText);
 
-        // Inicializamos botón de retroceso
-        btnBack.setOnClickListener(v -> {
-            // Retrocede en el stack de fragments
-            if (getActivity() != null) {
-                getActivity().onBackPressed();
-            }
-        });
+        btnBack.setOnClickListener(v -> volver());
 
 
         // Botón Guardar
@@ -113,6 +94,10 @@ public class EditProfileFragment extends Fragment {
 
         return view;
     }
+    private void volver(){
+        requireActivity().getSupportFragmentManager().popBackStack();
+    }
+
     private void showReauthDialog(String email,
                                   String nombre,
                                   String telefono,

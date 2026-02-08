@@ -1,4 +1,4 @@
-package com.alenic.greenmeet;
+package com.alenic.greenmeet.fragments;
 
 import android.os.Bundle;
 
@@ -12,6 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.alenic.greenmeet.R;
 
 public class LanguageFragment extends Fragment {
 

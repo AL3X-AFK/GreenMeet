@@ -1,4 +1,4 @@
-package com.alenic.greenmeet;
+package com.alenic.greenmeet.fragments;
 
 import android.os.Bundle;
 
@@ -9,30 +9,36 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-public class DetailsActionFragment extends Fragment {
+import com.alenic.greenmeet.R;
 
 
-    private ImageButton btnback;
+public class NotificationsFragment extends Fragment {
 
-    public DetailsActionFragment() {
+    private ImageButton btnBack;
+
+
+    public NotificationsFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_details_action, container, false);
 
-        btnback = view.findViewById(R.id.btnBack);
-        btnback.setOnClickListener(v -> {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_notifications, container, false);
+
+        // Inicializamos botón de retroceso
+        btnBack = view.findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> {
             // Retrocede en el stack de fragments
             if (getActivity() != null) {
                 getActivity().onBackPressed();
             }
         });
 
-        return view;
+        return  view;
     }
+
+
 }

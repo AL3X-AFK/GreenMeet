@@ -1,4 +1,4 @@
-package com.alenic.greenmeet;
+package com.alenic.greenmeet.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.alenic.greenmeet.R;
 
 import java.util.List;
 
@@ -23,7 +25,7 @@ public class ActividadesGuardadasAdapter
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.action_card, parent, false);
+                .inflate(R.layout.act_card, parent, false);
         return new ViewHolder(view);
     }
 

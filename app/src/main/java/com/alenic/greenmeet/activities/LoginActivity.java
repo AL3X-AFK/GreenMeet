@@ -1,8 +1,7 @@
-package com.alenic.greenmeet;
+package com.alenic.greenmeet.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
@@ -10,20 +9,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.alenic.greenmeet.MainActivity;
+import com.alenic.greenmeet.R;
 import com.google.android.material.button.MaterialButton;
-import com.google.firebase.Firebase;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class Login extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private EditText loginEmail,loginPassword;
@@ -43,7 +36,7 @@ public class Login extends AppCompatActivity {
         loginPassword = findViewById(R.id.etPassword);
 
         txtRedirect.setOnClickListener( v -> {
-            Intent intent = new Intent(Login.this, Register.class);
+            Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
             startActivity(intent);
         });
 
@@ -57,16 +50,16 @@ public class Login extends AppCompatActivity {
                     if(!pass.isEmpty()){
                         auth.signInWithEmailAndPassword(email, pass)
                                 .addOnSuccessListener(authResult -> {
-                                    Toast.makeText(Login.this,
+                                    Toast.makeText(LoginActivity.this,
                                             "Inicio de sesión exitoso",
                                             Toast.LENGTH_SHORT).show();
 
-                                    Intent intent = new Intent(Login.this, MainActivity.class);
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(intent);
                                     finish();
                                 })
                                 .addOnFailureListener(e -> {
-                                    Toast.makeText(Login.this,
+                                    Toast.makeText(LoginActivity.this,
                                             "Inicio de sesión fallida",
                                             Toast.LENGTH_SHORT).show();
                                 });

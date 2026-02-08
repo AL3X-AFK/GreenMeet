@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GreenMeet">
         <activity
-            android:name=".SplashActivity"
+            android:name=".activities.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,13 +23,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NavigationActivity"
+            android:name=".activities.NavigationActivity"
             android:exported="false"/>
         <activity
-            android:name=".Register"
+            android:name=".activities.SignupActivity"
             android:exported="false" />
         <activity
-            android:name=".Login"
+            android:name=".activities.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

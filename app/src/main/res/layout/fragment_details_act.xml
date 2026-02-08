@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
-    tools:context=".DetailsActionFragment">
+    tools:context=".fragments.DetailsActFragment">
 
         <!-- Imagen superior -->
         <ImageView
@@ -95,84 +95,84 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
-                    <!-- Participantes -->
-                    <TextView
-                        android:layout_marginTop="20dp"
-                        android:text="Participantes"
-                        android:textStyle="bold"
-                        android:textSize="16sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+<!--                    &lt;!&ndash; Participantes &ndash;&gt;-->
+<!--                    <TextView-->
+<!--                        android:layout_marginTop="20dp"-->
+<!--                        android:text="Participantes"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:textSize="16sp"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"/>-->
 
-                    <!-- Participante -->
-                    <LinearLayout
-                        android:layout_marginTop="12dp"
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+<!--                    &lt;!&ndash; Participante &ndash;&gt;-->
+<!--                    <LinearLayout-->
+<!--                        android:layout_marginTop="12dp"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content">-->
 
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@drawable/profile_icon"
-                            android:scaleType="centerCrop"/>
+<!--                        <ImageView-->
+<!--                            android:layout_width="40dp"-->
+<!--                            android:layout_height="40dp"-->
+<!--                            android:src="@drawable/profile_icon"-->
+<!--                            android:scaleType="centerCrop"/>-->
 
-                        <LinearLayout
-                            android:orientation="vertical"
-                            android:layout_marginStart="12dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+<!--                        <LinearLayout-->
+<!--                            android:orientation="vertical"-->
+<!--                            android:layout_marginStart="12dp"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content">-->
 
-                            <TextView
-                                android:text="Italo Alfonso"
-                                android:textStyle="bold"
-                                android:textSize="14sp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+<!--                            <TextView-->
+<!--                                android:text="Italo Alfonso"-->
+<!--                                android:textStyle="bold"-->
+<!--                                android:textSize="14sp"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"/>-->
 
-                            <TextView
-                                android:text="Overall, Nine Arches Bridge is definitely a must-visit..."
-                                android:textSize="12sp"
-                                android:textColor="#666"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
-                        </LinearLayout>
+<!--                            <TextView-->
+<!--                                android:text="Overall, Nine Arches Bridge is definitely a must-visit..."-->
+<!--                                android:textSize="12sp"-->
+<!--                                android:textColor="#666"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"/>-->
+<!--                        </LinearLayout>-->
 
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_marginTop="12dp"
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+<!--                    </LinearLayout>-->
+<!--                    <LinearLayout-->
+<!--                        android:layout_marginTop="12dp"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content">-->
 
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@drawable/profile_icon"
-                            android:scaleType="centerCrop"/>
+<!--                        <ImageView-->
+<!--                            android:layout_width="40dp"-->
+<!--                            android:layout_height="40dp"-->
+<!--                            android:src="@drawable/profile_icon"-->
+<!--                            android:scaleType="centerCrop"/>-->
 
-                        <LinearLayout
-                            android:orientation="vertical"
-                            android:layout_marginStart="12dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+<!--                        <LinearLayout-->
+<!--                            android:orientation="vertical"-->
+<!--                            android:layout_marginStart="12dp"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content">-->
 
-                            <TextView
-                                android:text="Italo Alfonso"
-                                android:textStyle="bold"
-                                android:textSize="14sp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+<!--                            <TextView-->
+<!--                                android:text="Italo Alfonso"-->
+<!--                                android:textStyle="bold"-->
+<!--                                android:textSize="14sp"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"/>-->
 
-                            <TextView
-                                android:text="Overall, Nine Arches Bridge is definitely a must-visit..."
-                                android:textSize="12sp"
-                                android:textColor="#666"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
-                        </LinearLayout>
+<!--                            <TextView-->
+<!--                                android:text="Overall, Nine Arches Bridge is definitely a must-visit..."-->
+<!--                                android:textSize="12sp"-->
+<!--                                android:textColor="#666"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"/>-->
+<!--                        </LinearLayout>-->
 
-                    </LinearLayout>
+<!--                    </LinearLayout>-->
                 </LinearLayout>
             </ScrollView>
 

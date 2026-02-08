@@ -1,4 +1,4 @@
-package com.alenic.greenmeet;
+package com.alenic.greenmeet.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.alenic.greenmeet.activities.LoginActivity;
+import com.alenic.greenmeet.R;
 import com.alenic.greenmeet.viewmodel.UserViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -43,7 +45,7 @@ public class ProfileFragment extends Fragment {
             tvEmail.setText(email);
         });
 
-        view.findViewById(R.id.menu_saves).setOnClickListener(v -> openFragment(new SavesFragment()));
+        view.findViewById(R.id.menu_saves).setOnClickListener(v -> openFragment(new MyactFragment()));
         view.findViewById(R.id.editProfile).setOnClickListener(v -> openFragment(new EditProfileFragment()));
 //        view.findViewById(R.id.menu_notifications).setOnClickListener(v -> openFragment(new NotificationsFragment()));
         view.findViewById(R.id.menu_language).setOnClickListener(v -> openFragment(new LanguageFragment()));
@@ -68,7 +70,7 @@ public class ProfileFragment extends Fragment {
         FirebaseAuth.getInstance().signOut();
         userViewModel.clearSession();
 
-        Intent intent = new Intent(getActivity(), Login.class);
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }

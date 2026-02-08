@@ -4,7 +4,6 @@ public class Act {
 
     private String titulo;
     private String descripcion;
-
     private String fecha;
     private String ubicacion;
     private String imagenUrl;
@@ -41,5 +40,9 @@ public class Act {
 
     public String getImagenUrl() {
         return imagenUrl;
+    }
+
+    public long getCreatedAt() {
+        return createdAt;
     }
 }

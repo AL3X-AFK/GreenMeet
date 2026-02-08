@@ -5,13 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SaveFragment">
+    tools:context=".fragments.InscriptionsFragment">
 
     <TextView
         android:id="@+id/tvGuardados"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Mis Actividades"
+        android:text="Mis inscripciones"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:textAlignment="center"

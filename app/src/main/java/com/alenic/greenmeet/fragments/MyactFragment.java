@@ -1,4 +1,4 @@
-package com.alenic.greenmeet;
+package com.alenic.greenmeet.fragments;
 
 import android.os.Bundle;
 
@@ -9,26 +9,27 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.Toast;
+
+import com.alenic.greenmeet.adapters.ActividadesGuardadasAdapter;
+import com.alenic.greenmeet.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SavesFragment extends Fragment {
+public class MyactFragment extends Fragment {
 
     private ImageButton btnBack;
     private RecyclerView recyclerView;
 
-    public SavesFragment() {
+    public MyactFragment() {
         // Required empty public constructor
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_saves, container, false);
+        View view = inflater.inflate(R.layout.fragment_myact, container, false);
 
         btnBack = view.findViewById(R.id.btnBack);
         recyclerView = view.findViewById(R.id.actGuardadasList);

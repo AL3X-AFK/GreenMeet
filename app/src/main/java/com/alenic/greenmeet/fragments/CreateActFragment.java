@@ -1,7 +1,6 @@
-package com.alenic.greenmeet;
+package com.alenic.greenmeet.fragments;
 
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,17 +11,18 @@ import androidx.fragment.app.Fragment;
 
 
 import android.util.Base64;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.alenic.greenmeet.R;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -33,7 +33,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -43,25 +42,25 @@ import okhttp3.*;
 import android.app.Activity;
 
 
-public class CreateActionFragment extends Fragment {
+public class CreateActFragment extends Fragment {
 
     private FirebaseAuth auth;
     private FirebaseFirestore db;
-
-    private TextInputEditText etDate;
-    private TextInputLayout tilDate;
+    private TextInputLayout tilDate,tilCategoria;
     private LinearLayout layoutPlaceholder;
 
     private ImageView imgUpload;
     private Uri imageUri;
-
-    private TextInputEditText etTitulo, etUbicacion, etDescripcion;
+    private ImageButton btnBack;
+    private Button btnCancel,btnNext;
+    private TextInputEditText etTitulo, etUbicacion, etDescripcion,etDate;
+    private AutoCompleteTextView actvCategoria;
 
     private static final String SUPABASE_URL = "https://hckkchzuxzmtjdjalohk.supabase.co";
     private static final String SUPABASE_API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhja2tjaHp1eHptdGpkamFsb2hrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxMTg5OTIsImV4cCI6MjA4NTY5NDk5Mn0.BfxJp7LdPSDsGm7N4NB8tnuSAQO4lsDzks53Vq2MqMA";
     private static final String BUCKET_NAME = "actions";
 
-    public CreateActionFragment() {
+    public CreateActFragment() {
         // Required empty public constructor
     }
 
@@ -82,13 +81,15 @@ public class CreateActionFragment extends Fragment {
 
 
 
-        View view = inflater.inflate(R.layout.fragment_create_action, container, false);
+        View view = inflater.inflate(R.layout.fragment_create_act, container, false);
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
         etDate = view.findViewById(R.id.etDate);
         tilDate = view.findViewById(R.id.tilDate);
+        tilCategoria = view.findViewById(R.id.tilCategoria);
+        actvCategoria = view.findViewById(R.id.actvCategoria);
 
         imgUpload = view.findViewById(R.id.imgUpload);
 
@@ -96,9 +97,13 @@ public class CreateActionFragment extends Fragment {
         etUbicacion = view.findViewById(R.id.tietLocation);
         etDescripcion = view.findViewById(R.id.tietDescription);
 
-        Button btnNext = view.findViewById(R.id.btnNext);
+        btnCancel = view.findViewById(R.id.btnCancel);
+        btnBack = view.findViewById(R.id.btnBack);
+        btnNext = view.findViewById(R.id.btnNext);
 
         btnNext.setOnClickListener(v -> guardarAccion());
+        btnBack.setOnClickListener(v -> volver());
+        btnCancel.setOnClickListener(v -> volver());
 
         LinearLayout layoutUpload = view.findViewById(R.id.layoutUpload);
 
@@ -110,6 +115,23 @@ public class CreateActionFragment extends Fragment {
 
         etDate.setOnClickListener(openCalendarListener);
         tilDate.setEndIconOnClickListener(openCalendarListener);
+
+        // Opciones fijas
+        String[] categorias = {"ARTE URBANO","VERDE Y NATURALEZA","LIMPIEZA URBANA","SALUD Y DEPORTE", "CULTURA Y SOCIEDAD",};
+
+        ArrayAdapter<String> categoriaAdapter = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                categorias
+        );
+
+        actvCategoria.setAdapter(categoriaAdapter);
+
+// Evita escribir texto manual
+        actvCategoria.setKeyListener(null);
+
+// Abre el desplegable al tocar
+        actvCategoria.setOnClickListener(v -> actvCategoria.showDropDown());
 
         return view;
     }
@@ -138,8 +160,12 @@ public class CreateActionFragment extends Fragment {
             etDate.setText(fecha);
         });
     }
+    // Opciones fijas
+    String[] categorias = {"ARTE URBANO", "CULTURA Y SOCIEDAD"};
 
-
+    private void volver(){
+        requireActivity().getSupportFragmentManager().popBackStack();
+    }
 
     private void guardarAccion() {
 
@@ -147,9 +173,10 @@ public class CreateActionFragment extends Fragment {
         String fecha = etDate.getText().toString().trim();
         String ubicacion = etUbicacion.getText().toString().trim();
         String descripcion = etDescripcion.getText().toString().trim();
+        String categoria = actvCategoria.getText().toString().trim();
 
         if (titulo.isEmpty() || fecha.isEmpty() ||
-                ubicacion.isEmpty() || descripcion.isEmpty()) {
+                ubicacion.isEmpty() || descripcion.isEmpty() || categoria.isEmpty()) {
             Toast.makeText(requireContext(), "Rellena todos los campos", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -166,7 +193,7 @@ public class CreateActionFragment extends Fragment {
             String base64Image = Base64.encodeToString(bytes, Base64.DEFAULT);
 
             // ⬇️ ahora pasamos TODOS los datos
-            sendToSupabase(base64Image, titulo, fecha, ubicacion, descripcion);
+            sendToSupabase(base64Image, titulo, fecha, ubicacion, descripcion,categoria);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -179,7 +206,8 @@ public class CreateActionFragment extends Fragment {
             String titulo,
             String fecha,
             String ubicacion,
-            String descripcion
+            String descripcion,
+            String categoria
     ) {
         String filename = "imagen_" + System.currentTimeMillis() + ".jpg";
 
@@ -218,6 +246,7 @@ public class CreateActionFragment extends Fragment {
                             fecha,
                             ubicacion,
                             descripcion,
+                            categoria,
                             publicUrl
                     );
 
@@ -245,6 +274,7 @@ public class CreateActionFragment extends Fragment {
             String fecha,
             String ubicacion,
             String descripcion,
+            String categoria,
             String imagenUrl
     ) {
         String uid = auth.getCurrentUser().getUid();
@@ -254,6 +284,7 @@ public class CreateActionFragment extends Fragment {
         accion.put("fecha", fecha);
         accion.put("ubicacion", ubicacion);
         accion.put("descripcion", descripcion);
+        accion.put("categoria", categoria);
         accion.put("imagenUrl", imagenUrl);
         accion.put("timestamp", FieldValue.serverTimestamp());
 
@@ -264,7 +295,7 @@ public class CreateActionFragment extends Fragment {
                     .add(accion)
                     .addOnSuccessListener(documentReference -> {
                         Toast.makeText(requireContext(), "Acción guardada", Toast.LENGTH_SHORT).show();
-                        requireActivity().getSupportFragmentManager().popBackStack();
+                        volver();
                     })
                     .addOnFailureListener(e ->
                             Toast.makeText(requireContext(), "Error al guardar", Toast.LENGTH_SHORT).show()

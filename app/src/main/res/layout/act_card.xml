@@ -42,12 +42,12 @@
                     android:ellipsize="end"
                     />
 
-                <ImageView
-                    android:id="@+id/imgFav"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentEnd="true"
-                    android:src="@drawable/save_icon"/>
+<!--                <ImageView-->
+<!--                    android:id="@+id/imgFav"-->
+<!--                    android:layout_width="20dp"-->
+<!--                    android:layout_height="20dp"-->
+<!--                    android:layout_alignParentEnd="true"-->
+<!--                    android:src="@drawable/save_icon"/>-->
             </RelativeLayout>
 
             <TextView

@@ -19,7 +19,7 @@
     <item
         android:id="@+id/collection"
         android:icon="@drawable/fertile"
-        android:title="Mis actividades"
+        android:title="Inscrito"
         app:showAsAction="always"/>
 
     <item

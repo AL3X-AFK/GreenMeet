@@ -1,4 +1,4 @@
-package com.alenic.greenmeet;
+package com.alenic.greenmeet.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,12 +10,10 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager.widget.ViewPager;
 
-import org.w3c.dom.Text;
+import com.alenic.greenmeet.R;
+import com.alenic.greenmeet.adapters.ViewPageAdapter;
 
 public class NavigationActivity extends AppCompatActivity {
 
@@ -104,7 +102,7 @@ public class NavigationActivity extends AppCompatActivity {
                 .putBoolean("onboarding_done", true)
                 .apply();
 
-        startActivity(new Intent(NavigationActivity.this, Login.class));
+        startActivity(new Intent(NavigationActivity.this, LoginActivity.class));
         finish();
     }
 

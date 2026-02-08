@@ -1,14 +1,11 @@
-package com.alenic.greenmeet;
+package com.alenic.greenmeet.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
+import com.alenic.greenmeet.MainActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SplashActivity extends AppCompatActivity {
@@ -25,7 +22,7 @@ public class SplashActivity extends AppCompatActivity {
             startActivity(new Intent(this, NavigationActivity.class));
         } else if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             // Ya vio navigation pero NO está logueado
-            startActivity(new Intent(this, Login.class));
+            startActivity(new Intent(this, LoginActivity.class));
         } else {
             // Ya vio navigation y está logueado
             startActivity(new Intent(this, MainActivity.class));

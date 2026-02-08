@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SaveFragment">
+    tools:context=".fragments.MyactFragment">
 
     <!-- Toolbar con flecha y título -->
     <LinearLayout
@@ -36,7 +36,7 @@
                 android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Act. Guardadas"
+                android:text="Mis Actividades"
                 android:textSize="28sp"
                 android:textStyle="bold"
                 android:textColor="#000000"

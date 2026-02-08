@@ -1,4 +1,4 @@
-package com.alenic.greenmeet;
+package com.alenic.greenmeet.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +13,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alenic.greenmeet.adapters.ActAdapter;
+import com.alenic.greenmeet.R;
 import com.alenic.greenmeet.data.Act;
 import com.alenic.greenmeet.viewmodel.ActViewModel;
 
@@ -76,9 +78,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void openDetailsActivityFragment(Act act) {
-        DetailsActionFragment fragment = new DetailsActionFragment();
+        DetailsActFragment fragment = new DetailsActFragment();
 
-        // Pasamos datos opcionales por bundle si quieres, pero puedes usar ViewModel
         Bundle bundle = new Bundle();
         bundle.putString("titulo", act.getTitulo());
         bundle.putString("descripcion", act.getDescripcion());
