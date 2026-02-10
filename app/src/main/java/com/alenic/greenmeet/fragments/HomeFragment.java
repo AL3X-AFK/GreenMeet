@@ -20,7 +20,13 @@ import com.alenic.greenmeet.data.Act;
 import com.alenic.greenmeet.viewmodel.ActViewModel;
 import com.alenic.greenmeet.viewmodel.UserViewModel;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class HomeFragment extends Fragment {
 
@@ -29,6 +35,8 @@ public class HomeFragment extends Fragment {
     private TextView tvNombre;
     private TextView tvEmail;
     private UserViewModel userViewModel;
+    private ActAdapter adapterAcciones;
+    private ActAdapter adapterSugeridas;
 
     public HomeFragment() {
         // Required empty constructor
@@ -74,17 +82,20 @@ public class HomeFragment extends Fragment {
                 new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
         );
 
-        // Adapter vacío al inicio
-        adapter = new ActAdapter(new ArrayList<>(), act -> {
-            // Guardamos la actividad seleccionada en el ViewModel
+        // Adapters
+        adapterAcciones = new ActAdapter(new ArrayList<>(), act -> {
             actViewModel.selectAct(act);
-
-            // Abrimos fragmento de detalles
             openDetailsActivityFragment(act);
         });
 
-        rvAcciones.setAdapter(adapter);
-        rvAccionesSugeridas.setAdapter(adapter);
+        adapterSugeridas = new ActAdapter(new ArrayList<>(), act -> {
+            actViewModel.selectAct(act);
+            openDetailsActivityFragment(act);
+        });
+
+
+        rvAcciones.setAdapter(adapterAcciones);
+        rvAccionesSugeridas.setAdapter(adapterSugeridas);
 
         // ViewModel
         actViewModel = new ViewModelProvider(requireActivity())
@@ -92,12 +103,47 @@ public class HomeFragment extends Fragment {
 
         // Observamos lista de actividades
         actViewModel.getActs().observe(getViewLifecycleOwner(), acts -> {
-            adapter.setActs(acts);
+
+            if (acts == null || acts.isEmpty()) return;
+
+            //acciones fecha proxima
+            List<Act> accionesOrdenadas = new ArrayList<>(acts);
+
+            Collections.sort(accionesOrdenadas, (a1, a2) -> {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
+                try {
+                    Date d1 = sdf.parse(a1.getFecha());
+                    Date d2 = sdf.parse(a2.getFecha());
+
+                    if (d1 == null || d2 == null) return 0;
+
+                    return d1.compareTo(d2); // más próxima primero
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    return 0;
+                }
+            });
+
+            if (accionesOrdenadas.size() > 5) {
+                accionesOrdenadas = accionesOrdenadas.subList(0, 5);
+            }
+
+            adapterAcciones.setActs(accionesOrdenadas);
+
+            // acciones sugeridas
+            List<Act> sugeridas = new ArrayList<>(acts);
+            Collections.shuffle(sugeridas);
+
+            if (sugeridas.size() > 5) {
+                sugeridas = sugeridas.subList(0, 5);
+            }
+
+            adapterSugeridas.setActs(sugeridas);
         });
 
         // Cargar datos desde Firebase
         actViewModel.loadActs();
-
         userViewModel.loadUser();
 
         return view;
