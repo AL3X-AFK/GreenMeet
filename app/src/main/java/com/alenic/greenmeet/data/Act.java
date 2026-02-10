@@ -1,5 +1,7 @@
 package com.alenic.greenmeet.data;
 
+import java.util.List;
+
 import kotlin.contracts.Returns;
 
 public class Act {
@@ -53,4 +55,7 @@ public class Act {
     public long getCreatedAt() {
         return createdAt;
     }
+
+
+
 }

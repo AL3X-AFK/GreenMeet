@@ -6,27 +6,38 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.alenic.greenmeet.adapters.GuardadosAdapter;
 import com.alenic.greenmeet.R;
+import com.alenic.greenmeet.adapters.GuardadosAdapter;
+import com.alenic.greenmeet.data.Act;
+import com.alenic.greenmeet.viewmodel.ActViewModel;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class InscriptionsFragment extends Fragment {
 
     private RecyclerView rvProximos;
     private RecyclerView rvRealizadas;
 
+    private GuardadosAdapter adapterProximos;
+    private GuardadosAdapter adapterRealizadas;
+
+    private ActViewModel actViewModel;
+
+    @Nullable
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater,
-            ViewGroup container,
-            Bundle savedInstanceState) {
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState
+    ) {
 
         View view = inflater.inflate(R.layout.fragment_inscriptions, container, false);
 
@@ -34,18 +45,17 @@ public class InscriptionsFragment extends Fragment {
         rvProximos = view.findViewById(R.id.rvProximos);
         rvRealizadas = view.findViewById(R.id.rvRealizadas);
 
-        // LayoutManagers
         rvProximos.setLayoutManager(new LinearLayoutManager(getContext()));
         rvRealizadas.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        GuardadosAdapter adapterProximos = new GuardadosAdapter(getListaProximos());
-
-        GuardadosAdapter adapterRealizadas = new GuardadosAdapter(getListaRealizadas());
+        // Adapter vacío al inicio usando GuardadosAdapter
+        adapterProximos = new GuardadosAdapter(new ArrayList<>(), this::openDetailsActivityFragment);
+        adapterRealizadas = new GuardadosAdapter(new ArrayList<>(), this::openDetailsActivityFragment);
 
         rvProximos.setAdapter(adapterProximos);
         rvRealizadas.setAdapter(adapterRealizadas);
 
-        // Mostrar por defecto
+        // Mostrar solo próximos por defecto
         rvProximos.setVisibility(View.VISIBLE);
         rvRealizadas.setVisibility(View.GONE);
 
@@ -66,25 +76,43 @@ public class InscriptionsFragment extends Fragment {
             @Override public void onTabReselected(TabLayout.Tab tab) {}
         });
 
+        // ViewModel
+        actViewModel = new ViewModelProvider(requireActivity())
+                .get(ActViewModel.class);
+
+        // Observamos actividades próximas
+        actViewModel.getActsProximos().observe(getViewLifecycleOwner(), acts -> {
+            adapterProximos.setActs(acts);
+        });
+
+        // Observamos actividades realizadas
+        actViewModel.getActsRealizadas().observe(getViewLifecycleOwner(), acts -> {
+            adapterRealizadas.setActs(acts);
+        });
+
+        // Cargar datos desde Firebase
+        actViewModel.loadActsProximos();
+        actViewModel.loadActsRealizadas();
+
         return view;
     }
 
-    // Datos de ejemplo
-    private List<String> getListaProximos() {
-        List<String> lista = new ArrayList<>();
-        lista.add("Jardinería");
-        lista.add("Limpieza de Parque");
-        lista.add("Limpieza de Playa");
-        lista.add("Pintar mural");
-        lista.add("Clase de yoga gratis");
+    // Abrir fragmento de detalles
+    private void openDetailsActivityFragment(Act act) {
+        DetailsActFragment fragment = new DetailsActFragment();
 
-        return lista;
-    }
+        Bundle bundle = new Bundle();
+        bundle.putString("titulo", act.getTitulo());
+        bundle.putString("descripcion", act.getDescripcion());
+        bundle.putString("fecha", act.getFecha());
+        bundle.putString("ubicacion", act.getUbicacion());
+        bundle.putString("imagenUrl", act.getImagenUrl());
+        fragment.setArguments(bundle);
 
-    private List<String> getListaRealizadas() {
-        List<String> lista = new ArrayList<>();
-        lista.add("Clase de Patinaje");
-        lista.add("Reciclaje Comunitario");
-        return lista;
+        FragmentTransaction transaction =
+                requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_layout, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }

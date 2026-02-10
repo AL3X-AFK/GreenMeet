@@ -11,6 +11,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +22,10 @@ public class ActViewModel extends ViewModel {
 
     // Lista completa de actividades
     private final MutableLiveData<List<Act>> acts = new MutableLiveData<>();
+
+    // ---------------- Para InscriptionsFragment ----------------
+    private final MutableLiveData<List<Act>> actsProximos = new MutableLiveData<>();
+    private final MutableLiveData<List<Act>> actsRealizadas = new MutableLiveData<>();
 
     // Actividad seleccionada
     private final MutableLiveData<Act> selectedAct = new MutableLiveData<>();
@@ -33,58 +40,98 @@ public class ActViewModel extends ViewModel {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final FirebaseAuth auth = FirebaseAuth.getInstance();
 
-    // ---------------- Lista de actividades ----------------
-    public LiveData<List<Act>> getActs() {
-        return acts;
-    }
+    // ---------------- Lista completa ----------------
+    public LiveData<List<Act>> getActs() { return acts; }
 
     public void loadActs() {
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser == null) return;
 
         db.collection("usuarios")
                 .get()
                 .addOnSuccessListener(usersSnapshot -> {
                     List<Act> lista = new ArrayList<>();
-                    List<com.google.android.gms.tasks.Task<com.google.firebase.firestore.QuerySnapshot>> tasks = new ArrayList<>();
+                    List<Task<QuerySnapshot>> tasks = new ArrayList<>();
 
-                    // Recorrer todos los usuarios
                     for (DocumentSnapshot userDoc : usersSnapshot.getDocuments()) {
-                        // Saltar el usuario logueado
                         if (userDoc.getId().equals(currentUser.getUid())) continue;
-
                         tasks.add(userDoc.getReference().collection("acciones").get());
                     }
 
                     if (tasks.isEmpty()) {
-                        acts.setValue(lista); // No hay otros usuarios
+                        acts.setValue(lista);
                         return;
                     }
 
-                    // Esperar a que todas las subcolecciones terminen
-                    com.google.android.gms.tasks.Tasks.whenAllSuccess(tasks)
+                    Tasks.whenAllSuccess(tasks)
                             .addOnSuccessListener(results -> {
                                 for (Object snapObj : results) {
-                                    com.google.firebase.firestore.QuerySnapshot snap = (com.google.firebase.firestore.QuerySnapshot) snapObj;
+                                    QuerySnapshot snap = (QuerySnapshot) snapObj;
                                     lista.addAll(snap.toObjects(Act.class));
                                 }
-                                acts.setValue(lista); // Actualizamos LiveData
+                                acts.setValue(lista);
                             })
                             .addOnFailureListener(e -> Log.e("ActViewModel", "Error cargando actividades", e));
                 })
                 .addOnFailureListener(e -> Log.e("ActViewModel", "Error cargando usuarios", e));
     }
 
+    // ---------------- Próximas y realizadas ----------------
+    public LiveData<List<Act>> getActsProximos() { return actsProximos; }
+    public LiveData<List<Act>> getActsRealizadas() { return actsRealizadas; }
+
+    public void loadActsProximos() { loadActsByDate(true); }
+    public void loadActsRealizadas() { loadActsByDate(false); }
+
+    // Método interno para filtrar por fecha
+    private void loadActsByDate(boolean proximos) {
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if (currentUser == null) return;
+
+        db.collection("usuarios")
+                .get()
+                .addOnSuccessListener(usersSnapshot -> {
+                    List<Act> lista = new ArrayList<>();
+                    List<Task<QuerySnapshot>> tasks = new ArrayList<>();
+
+                    for (DocumentSnapshot userDoc : usersSnapshot.getDocuments()) {
+                        if (!userDoc.getId().equals(currentUser.getUid())) continue;
+                        tasks.add(userDoc.getReference().collection("acciones").get());
+                    }
+
+                    if (tasks.isEmpty()) {
+                        if (proximos) actsProximos.setValue(lista);
+                        else actsRealizadas.setValue(lista);
+                        return;
+                    }
+
+                    Tasks.whenAllSuccess(tasks)
+                            .addOnSuccessListener(results -> {
+                                long now = System.currentTimeMillis();
+                                for (Object snapObj : results) {
+                                    QuerySnapshot snap = (QuerySnapshot) snapObj;
+                                    for (Act act : snap.toObjects(Act.class)) {
+                                        if (act.getCreatedAt() >= now && proximos) lista.add(act);
+                                        else if (act.getCreatedAt() < now && !proximos) lista.add(act);
+                                    }
+                                }
+                                if (proximos) actsProximos.setValue(lista);
+                                else actsRealizadas.setValue(lista);
+                            })
+                            .addOnFailureListener(e -> {
+                                if (proximos) actsProximos.setValue(new ArrayList<>());
+                                else actsRealizadas.setValue(new ArrayList<>());
+                                Log.e("ActViewModel", "Error cargando actividades filtradas", e);
+                            });
+                })
+                .addOnFailureListener(e -> Log.e("ActViewModel", "Error cargando usuarios", e));
+    }
 
     // ---------------- Actividad seleccionada ----------------
-    public LiveData<Act> getSelectedAct() {
-        return selectedAct;
-    }
+    public LiveData<Act> getSelectedAct() { return selectedAct; }
 
     public void selectAct(Act act) {
         selectedAct.setValue(act);
-
-        // Actualizamos campos individuales
         titulo.setValue(act.getTitulo());
         descripcion.setValue(act.getDescripcion());
         fecha.setValue(act.getFecha());

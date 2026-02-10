@@ -12,53 +12,67 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alenic.greenmeet.R;
+import com.alenic.greenmeet.data.Act;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
 public class GuardadosAdapter extends RecyclerView.Adapter<GuardadosAdapter.ViewHolder> {
 
-    private List<String> lista;
+    private List<Act> lista;
+    private final OnItemClickListener listener;
 
-    public GuardadosAdapter(List<String> lista) {
+    // Constructor
+    public GuardadosAdapter(List<Act> lista, OnItemClickListener listener) {
         this.lista = lista;
+        this.listener = listener;
+    }
+
+    // Actualizar lista
+    public void setActs(List<Act> nuevaLista) {
+        this.lista = nuevaLista;
+        notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.tarjeta_guardada, parent, false);
+                .inflate(R.layout.tarjeta_guardada, parent, false); // usar tarejta_guardada.xml
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // Obtenemos el título de la lista
-        String titulo = lista.get(position);
-        holder.txtTitulo.setText(titulo);
+        Act act = lista.get(position);
 
-        // Datos de ejemplo
-        holder.txtFecha.setText("14 Feb - 18 Feb");
-        holder.imgEvento.setImageResource(R.drawable.slidebg2);
+        holder.txtTitulo.setText(act.getTitulo());
+        holder.txtFecha.setText(act.getFecha());
+        holder.txtDescripcion.setText(act.getDescripcion());
 
-        // Botón "Ver más" con acción básica
+        // Cargar imagen con Glide
+        Glide.with(holder.itemView.getContext())
+                .load(act.getImagenUrl())
+                .placeholder(R.drawable.arte)
+                .centerCrop()
+                .into(holder.imgEvento);
+
+        // Botón "Ver más"
         holder.btnVerMas.setOnClickListener(v -> {
-            Toast.makeText(v.getContext(), "Ver más: " + titulo, Toast.LENGTH_SHORT).show();
-
-            // Aquí se podra abrir otro fragment
+            Toast.makeText(v.getContext(), "Ver más: " + act.getTitulo(), Toast.LENGTH_SHORT).show();
+            listener.onItemClick(act); // notificar click
         });
     }
 
-
     @Override
     public int getItemCount() {
-        return lista.size();
+        return lista == null ? 0 : lista.size();
     }
 
+    // ---------------- ViewHolder ----------------
     static class ViewHolder extends RecyclerView.ViewHolder {
-
         ImageView imgEvento;
-        TextView txtTitulo, txtFecha;
+        TextView txtTitulo, txtFecha, txtDescripcion;
         Button btnVerMas;
 
         ViewHolder(@NonNull View itemView) {
@@ -66,8 +80,13 @@ public class GuardadosAdapter extends RecyclerView.Adapter<GuardadosAdapter.View
             imgEvento = itemView.findViewById(R.id.imgEvento);
             txtTitulo = itemView.findViewById(R.id.txtTitulo);
             txtFecha = itemView.findViewById(R.id.txtFecha);
+            txtDescripcion = itemView.findViewById(R.id.txtDescripcion);
             btnVerMas = itemView.findViewById(R.id.btnVerMas);
         }
     }
 
+    // ---------------- Interfaz de click ----------------
+    public interface OnItemClickListener {
+        void onItemClick(Act act);
+    }
 }

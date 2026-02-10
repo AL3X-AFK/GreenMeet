@@ -1,27 +1,35 @@
 package com.alenic.greenmeet.fragments;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.alenic.greenmeet.adapters.GuardadosAdapter;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.alenic.greenmeet.R;
+import com.alenic.greenmeet.adapters.GuardadosAdapter;
+import com.alenic.greenmeet.data.Act;
+import com.alenic.greenmeet.viewmodel.ActViewModel;
 
 import java.util.ArrayList;
-import java.util.List;
-
 
 public class ExploreFragment extends Fragment {
 
     private RecyclerView rvActividades;
+    private GuardadosAdapter adapterExplorar;
+    private ActViewModel actViewModel;
 
+    public ExploreFragment() {
+        // Required empty public constructor
+    }
+
+    @Nullable
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater,
@@ -30,35 +38,47 @@ public class ExploreFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_explore, container, false);
 
+        // RecyclerView
         rvActividades = view.findViewById(R.id.acProx);
-
-        // LayoutManagers
         rvActividades.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        GuardadosAdapter adapterExplorar = new GuardadosAdapter(getListaExplorar());
-
-
+        // Adapter vacío al inicio
+        adapterExplorar = new GuardadosAdapter(new ArrayList<>(), this::openDetailsActFragment);
         rvActividades.setAdapter(adapterExplorar);
 
-        // Mostrar por defecto
-        rvActividades.setVisibility(View.VISIBLE);
+        // ViewModel
+        actViewModel = new ViewModelProvider(requireActivity()).get(ActViewModel.class);
 
+        // Observamos los actos desde Firebase
+        actViewModel.getActs().observe(getViewLifecycleOwner(), acts -> {
+            if (acts != null) {
+                adapterExplorar.setActs(acts);
+            }
+        });
 
+        // Cargar datos desde Firebase
+        actViewModel.loadActs();
 
         return view;
-
-    }
-    // Datos de ejemplo
-    private List<String> getListaExplorar() {
-        List<String> lista = new ArrayList<>();
-        lista.add("Jardinería");
-        lista.add("Limpieza de Parque");
-        lista.add("Limpieza de Playa");
-        lista.add("Pintar mural");
-        lista.add("Clase de yoga gratis");
-
-        return lista;
     }
 
+    // Método para abrir el fragmento de detalles
+    private void openDetailsActFragment(Act act) {
+        DetailsActFragment fragment = new DetailsActFragment();
 
+        Bundle bundle = new Bundle();
+        bundle.putString("titulo", act.getTitulo());
+        bundle.putString("descripcion", act.getDescripcion());
+        bundle.putString("fecha", act.getFecha());
+        bundle.putString("ubicacion", act.getUbicacion());
+        bundle.putString("imagenUrl", act.getImagenUrl());
+        fragment.setArguments(bundle);
+
+        // Abrir fragmento
+        requireActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame_layout, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
 }
