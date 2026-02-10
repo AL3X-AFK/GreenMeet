@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.alenic.greenmeet.R;
+import com.alenic.greenmeet.utils.NavigationUtils;
 
 public class DetailsActFragment extends Fragment {
 
@@ -28,12 +29,7 @@ public class DetailsActFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_details_act, container, false);
 
         btnback = view.findViewById(R.id.btnBack);
-        btnback.setOnClickListener(v -> {
-            // Retrocede en el stack de fragments
-            if (getActivity() != null) {
-                getActivity().onBackPressed();
-            }
-        });
+        btnback.setOnClickListener(v -> NavigationUtils.volver(this));
 
         return view;
     }

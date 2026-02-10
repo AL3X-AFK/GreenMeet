@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +18,7 @@ import com.alenic.greenmeet.adapters.ActAdapter;
 import com.alenic.greenmeet.R;
 import com.alenic.greenmeet.data.Act;
 import com.alenic.greenmeet.viewmodel.ActViewModel;
+import com.alenic.greenmeet.viewmodel.UserViewModel;
 
 import java.util.ArrayList;
 
@@ -24,6 +26,9 @@ public class HomeFragment extends Fragment {
 
     private ActViewModel actViewModel;
     private ActAdapter adapter;
+    private TextView tvNombre;
+    private TextView tvEmail;
+    private UserViewModel userViewModel;
 
     public HomeFragment() {
         // Required empty constructor
@@ -38,6 +43,25 @@ public class HomeFragment extends Fragment {
     ) {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+
+        tvNombre = view.findViewById(R.id.tvNombre);
+        tvEmail = view.findViewById(R.id.tvEmail);
+        userViewModel = new ViewModelProvider(requireActivity())
+                .get(UserViewModel.class);
+
+        userViewModel.getUsuario().observe(getViewLifecycleOwner(), usuario -> {
+            if (usuario != null) {
+                tvNombre.setText("Hola, " + usuario.getNombre());
+            }
+        });
+
+        userViewModel.getEmail().observe(getViewLifecycleOwner(), email -> {
+            if (email != null) {
+                tvEmail.setText(email);
+            }
+        });
+
 
         RecyclerView rvAcciones = view.findViewById(R.id.rvAcciones);
         RecyclerView rvAccionesSugeridas = view.findViewById(R.id.rvAccionesSugeridas);
@@ -73,6 +97,8 @@ public class HomeFragment extends Fragment {
 
         // Cargar datos desde Firebase
         actViewModel.loadActs();
+
+        userViewModel.loadUser();
 
         return view;
     }

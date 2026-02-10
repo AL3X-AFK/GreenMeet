@@ -8,13 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.alenic.greenmeet.R;
+import com.alenic.greenmeet.utils.NavigationUtils;
 
 
 public class PrivacyFragment extends Fragment {
 
     private ImageButton btnBack;
+    private TextView tvTitle;
+    private View header;
 
     public PrivacyFragment() {
         // Required empty public constructor
@@ -27,14 +31,13 @@ public class PrivacyFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_privacy, container, false);
 
-        // Inicializamos botón de retroceso
-        btnBack = view.findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(v -> {
-            // Retrocede en el stack de fragments
-            if (getActivity() != null) {
-                getActivity().onBackPressed();
-            }
-        });
+        header = view.findViewById(R.id.headerBack);
+
+        btnBack = header.findViewById(R.id.btnBack);
+        tvTitle = header.findViewById(R.id.tvTitle);
+
+        tvTitle.setText("Política de privacidad");
+        btnBack.setOnClickListener(v -> NavigationUtils.volver(this));
 
         return  view;
     }

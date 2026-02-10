@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatButton;
@@ -16,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alenic.greenmeet.R;
+import com.alenic.greenmeet.utils.NavigationUtils;
 import com.alenic.greenmeet.viewmodel.UserViewModel;
 
 public class EditProfileFragment extends Fragment {
@@ -23,8 +25,10 @@ public class EditProfileFragment extends Fragment {
     private EditText etName, etEmail, etPhone;
     private Spinner spinnerGender;
     private AppCompatButton btnSave;
-    private ImageButton btnBack;
     private UserViewModel userViewModel;
+    private ImageButton btnBack;
+    private TextView tvTitle;
+    private View header;
 
     public EditProfileFragment() {}
 
@@ -40,6 +44,13 @@ public class EditProfileFragment extends Fragment {
         spinnerGender = view.findViewById(R.id.spinnerGender);
         btnSave = view.findViewById(R.id.btnSave);
         btnBack = view.findViewById(R.id.btnBack);
+
+        header = view.findViewById(R.id.headerBack);
+
+        btnBack = header.findViewById(R.id.btnBack);
+        tvTitle = header.findViewById(R.id.tvTitle);
+
+        tvTitle.setText("Editar perfil");
 
 
         userViewModel = new ViewModelProvider(requireActivity())
@@ -78,7 +89,7 @@ public class EditProfileFragment extends Fragment {
 
         userViewModel.getEmail().observe(getViewLifecycleOwner(), etEmail::setText);
 
-        btnBack.setOnClickListener(v -> volver());
+        btnBack.setOnClickListener(v -> NavigationUtils.volver(this));
 
 
         // Botón Guardar
@@ -93,9 +104,6 @@ public class EditProfileFragment extends Fragment {
 
 
         return view;
-    }
-    private void volver(){
-        requireActivity().getSupportFragmentManager().popBackStack();
     }
 
     private void showReauthDialog(String email,

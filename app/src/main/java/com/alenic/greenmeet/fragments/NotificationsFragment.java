@@ -8,13 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.alenic.greenmeet.R;
+import com.alenic.greenmeet.utils.NavigationUtils;
 
 
 public class NotificationsFragment extends Fragment {
 
     private ImageButton btnBack;
+    private TextView tvTitle;
+    private View header;
 
 
     public NotificationsFragment() {
@@ -28,14 +32,14 @@ public class NotificationsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_notifications, container, false);
 
-        // Inicializamos botón de retroceso
-        btnBack = view.findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(v -> {
-            // Retrocede en el stack de fragments
-            if (getActivity() != null) {
-                getActivity().onBackPressed();
-            }
-        });
+        header = view.findViewById(R.id.headerBack);
+
+        btnBack = header.findViewById(R.id.btnBack);
+        tvTitle = header.findViewById(R.id.tvTitle);
+
+        tvTitle.setText("Notificaciones");
+
+        btnBack.setOnClickListener(v -> NavigationUtils.volver(this));
 
         return  view;
     }

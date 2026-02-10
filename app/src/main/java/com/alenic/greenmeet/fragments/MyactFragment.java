@@ -10,9 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.alenic.greenmeet.adapters.ActividadesGuardadasAdapter;
 import com.alenic.greenmeet.R;
+import com.alenic.greenmeet.utils.NavigationUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,8 @@ public class MyactFragment extends Fragment {
 
     private ImageButton btnBack;
     private RecyclerView recyclerView;
+    private TextView tvTitle;
+    private View header;
 
     public MyactFragment() {
         // Required empty public constructor
@@ -31,14 +35,15 @@ public class MyactFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_myact, container, false);
 
-        btnBack = view.findViewById(R.id.btnBack);
         recyclerView = view.findViewById(R.id.actGuardadasList);
+        header = view.findViewById(R.id.headerBack);
 
-        btnBack.setOnClickListener(v -> {
-            if (getActivity() != null) {
-                getActivity().onBackPressed();
-            }
-        });
+        btnBack = header.findViewById(R.id.btnBack);
+        tvTitle = header.findViewById(R.id.tvTitle);
+
+        tvTitle.setText("Mis actividades");
+
+        btnBack.setOnClickListener(v -> NavigationUtils.volver(this));
 
         // Recycler config
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

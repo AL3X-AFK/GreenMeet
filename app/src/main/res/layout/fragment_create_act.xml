@@ -4,32 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="30dp"
     android:background="@color/white"
     android:padding="16dp"
     tools:context=".fragments.CreateActFragment">
-    <!-- Boton atras -->
-    <ImageButton
-        android:id="@+id/btnBack"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:background="@drawable/circle_bg_back"
-        android:src="@drawable/arrow_back_icon"
-        app:layout_constraintStart_toStartOf="parent"
+
+    <include
+        android:id="@+id/headerBack"
+        layout="@layout/view_header_back"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/black" />
-    <!-- Titulo -->
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Crear Nueva Actividad"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/btnBack"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btnBack"
-        app:layout_constraintTop_toTopOf="@id/btnBack" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <ScrollView
         android:id="@+id/scrollForm"
@@ -39,7 +23,7 @@
         app:layout_constraintBottom_toTopOf="@id/btnNext"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnBack">
+        app:layout_constraintTop_toBottomOf="@id/headerBack">
 
         <LinearLayout
             android:layout_width="match_parent"

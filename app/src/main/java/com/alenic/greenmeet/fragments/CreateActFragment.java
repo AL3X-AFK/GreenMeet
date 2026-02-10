@@ -20,9 +20,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alenic.greenmeet.R;
+import com.alenic.greenmeet.utils.NavigationUtils;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -39,6 +41,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import okhttp3.*;
+
 import android.app.Activity;
 
 
@@ -46,14 +49,16 @@ public class CreateActFragment extends Fragment {
 
     private FirebaseAuth auth;
     private FirebaseFirestore db;
-    private TextInputLayout tilDate,tilCategoria;
-    private LinearLayout layoutPlaceholder;
+    private TextInputLayout tilDate, tilCategoria;
+    private LinearLayout layoutPlaceholder, layoutUpload;
 
     private ImageView imgUpload;
     private Uri imageUri;
     private ImageButton btnBack;
-    private Button btnCancel,btnNext;
-    private TextInputEditText etTitulo, etUbicacion, etDescripcion,etDate;
+    private TextView tvTitle;
+    private View header;
+    private Button btnCancel, btnNext;
+    private TextInputEditText etTitulo, etUbicacion, etDescripcion, etDate;
     private AutoCompleteTextView actvCategoria;
 
     private static final String SUPABASE_URL = "https://hckkchzuxzmtjdjalohk.supabase.co";
@@ -80,7 +85,6 @@ public class CreateActFragment extends Fragment {
                              Bundle savedInstanceState) {
 
 
-
         View view = inflater.inflate(R.layout.fragment_create_act, container, false);
 
         auth = FirebaseAuth.getInstance();
@@ -90,6 +94,13 @@ public class CreateActFragment extends Fragment {
         tilDate = view.findViewById(R.id.tilDate);
         tilCategoria = view.findViewById(R.id.tilCategoria);
         actvCategoria = view.findViewById(R.id.actvCategoria);
+
+        header = view.findViewById(R.id.headerBack);
+
+        btnBack = header.findViewById(R.id.btnBack);
+        tvTitle = header.findViewById(R.id.tvTitle);
+
+        tvTitle.setText("Crear Nueva Actividad");
 
         imgUpload = view.findViewById(R.id.imgUpload);
 
@@ -102,10 +113,10 @@ public class CreateActFragment extends Fragment {
         btnNext = view.findViewById(R.id.btnNext);
 
         btnNext.setOnClickListener(v -> guardarAccion());
-        btnBack.setOnClickListener(v -> volver());
-        btnCancel.setOnClickListener(v -> volver());
+        btnBack.setOnClickListener(v -> NavigationUtils.volver(this));
+        btnCancel.setOnClickListener(v -> NavigationUtils.volver(this));
 
-        LinearLayout layoutUpload = view.findViewById(R.id.layoutUpload);
+        layoutUpload = view.findViewById(R.id.layoutUpload);
 
         layoutPlaceholder = view.findViewById(R.id.layoutPlaceholder);
 
@@ -117,7 +128,7 @@ public class CreateActFragment extends Fragment {
         tilDate.setEndIconOnClickListener(openCalendarListener);
 
         // Opciones fijas
-        String[] categorias = {"ARTE URBANO","VERDE Y NATURALEZA","LIMPIEZA URBANA","SALUD Y DEPORTE", "CULTURA Y SOCIEDAD",};
+        String[] categorias = {"ARTE URBANO", "VERDE Y NATURALEZA", "LIMPIEZA URBANA", "SALUD Y DEPORTE", "CULTURA Y SOCIEDAD",};
 
         ArrayAdapter<String> categoriaAdapter = new ArrayAdapter<>(
                 requireContext(),
@@ -160,12 +171,9 @@ public class CreateActFragment extends Fragment {
             etDate.setText(fecha);
         });
     }
+
     // Opciones fijas
     String[] categorias = {"ARTE URBANO", "CULTURA Y SOCIEDAD"};
-
-    private void volver(){
-        requireActivity().getSupportFragmentManager().popBackStack();
-    }
 
     private void guardarAccion() {
 
@@ -193,7 +201,7 @@ public class CreateActFragment extends Fragment {
             String base64Image = Base64.encodeToString(bytes, Base64.DEFAULT);
 
             // ⬇️ ahora pasamos TODOS los datos
-            sendToSupabase(base64Image, titulo, fecha, ubicacion, descripcion,categoria);
+            sendToSupabase(base64Image, titulo, fecha, ubicacion, descripcion, categoria);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -295,7 +303,7 @@ public class CreateActFragment extends Fragment {
                     .add(accion)
                     .addOnSuccessListener(documentReference -> {
                         Toast.makeText(requireContext(), "Acción guardada", Toast.LENGTH_SHORT).show();
-                        volver();
+                        NavigationUtils.volver(this);
                     })
                     .addOnFailureListener(e ->
                             Toast.makeText(requireContext(), "Error al guardar", Toast.LENGTH_SHORT).show()

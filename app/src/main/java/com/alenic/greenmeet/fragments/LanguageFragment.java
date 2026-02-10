@@ -11,9 +11,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alenic.greenmeet.R;
+import com.alenic.greenmeet.utils.NavigationUtils;
 
 public class LanguageFragment extends Fragment {
 
@@ -21,6 +23,8 @@ public class LanguageFragment extends Fragment {
     private Spinner spinnerLanguage;
     private ImageButton btnBack;
     private AppCompatButton btnSave;
+    private TextView tvTitle;
+    private View header;
 
     public LanguageFragment() {
         // Required empty public constructor
@@ -32,6 +36,13 @@ public class LanguageFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_language, container, false);
+
+        header = view.findViewById(R.id.headerBack);
+
+        btnBack = header.findViewById(R.id.btnBack);
+        tvTitle = header.findViewById(R.id.tvTitle);
+
+        tvTitle.setText("Idioma");
 
         // Inicializamos Spinner
         spinnerLanguage = view.findViewById(R.id.spinnerAppLanguage);
@@ -58,15 +69,9 @@ public class LanguageFragment extends Fragment {
             }
         });
 
+        btnBack.setOnClickListener(v -> NavigationUtils.volver(this));
 
-        // Inicializamos botón de retroceso
-        btnBack = view.findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(v -> {
-            // Retrocede en el stack de fragments
-            if (getActivity() != null) {
-                getActivity().onBackPressed();
-            }
-        });
+
 
 
         // Botón Guardar
@@ -74,13 +79,11 @@ public class LanguageFragment extends Fragment {
         btnSave.setOnClickListener(v -> {
             // Aquí podrías guardar los datos en tu base de datos o ViewModel
             Toast.makeText(getContext(), "Idioma guardado", Toast.LENGTH_SHORT).show();
-
-            if (getActivity() != null) {
-                getActivity().onBackPressed();
-            }
+            NavigationUtils.volver(this);
         });
 
 
         return view;
     }
+
 }
