@@ -52,7 +52,8 @@
 
                     <!-- Título -->
                     <TextView
-                        android:text="Mural Comunitario"
+                        android:id="@+id/tvTitulo"
+                        android:text="Titulo"
                         android:textSize="22sp"
                         android:textStyle="bold"
                         android:textColor="@android:color/black"
@@ -61,51 +62,52 @@
                     <!-- Categoría -->
                     <TextView
                         android:id="@+id/tvCategory"
-                        android:text="Arte Urbano"
+                        android:text="Categoria"
                         android:textSize="15sp"
                         android:textStyle="bold"
                         android:textColor="@color/darkgreen"
                         android:layout_marginTop="4dp"
-                        android:paddingHorizontal="10dp"
-                        android:paddingVertical="4dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
                     <!-- Ubicación -->
                     <TextView
+                        android:id="@+id/tvUbicacion"
                         android:text="📍 Guadalajara, Madrid"
                         android:textSize="14sp"
-                        android:textColor="#666"
+                        android:textColor="@color/gray"
                         android:layout_marginTop="4dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
-
-
-                    <!-- Descripción -->
-                    <TextView
-                        android:layout_marginTop="12dp"
-                        android:textSize="14sp"
-                        android:textColor="#444"
-                        android:text="Nos reunimos para pintar un mural colectivo en un espacio autorizado del barrio.Una actividad creativa y abierta para mejorar el entorno, expresarnos y compartir tiempo juntos."
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
                     <!-- Horario -->
                     <TextView
                         android:layout_marginTop="20dp"
-                        android:text="Horario"
+                        android:text="Fecha : "
                         android:textStyle="bold"
                         android:textSize="16sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
                     <TextView
-                        android:text="Sábado 23, Domingo 24   09:00 - 12:00"
+                        android:id="@+id/tvFecha"
+                        android:text="Fecha"
                         android:textSize="14sp"
                         android:textColor="#444"
                         android:layout_marginTop="4dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
+
+                    <!-- Descripción -->
+                    <TextView
+                        android:id="@+id/tvDescripcion"
+                        android:layout_marginTop="12dp"
+                        android:textSize="14sp"
+                        android:textColor="@color/black"
+                        android:text="Nos reunimos para pintar un mural colectivo en un espacio autorizado del barrio.Una actividad creativa y abierta para mejorar el entorno, expresarnos y compartir tiempo juntos."
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+
 
 <!--                    &lt;!&ndash; Participantes &ndash;&gt;-->
 <!--                    <TextView-->
