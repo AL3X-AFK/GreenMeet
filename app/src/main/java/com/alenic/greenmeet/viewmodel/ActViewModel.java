@@ -23,6 +23,9 @@ public class ActViewModel extends ViewModel {
     // Lista completa de actividades
     private final MutableLiveData<List<Act>> acts = new MutableLiveData<>();
 
+    // LiveData para todas las actividades del usuario activo
+    private final MutableLiveData<List<Act>> userActs = new MutableLiveData<>();
+
     // ---------------- Para InscriptionsFragment ----------------
     private final MutableLiveData<List<Act>> actsProximos = new MutableLiveData<>();
     private final MutableLiveData<List<Act>> actsRealizadas = new MutableLiveData<>();
@@ -43,6 +46,7 @@ public class ActViewModel extends ViewModel {
     // ---------------- Lista completa ----------------
     public LiveData<List<Act>> getActs() { return acts; }
 
+    // Método interno para filtrar todas las actividades menos las del usuario
     public void loadActs() {
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser == null) return;
@@ -80,8 +84,34 @@ public class ActViewModel extends ViewModel {
     public LiveData<List<Act>> getActsProximos() { return actsProximos; }
     public LiveData<List<Act>> getActsRealizadas() { return actsRealizadas; }
 
-    public void loadActsProximos() { loadActsByDate(true); }
+    // Getter público
+    public LiveData<List<Act>> getUserActs() {
+        return userActs;
+    }
+
+    // Método para cargar actividades del usuario actual
+    public void loadUserActs() {
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if (currentUser == null) return;
+
+        db.collection("usuarios")
+                .document(currentUser.getUid())
+                .collection("acciones")
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    List<Act> lista = querySnapshot.toObjects(Act.class);
+                    userActs.setValue(lista);
+                })
+                .addOnFailureListener(e -> {
+                    userActs.setValue(new ArrayList<>());
+                    Log.e("ActViewModel", "Error cargando actividades del usuario", e);
+                });
+    }
+
+
+    public void loadActsProximos() { loadActsByDate(false); }
     public void loadActsRealizadas() { loadActsByDate(false); }
+
 
     // Método interno para filtrar por fecha
     private void loadActsByDate(boolean proximos) {
