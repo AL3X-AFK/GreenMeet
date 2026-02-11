@@ -62,7 +62,6 @@ public class DetailsActFragment extends Fragment {
 
             Glide.with(this)
                     .load(act.getImagenUrl())
-                    .placeholder(R.drawable.arte)
                     .centerCrop()
                     .into(imgHeader);
         });

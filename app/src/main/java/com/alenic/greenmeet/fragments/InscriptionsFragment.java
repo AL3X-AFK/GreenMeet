@@ -80,20 +80,20 @@ public class InscriptionsFragment extends Fragment {
         actViewModel = new ViewModelProvider(requireActivity())
                 .get(ActViewModel.class);
 
-        // Observamos actividades próximas
-        actViewModel.getActsProximos().observe(getViewLifecycleOwner(), acts -> {
-            adapterProximos.setActs(acts);
-        });
-
-        // Observamos actividades realizadas
-        actViewModel.getActsRealizadas().observe(getViewLifecycleOwner(), acts -> {
-            adapterRealizadas.setActs(acts);
-        });
-
-        // Cargar datos desde Firebase
-        actViewModel.loadActsProximos();
-        actViewModel.loadActsRealizadas();
-
+//        // Observamos actividades próximas
+//        actViewModel.getActsProximos().observe(getViewLifecycleOwner(), acts -> {
+//            adapterProximos.setActs(acts);
+//        });
+//
+//        // Observamos actividades realizadas
+//        actViewModel.getActsRealizadas().observe(getViewLifecycleOwner(), acts -> {
+//            adapterRealizadas.setActs(acts);
+//        });
+//
+//        // Cargar datos desde Firebase
+//        actViewModel.loadActsProximos();
+//        actViewModel.loadActsRealizadas();
+//
         return view;
     }
 

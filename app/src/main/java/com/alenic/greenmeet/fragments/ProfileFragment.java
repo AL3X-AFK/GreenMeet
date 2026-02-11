@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.alenic.greenmeet.activities.LoginActivity;
 import com.alenic.greenmeet.R;
+import com.alenic.greenmeet.repositories.AuthRepository;
 import com.alenic.greenmeet.viewmodel.UserViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -42,7 +43,9 @@ public class ProfileFragment extends Fragment {
         });
 
         userViewModel.getEmail().observe(getViewLifecycleOwner(), email -> {
-            tvEmail.setText(email);
+            if (email != null) {
+                tvEmail.setText(email);
+            }
         });
 
         view.findViewById(R.id.menu_saves).setOnClickListener(v -> openFragment(new MyactFragment()));
@@ -67,7 +70,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void logout() {
-        FirebaseAuth.getInstance().signOut();
+        new AuthRepository().logout();
         userViewModel.clearSession();
 
         Intent intent = new Intent(getActivity(), LoginActivity.class);

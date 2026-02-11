@@ -38,78 +38,103 @@ public class EditProfileFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
 
+        initViews(view);
+        setupViewModel();
+        setupSpinner();
+        setupObservers();
+        setupListeners();
+
+        return view;
+    }
+
+    private void initViews(View view) {
         etName = view.findViewById(R.id.etName);
         etEmail = view.findViewById(R.id.etEmail);
         etPhone = view.findViewById(R.id.etPhone);
         spinnerGender = view.findViewById(R.id.spinnerGender);
         btnSave = view.findViewById(R.id.btnSave);
-        btnBack = view.findViewById(R.id.btnBack);
 
         header = view.findViewById(R.id.headerBack);
-
         btnBack = header.findViewById(R.id.btnBack);
         tvTitle = header.findViewById(R.id.tvTitle);
-
         tvTitle.setText("Editar perfil");
+    }
 
-
+    private void setupViewModel() {
         userViewModel = new ViewModelProvider(requireActivity())
                 .get(UserViewModel.class);
+    }
 
-        // Inicializamos Spinner
-        String[] genders = {"Masculino", "Femenino", "Otro"};
+    private void setupSpinner() {
+        String[] genders = {"No especificar","Masculino", "Femenino", "Otro"};
+
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                getContext(),
+                requireContext(),
                 android.R.layout.simple_spinner_item,
                 genders
         );
+
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerGender.setAdapter(adapter);
+    }
 
-        // Evento de selección del Spinner
-        spinnerGender.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
-                String selectedGender = parent.getItemAtPosition(position).toString();
-            }
-
-            @Override
-            public void onNothingSelected(android.widget.AdapterView<?> parent) {
-                // Nada
-            }
-        });
+    private void setupObservers() {
 
         userViewModel.getUsuario().observe(getViewLifecycleOwner(), u -> {
             if (u == null) return;
+
             etName.setText(u.getNombre());
             etPhone.setText(u.getTelefono());
+
+            ArrayAdapter adapter = (ArrayAdapter) spinnerGender.getAdapter();
             spinnerGender.setSelection(adapter.getPosition(u.getGenero()));
         });
 
+        userViewModel.getEmail().observe(getViewLifecycleOwner(),
+                etEmail::setText);
 
-        userViewModel.getEmail().observe(getViewLifecycleOwner(), etEmail::setText);
+        userViewModel.getState().observe(getViewLifecycleOwner(), state -> {
 
-        btnBack.setOnClickListener(v -> NavigationUtils.volver(this));
+            if (state == null) return;
 
+            if (state.equals("UPDATE_SUCCESS")) {
 
-        // Botón Guardar
+                Toast.makeText(getContext(),
+                        "Perfil actualizado",
+                        Toast.LENGTH_SHORT).show();
+                        userViewModel.clearState();
+
+                requireActivity().getSupportFragmentManager().popBackStack();
+
+            } else {
+
+                Toast.makeText(getContext(),
+                        state,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setupListeners() {
+
+        btnBack.setOnClickListener(v ->
+                NavigationUtils.volver(this));
+
         btnSave.setOnClickListener(v -> {
+
             String nombre = etName.getText().toString().trim();
             String emailNuevo = etEmail.getText().toString().trim();
             String telefono = etPhone.getText().toString().trim();
             String genero = spinnerGender.getSelectedItem().toString();
 
-            showReauthDialog(emailNuevo, nombre, telefono, genero);
+            showReauthDialog(nombre, telefono, genero, emailNuevo);
         });
-
-
-        return view;
     }
 
-    private void showReauthDialog(String email,
-                                  String nombre,
+    private void showReauthDialog(String nombre,
                                   String telefono,
-                                  String genero) {
+                                  String genero,
+                                  String emailNuevo) {
 
         View dialog = LayoutInflater.from(getContext())
                 .inflate(R.layout.dialog_password, null);
@@ -121,25 +146,18 @@ public class EditProfileFragment extends Fragment {
                 .setView(dialog)
                 .setPositiveButton("Confirmar", (d, w) -> {
 
+                    String passwordActual =
+                            etPassword.getText().toString().trim();
+
                     userViewModel.updateProfile(
                             nombre,
                             telefono,
                             genero,
-                            () -> {
-                                Toast.makeText(getContext(),
-                                        "Perfil actualizado",
-                                        Toast.LENGTH_SHORT).show();
-                                requireActivity().onBackPressed();
-                            },
-                            () -> Toast.makeText(getContext(),
-                                    "Contraseña incorrecta",
-                                    Toast.LENGTH_SHORT).show(),
-                            etPassword.getText().toString(),
-                            email
+                            passwordActual,
+                            emailNuevo
                     );
                 })
                 .setNegativeButton("Cancelar", null)
                 .show();
     }
-
 }

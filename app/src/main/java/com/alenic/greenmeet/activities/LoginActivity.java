@@ -2,75 +2,73 @@ package com.alenic.greenmeet.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Patterns;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.alenic.greenmeet.MainActivity;
 import com.alenic.greenmeet.R;
+import com.alenic.greenmeet.viewmodel.AuthViewModel;
 import com.google.android.material.button.MaterialButton;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private FirebaseAuth auth;
-    private EditText loginEmail,loginPassword;
-    private TextView txtRedirect;
+    private EditText etEmail, etPassword;
     private MaterialButton btnLogin;
+    private AuthViewModel viewModel;
+    private TextView txtRedirect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
 
-        auth = FirebaseAuth.getInstance();
+        viewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+
+        etEmail = findViewById(R.id.etEmail);
+        etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
         txtRedirect = findViewById(R.id.txtPregunta);
-        loginEmail = findViewById(R.id.etEmail);
-        loginPassword = findViewById(R.id.etPassword);
 
-        txtRedirect.setOnClickListener( v -> {
+        txtRedirect.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
             startActivity(intent);
         });
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = loginEmail.getText().toString();
-                String pass = loginPassword.getText().toString();
+        btnLogin.setOnClickListener(v -> {
 
-                if(!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                    if(!pass.isEmpty()){
-                        auth.signInWithEmailAndPassword(email, pass)
-                                .addOnSuccessListener(authResult -> {
-                                    Toast.makeText(LoginActivity.this,
-                                            "Inicio de sesión exitoso",
-                                            Toast.LENGTH_SHORT).show();
+            String email = etEmail.getText().toString().trim();
+            String pass = etPassword.getText().toString().trim();
 
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                })
-                                .addOnFailureListener(e -> {
-                                    Toast.makeText(LoginActivity.this,
-                                            "Inicio de sesión fallida",
-                                            Toast.LENGTH_SHORT).show();
-                                });
-                    } else{
-                        loginPassword.setError("Este campo no puede estar vacío.");
-                    }
-                } else if(email.isEmpty()){
-                    loginEmail.setError("Este campo no puede estar vacío");
-                } else {
-                    loginEmail.setError("Introduce un email válido");
-                }
+            if (email.isEmpty()) {
+                etEmail.setError("Campo obligatorio");
+                return;
+            }
+
+            if (pass.isEmpty()) {
+                etPassword.setError("Campo obligatorio");
+                return;
+            }
+
+            viewModel.login(email, pass);
+        });
+
+        observeViewModel();
+    }
+
+    private void observeViewModel() {
+
+        viewModel.getAuthState().observe(this, state -> {
+
+            if (state.equals("LOGIN_SUCCESS")) {
+                Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+            } else {
+                Toast.makeText(this, state, Toast.LENGTH_SHORT).show();
             }
         });
     }

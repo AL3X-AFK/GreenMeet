@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.alenic.greenmeet.data.Usuario;
+import com.alenic.greenmeet.repositories.UserRepository;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,11 +17,15 @@ import java.util.Map;
 
 public class UserViewModel extends ViewModel {
 
+    private final UserRepository repository;
+
     private final MutableLiveData<Usuario> usuario = new MutableLiveData<>();
     private final MutableLiveData<String> email = new MutableLiveData<>();
+    private final MutableLiveData<String> state = new MutableLiveData<>();
 
-    private final FirebaseAuth auth = FirebaseAuth.getInstance();
-    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public UserViewModel() {
+        repository = new UserRepository();
+    }
 
     public LiveData<Usuario> getUsuario() {
         return usuario;
@@ -30,67 +35,52 @@ public class UserViewModel extends ViewModel {
         return email;
     }
 
+    public LiveData<String> getState() {
+        return state;
+    }
+
     public void loadUser() {
-        FirebaseUser currentUser = auth.getCurrentUser();
-        if (currentUser == null) return;
 
-        email.setValue(currentUser.getEmail());
+        email.setValue(repository.getCurrentEmail());
 
-        db.collection("usuarios")
-                .document(currentUser.getUid())
-                .get()
-                .addOnSuccessListener(doc -> {
-                    if (doc.exists()) {
-                        Usuario u = doc.toObject(Usuario.class);
-                        usuario.setValue(u);
-                    }
-                });
+        repository.getUser(new UserRepository.UserCallback<Usuario>() {
+            @Override
+            public void onSuccess(Usuario result) {
+                usuario.setValue(result);
+            }
+
+            @Override
+            public void onError(String error) {
+                state.setValue(error);
+            }
+        });
     }
 
     public void updateProfile(String nombre,
                               String telefono,
                               String genero,
-                              Runnable onSuccess,
-                              Runnable onWrongPassword,
                               String passwordActual,
                               String emailNuevo) {
 
-        FirebaseUser user = auth.getCurrentUser();
-        if (user == null) return;
+        repository.updateProfile(nombre, telefono, genero,
+                passwordActual, emailNuevo,
+                new UserRepository.UserCallback<Void>() {
+                    @Override
+                    public void onSuccess(Void result) {
+                        state.setValue("UPDATE_SUCCESS");
+                        loadUser(); // refrescar datos
+                    }
 
-        AuthCredential credential = EmailAuthProvider
-                .getCredential(user.getEmail(), passwordActual);
-
-        user.reauthenticate(credential)
-                .addOnSuccessListener(unused -> {
-
-                    user.verifyBeforeUpdateEmail(emailNuevo)
-                            .addOnSuccessListener(unused2 -> {
-
-                                Map<String, Object> updates = new HashMap<>();
-                                updates.put("nombre", nombre);
-                                updates.put("telefono", telefono);
-                                updates.put("genero", genero);
-
-                                db.collection("usuarios")
-                                        .document(user.getUid())
-                                        .update(updates)
-                                        .addOnSuccessListener(unused3 -> {
-
-                                            usuario.setValue(
-                                                    new Usuario(nombre, telefono, genero)
-                                            );
-                                            email.setValue(emailNuevo);
-
-                                            onSuccess.run();
-                                        });
-                            });
-                })
-                .addOnFailureListener(e -> onWrongPassword.run());
+                    @Override
+                    public void onError(String error) {
+                        state.setValue(error);
+                    }
+                });
     }
 
-    public void clearSession() {
-        usuario.setValue(null);
-        email.setValue(null);
+    public void clearSession() { usuario.setValue(null); email.setValue(null); }
+
+    public void clearState() {
+        state.setValue(null);
     }
 }

@@ -2,101 +2,79 @@ package com.alenic.greenmeet.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.alenic.greenmeet.R;
-import com.alenic.greenmeet.data.Usuario;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.alenic.greenmeet.viewmodel.AuthViewModel;
 import com.google.android.material.button.MaterialButton;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SignupActivity extends AppCompatActivity {
 
-    private FirebaseAuth auth;
-    private FirebaseFirestore db;
-    private EditText signinEmail,signinPassword,signinNombre;
-    private MaterialButton signinButton;
+    private EditText etEmail, etPassword, etNombre;
+    private MaterialButton btnRegister;
+    private AuthViewModel viewModel;
+    private TextView txtPregunta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_signup);
 
-        auth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
+        viewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
-        signinButton = findViewById(R.id.btnRegister);
-        signinEmail = findViewById(R.id.etEmail);
-        signinPassword = findViewById(R.id.etPassword);
-        signinNombre = findViewById(R.id.etNombre);
+        etEmail = findViewById(R.id.etEmail);
+        etPassword = findViewById(R.id.etPassword);
+        etNombre = findViewById(R.id.etNombre);
+        btnRegister = findViewById(R.id.btnRegister);
+        txtPregunta = findViewById(R.id.txtPregunta);
 
-        TextView txtPregunta = findViewById(R.id.txtPregunta);
-
-        txtPregunta.setOnClickListener( v -> {
+        txtPregunta.setOnClickListener(v -> {
             Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
             startActivity(intent);
         });
 
-        signinButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String nombre = signinNombre.getText().toString().trim();
-                String email = signinEmail.getText().toString().trim();
-                String pass = signinPassword.getText().toString().trim();
+        btnRegister.setOnClickListener(v -> {
 
-                if (nombre.isEmpty()) {
-                    signinNombre.setError("Campo obligatorio");
-                    return;
-                }
-                if(email.isEmpty()){
-                    signinEmail.setError("Este campo es obligatorio");
-                }
-                if(pass.isEmpty()){
-                    signinPassword.setError("Este campo es obligatorio");
-                } else{
-                    auth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
+            String nombre = etNombre.getText().toString().trim();
+            String email = etEmail.getText().toString().trim();
+            String pass = etPassword.getText().toString().trim();
 
-                                String uid = auth.getCurrentUser().getUid();
+            if (nombre.isEmpty()) {
+                etNombre.setError("Campo obligatorio");
+                return;
+            }
 
-                                Usuario usuario = new Usuario(
-                                        nombre,
-                                        "",
-                                        ""
-                                );
+            if (email.isEmpty()) {
+                etEmail.setError("Campo obligatorio");
+                return;
+            }
 
-                                db.collection("usuarios")
-                                        .document(uid)
-                                        .set(usuario)
-                                        .addOnSuccessListener(unused -> {
-                                            Toast.makeText(SignupActivity.this,
-                                                    "Registro exitoso", Toast.LENGTH_SHORT).show();
-                                            startActivity(new Intent(SignupActivity.this, LoginActivity.class));
-                                            finish();
-                                        })
-                                        .addOnFailureListener(e ->
-                                                Toast.makeText(SignupActivity.this,
-                                                        "Error al guardar datos", Toast.LENGTH_SHORT).show()
-                                        );
-                            }else{
-                                Toast.makeText(SignupActivity.this,"Registro fallido "+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                }
+            if (pass.isEmpty()) {
+                etPassword.setError("Campo obligatorio");
+                return;
+            }
+
+            viewModel.register(nombre, email, pass);
+        });
+
+        observeViewModel();
+    }
+
+    private void observeViewModel() {
+
+        viewModel.getAuthState().observe(this, state -> {
+
+            if (state.equals("REGISTER_SUCCESS")) {
+                Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+            } else {
+                Toast.makeText(this, state, Toast.LENGTH_SHORT).show();
             }
         });
     }

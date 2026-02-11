@@ -31,12 +31,11 @@ import java.util.Locale;
 public class HomeFragment extends Fragment {
 
     private ActViewModel actViewModel;
-    private ActAdapter adapter;
-    private TextView tvNombre;
-    private TextView tvEmail;
     private UserViewModel userViewModel;
     private ActAdapter adapterAcciones;
     private ActAdapter adapterSugeridas;
+    private TextView tvNombre;
+    private TextView tvEmail;
 
     public HomeFragment() {
         // Required empty constructor
@@ -52,12 +51,50 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        initViewModels();
+        initViews(view);
+        setupRecyclerViews(view);
+        observeUser();
+        observeActs();
+        loadData();
 
-        tvNombre = view.findViewById(R.id.tvNombre);
-        tvEmail = view.findViewById(R.id.tvEmail);
+        return view;
+    }
+
+    private void initViewModels() {
+        actViewModel = new ViewModelProvider(requireActivity())
+                .get(ActViewModel.class);
+
         userViewModel = new ViewModelProvider(requireActivity())
                 .get(UserViewModel.class);
+    }
 
+    private void initViews(View view) {
+        tvNombre = view.findViewById(R.id.tvNombre);
+        tvEmail = view.findViewById(R.id.tvEmail);
+    }
+
+    private void setupRecyclerViews(View view) {
+
+        RecyclerView rvAcciones = view.findViewById(R.id.rvAcciones);
+        RecyclerView rvSugeridas = view.findViewById(R.id.rvAccionesSugeridas);
+
+        rvAcciones.setLayoutManager(
+                new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
+        );
+
+        rvSugeridas.setLayoutManager(
+                new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
+        );
+
+        adapterAcciones = new ActAdapter(R.layout.act_card,this::openDetailsFragment);
+        adapterSugeridas = new ActAdapter(R.layout.act_card,this::openDetailsFragment);
+
+        rvAcciones.setAdapter(adapterAcciones);
+        rvSugeridas.setAdapter(adapterSugeridas);
+    }
+
+    private void observeUser() {
         userViewModel.getUsuario().observe(getViewLifecycleOwner(), usuario -> {
             if (usuario != null) {
                 tvNombre.setText("Hola, " + usuario.getNombre());
@@ -69,102 +106,56 @@ public class HomeFragment extends Fragment {
                 tvEmail.setText(email);
             }
         });
+    }
 
-
-        RecyclerView rvAcciones = view.findViewById(R.id.rvAcciones);
-        RecyclerView rvAccionesSugeridas = view.findViewById(R.id.rvAccionesSugeridas);
-
-        // Layout horizontal
-        rvAcciones.setLayoutManager(
-                new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
-        );
-        rvAccionesSugeridas.setLayoutManager(
-                new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
-        );
-
-        // Adapters
-        adapterAcciones = new ActAdapter(new ArrayList<>(), act -> {
-            actViewModel.selectAct(act);
-            openDetailsActivityFragment(act);
-        });
-
-        adapterSugeridas = new ActAdapter(new ArrayList<>(), act -> {
-            actViewModel.selectAct(act);
-            openDetailsActivityFragment(act);
-        });
-
-
-        rvAcciones.setAdapter(adapterAcciones);
-        rvAccionesSugeridas.setAdapter(adapterSugeridas);
-
-        // ViewModel
-        actViewModel = new ViewModelProvider(requireActivity())
-                .get(ActViewModel.class);
-
-        // Observamos lista de actividades
+    private void observeActs() {
         actViewModel.getActs().observe(getViewLifecycleOwner(), acts -> {
 
             if (acts == null || acts.isEmpty()) return;
 
-            //acciones fecha proxima
-            List<Act> accionesOrdenadas = new ArrayList<>(acts);
-
-            Collections.sort(accionesOrdenadas, (a1, a2) -> {
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-
-                try {
-                    Date d1 = sdf.parse(a1.getFecha());
-                    Date d2 = sdf.parse(a2.getFecha());
-
-                    if (d1 == null || d2 == null) return 0;
-
-                    return d1.compareTo(d2); // más próxima primero
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    return 0;
-                }
-            });
-
-            if (accionesOrdenadas.size() > 5) {
-                accionesOrdenadas = accionesOrdenadas.subList(0, 5);
-            }
-
-            adapterAcciones.setActs(accionesOrdenadas);
-
-            // acciones sugeridas
-            List<Act> sugeridas = new ArrayList<>(acts);
-            Collections.shuffle(sugeridas);
-
-            if (sugeridas.size() > 5) {
-                sugeridas = sugeridas.subList(0, 5);
-            }
-
-            adapterSugeridas.setActs(sugeridas);
+            adapterAcciones.submitList(getProximas(acts));
+            adapterSugeridas.submitList(getSugeridas(acts));
         });
-
-        // Cargar datos desde Firebase
-        actViewModel.loadActs();
-        userViewModel.loadUser();
-
-        return view;
     }
 
-    private void openDetailsActivityFragment(Act act) {
+    private void loadData() {
+        actViewModel.loadActs();
+        userViewModel.loadUser();
+    }
+
+    private List<Act> getProximas(List<Act> acts) {
+
+        List<Act> ordenadas = new ArrayList<>(acts);
+
+        Collections.sort(ordenadas, (a1, a2) -> {
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                Date d1 = sdf.parse(a1.getFecha());
+                Date d2 = sdf.parse(a2.getFecha());
+                return d1.compareTo(d2);
+            } catch (Exception e) {
+                return 0;
+            }
+        });
+
+        return ordenadas.size() > 5 ? ordenadas.subList(0, 5) : ordenadas;
+    }
+
+    private List<Act> getSugeridas(List<Act> acts) {
+        List<Act> sugeridas = new ArrayList<>(acts);
+        Collections.shuffle(sugeridas);
+        return sugeridas.size() > 5 ? sugeridas.subList(0, 5) : sugeridas;
+    }
+
+    private void openDetailsFragment(Act act) {
+        actViewModel.selectAct(act);
+
         DetailsActFragment fragment = new DetailsActFragment();
 
-        Bundle bundle = new Bundle();
-        bundle.putString("titulo", act.getTitulo());
-        bundle.putString("descripcion", act.getDescripcion());
-        bundle.putString("fecha", act.getFecha());
-        bundle.putString("ubicacion", act.getUbicacion());
-        bundle.putString("imagenUrl", act.getImagenUrl());
-        fragment.setArguments(bundle);
-
-        // Abrir fragmento
-        FragmentTransaction transaction =
-                requireActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_layout, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        requireActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame_layout, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 }
