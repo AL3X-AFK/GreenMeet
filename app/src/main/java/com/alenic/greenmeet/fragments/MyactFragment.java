@@ -1,22 +1,25 @@
 package com.alenic.greenmeet.fragments;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.alenic.greenmeet.adapters.ActividadesGuardadasAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.alenic.greenmeet.R;
+import com.alenic.greenmeet.adapters.MisActividadesAdapter;
+import com.alenic.greenmeet.data.Act;
+import com.alenic.greenmeet.repositories.ActRepository;
 import com.alenic.greenmeet.utils.NavigationUtils;
+import com.alenic.greenmeet.viewmodel.ActViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MyactFragment extends Fragment {
@@ -25,11 +28,14 @@ public class MyactFragment extends Fragment {
     private RecyclerView recyclerView;
     private TextView tvTitle;
     private View header;
+    private MisActividadesAdapter adapter;
+    private ActRepository repository;
 
     public MyactFragment() {
         // Required empty public constructor
     }
 
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -42,24 +48,51 @@ public class MyactFragment extends Fragment {
         tvTitle = header.findViewById(R.id.tvTitle);
 
         tvTitle.setText("Mis actividades");
-
         btnBack.setOnClickListener(v -> NavigationUtils.volver(this));
 
-        // Recycler config
+        repository = new ActRepository();
+
+        // Adapter
+        adapter = new MisActividadesAdapter(act -> {
+            // Obtener el ViewModel
+            ActViewModel actViewModel = new ViewModelProvider(requireActivity()).get(ActViewModel.class);
+
+            // Seleccionar la actividad
+            actViewModel.selectAct(act);
+
+            // Abrir el fragment de edición
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.frame_layout, new EditActFragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new ActividadesGuardadasAdapter(getFakeData()));
+        recyclerView.setAdapter(adapter);
 
-
+        // Cargar actividades desde Firebase
+        loadUserActivities();
 
         return view;
     }
 
-    private List<String> getFakeData() {
-        List<String> list = new ArrayList<>();
-        list.add("Jardinería");
-        list.add("Limpieza de Parque");
-        list.add("Pintar Mural");
-        list.add("Reforestación");
-        return list;
+    private void loadUserActivities() {
+        repository.getMyActs(new ActRepository.ActCallback<List<Act>>() {
+            @Override
+            public void onSuccess(List<Act> result) {
+                if (result.isEmpty()) {
+                    Toast.makeText(getContext(), "No hay actividades", Toast.LENGTH_SHORT).show();
+                }
+                adapter.submitList(result); // Actualizamos el RecyclerView
+            }
+
+            @Override
+            public void onError(String error) {
+                Toast.makeText(getContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
+
 }
