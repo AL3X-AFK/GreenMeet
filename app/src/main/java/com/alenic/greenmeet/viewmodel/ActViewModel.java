@@ -27,6 +27,9 @@ public class ActViewModel extends ViewModel {
     private final MutableLiveData<Act> selectedAct = new MutableLiveData<>();
     private final MutableLiveData<String> state = new MutableLiveData<>();
 
+
+    private List<Act> allActs = new ArrayList<>();
+
     public ActViewModel() {
         repository = new ActRepository();
     }
@@ -42,6 +45,7 @@ public class ActViewModel extends ViewModel {
         repository.getAllActs(new ActRepository.ActCallback<List<Act>>() {
             @Override
             public void onSuccess(List<Act> result) {
+                allActs = result;
                 acts.setValue(result);
             }
 
@@ -50,6 +54,26 @@ public class ActViewModel extends ViewModel {
                 state.setValue(error);
             }
         });
+    }
+
+    public void filterActs(String query) {
+
+        if (query == null || query.isEmpty()) {
+            acts.setValue(allActs);
+            return;
+        }
+
+        List<Act> filteredList = new ArrayList<>();
+
+        for (Act act : allActs) {
+            if (act.getTitulo() != null &&
+                    act.getTitulo().toLowerCase().contains(query.toLowerCase())) {
+
+                filteredList.add(act);
+            }
+        }
+
+        acts.setValue(filteredList);
     }
 
     public void selectAct(Act act) {

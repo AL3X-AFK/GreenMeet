@@ -38,7 +38,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:hint="Explora acciones"
+        app:hintEnabled="false"
         app:startIconDrawable="@drawable/search_icon"
         app:boxBackgroundColor="@color/green_100"
         app:boxCornerRadiusTopStart="12dp"
@@ -50,8 +50,10 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/searchEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="Explora acciones"
             android:textSize="14sp"
             android:drawableStart="@drawable/search_icon"
             android:background="@null"/>

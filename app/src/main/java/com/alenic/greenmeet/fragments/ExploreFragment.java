@@ -1,6 +1,8 @@
 package com.alenic.greenmeet.fragments;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import com.alenic.greenmeet.adapters.ActAdapter;
 import com.alenic.greenmeet.adapters.GuardadosAdapter;
 import com.alenic.greenmeet.data.Act;
 import com.alenic.greenmeet.viewmodel.ActViewModel;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 
@@ -40,6 +43,7 @@ public class ExploreFragment extends Fragment {
 
         initViewModel();
         setupRecyclerView(view);
+        setupSearch(view);
         observeActs();
         loadData();
 
@@ -88,5 +92,24 @@ public class ExploreFragment extends Fragment {
                 .replace(R.id.frame_layout, fragment)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    private void setupSearch(View view) {
+
+        TextInputEditText searchEditText =
+                view.findViewById(R.id.searchEditText);
+
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                actViewModel.filterActs(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
     }
 }
