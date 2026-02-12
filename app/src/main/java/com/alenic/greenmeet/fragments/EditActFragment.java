@@ -23,5 +23,21 @@ import com.google.android.material.textfield.TextInputEditText;
 
 public class EditActFragment extends Fragment {
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_edit_act, container, false);
+
+        Bundle args = getArguments();
+        if (args != null) {
+            String actId = args.getString("actId");
+            String title = args.getString("title");
+            String description = args.getString("description");
+
+            // Aquí puedes inicializar tus views con estos datos
+        }
+
+        return view;
+    }
 
 }

@@ -53,6 +53,11 @@ public class MyactFragment extends Fragment {
         // Adapter
         adapter = new MisActividadesAdapter(act -> {
             // Click en "Ver más"
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.frame_layout, new EditActFragment())
+                    .addToBackStack(null)
+                    .commit();
         });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -80,4 +85,6 @@ public class MyactFragment extends Fragment {
             }
         });
     }
+
+
 }
