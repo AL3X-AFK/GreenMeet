@@ -1,9 +1,5 @@
 package com.alenic.greenmeet.data;
 
-import java.util.List;
-
-import kotlin.contracts.Returns;
-
 public class Act {
 
     private String titulo;
@@ -14,8 +10,7 @@ public class Act {
     private String imagenUrl;
     private long createdAt;
 
-    public Act() {
-    }
+    public Act() { }
 
     public Act(String titulo,String categoria, String fecha, String ubicacion,
                String descripcion, String imagenUrl) {
@@ -28,34 +23,13 @@ public class Act {
         this.createdAt = System.currentTimeMillis();
     }
 
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public String getCategoria(){
-        return categoria;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public String getFecha() {
-        return fecha;
-    }
-
-    public String getUbicacion() {
-        return ubicacion;
-    }
-
-    public String getImagenUrl() {
-        return imagenUrl;
-    }
-
-    public long getCreatedAt() {
-        return createdAt;
-    }
-
-
+    // Getters y setters
+    public String getTitulo() { return titulo; }
+    public String getCategoria() { return categoria; }
+    public String getDescripcion() { return descripcion; }
+    public String getFecha() { return fecha; }
+    public String getUbicacion() { return ubicacion; }
+    public String getImagenUrl() { return imagenUrl; }
+    public long getCreatedAt() { return createdAt; }
 
 }

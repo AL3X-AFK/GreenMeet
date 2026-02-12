@@ -71,6 +71,27 @@ public class ActRepository {
                         callback.onError(e.getMessage()));
     }
 
+
+    public void getMyActs(ActCallback<List<Act>> callback) {
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if (currentUser == null) {
+            callback.onError("Usuario no autenticado");
+            return;
+        }
+
+        db.collection("usuarios")
+                .document(currentUser.getUid())
+                .collection("acciones")
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    List<Act> acts = querySnapshot.toObjects(Act.class);
+                    callback.onSuccess(acts);
+                })
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
+    }
+
+
+
     public void addAct(Act act, ActCallback<Void> callback) {
         FirebaseUser user = auth.getCurrentUser();
         if (user == null) {
