@@ -44,7 +44,6 @@ public class EditActFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         rootView = inflater.inflate(R.layout.fragment_edit_act, container, false);
 
         initViews(rootView);
@@ -104,6 +103,7 @@ public class EditActFragment extends Fragment {
                     .load(act.getImagenUrl())
                     .centerCrop()
                     .into(imgHeader);
+
         });
     }
 

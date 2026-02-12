@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +18,7 @@ import com.alenic.greenmeet.adapters.MisActividadesAdapter;
 import com.alenic.greenmeet.data.Act;
 import com.alenic.greenmeet.repositories.ActRepository;
 import com.alenic.greenmeet.utils.NavigationUtils;
+import com.alenic.greenmeet.viewmodel.ActViewModel;
 
 import java.util.List;
 
@@ -52,7 +54,13 @@ public class MyactFragment extends Fragment {
 
         // Adapter
         adapter = new MisActividadesAdapter(act -> {
-            // Click en "Ver más"
+            // Obtener el ViewModel
+            ActViewModel actViewModel = new ViewModelProvider(requireActivity()).get(ActViewModel.class);
+
+            // Seleccionar la actividad
+            actViewModel.selectAct(act);
+
+            // Abrir el fragment de edición
             getParentFragmentManager()
                     .beginTransaction()
                     .replace(R.id.frame_layout, new EditActFragment())
