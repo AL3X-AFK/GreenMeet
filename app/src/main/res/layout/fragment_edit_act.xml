@@ -4,141 +4,134 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="#FFFFFF"
+    android:padding="16dp">
 
-    <!-- Imagen superior fija -->
-    <ImageView
-        android:id="@+id/imgHeader"
-        android:layout_width="match_parent"
-        android:layout_height="230dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/arte"
+    <!-- Header con botón atrás -->
+    <include
+        android:id="@+id/headerBack"
+        layout="@layout/view_header_back"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Botón atrás -->
-    <ImageButton
-        android:id="@+id/btnBack"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:background="@drawable/circle_bg_back"
-        android:src="@drawable/arrow_back_icon"
-        app:tint="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="16dp"
-        android:clickable="true"/>
-
-    <!-- Card blanca con campos de edición -->
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardContent"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="480dp"
-        android:backgroundTint="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/imgHeader"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/headerBack"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="480dp"
-            android:padding="16dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/imgHeader"
                 android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/arte"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginBottom="20dp"/>
+
+            <!-- Título -->
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:text="Título"
+                android:textSize="16sp"
+                android:textColor="@color/darkgreen"
+                android:textStyle="bold"/>
 
-                <!-- Título editable -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Título">
+            <EditText
+                android:id="@+id/etTitulo"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:padding="4dp"
+                android:inputType="textPersonName"
+                android:layout_marginBottom="16dp"/>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etTitulo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@android:color/black"/>
-                </com.google.android.material.textfield.TextInputLayout>
+            <!-- Categoría -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Categoría"
+                android:textSize="16sp"
+                android:textColor="@color/darkgreen"
+                android:textStyle="bold"/>
 
-                <!-- Categoría editable -->
-                <!-- Categoría editable -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_marginTop="8dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Categoría">
+            <Spinner
+                android:id="@+id/spinnerCategoria"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="16dp"/>
 
-                    <AutoCompleteTextView
-                        android:id="@+id/etCategoria"
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:textColor="@color/darkgreen"
-                        android:inputType="none"
-                        android:focusable="true"/>
-                </com.google.android.material.textfield.TextInputLayout>
+            <!-- Ubicación -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ubicación"
+                android:textSize="16sp"
+                android:textColor="@color/darkgreen"
+                android:textStyle="bold"/>
 
-                <!-- Ubicación editable -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_marginTop="8dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Ubicación">
+            <EditText
+                android:id="@+id/etUbicacion"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:padding="4dp"
+                android:layout_marginBottom="16dp"/>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etUbicacion"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/gray"/>
-                </com.google.android.material.textfield.TextInputLayout>
+            <!-- Fecha -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fecha"
+                android:textSize="16sp"
+                android:textColor="@color/darkgreen"
+                android:textStyle="bold"/>
 
-                <!-- Fecha editable -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_marginTop="12dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Fecha">
+            <EditText
+                android:id="@+id/etFecha"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:padding="4dp"
+                android:focusable="false"
+                android:clickable="true"
+                android:layout_marginBottom="16dp"/>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etFecha"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="#444"/>
-                </com.google.android.material.textfield.TextInputLayout>
+            <!-- Descripción -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Descripción"
+                android:textSize="16sp"
+                android:textColor="@color/darkgreen"
+                android:textStyle="bold"/>
 
-                <!-- Descripción editable -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_marginTop="12dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Descripción">
+            <EditText
+                android:id="@+id/etDescripcion"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:gravity="top"
+                android:padding="4dp"
+                android:minLines="3"
+                android:layout_marginBottom="24dp"/>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etDescripcion"
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:gravity="top"
-                        android:textColor="@color/black"
-                        android:minLines="3"/>
-                </com.google.android.material.textfield.TextInputLayout>
+            <!-- Botón Guardar -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnGuardar"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Guardar cambios"
+                android:textColor="#000000"
+                android:background="@color/green_200"
+                android:layout_marginBottom="24dp"/>
 
-            </LinearLayout>
-        </ScrollView>
-    </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </ScrollView>
 
-    <!-- Botón Guardar cambios -->
-    <Button
-        android:id="@+id/btnGuardar"
-        android:text="Guardar cambios"
-        android:textAllCaps="false"
-        android:textStyle="bold"
-        android:backgroundTint="@color/green_100"
-        android:textColor="@android:color/black"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        app:layout_constraintTop_toBottomOf="@id/cardContent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
