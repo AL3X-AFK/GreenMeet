@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <!-- Imagen superior -->
+    <!-- Imagen superior fija -->
     <ImageView
         android:id="@+id/imgHeader"
         android:layout_width="match_parent"
@@ -30,7 +30,7 @@
         android:layout_margin="16dp"
         android:clickable="true"/>
 
-    <!-- Card blanca -->
+    <!-- Card blanca con campos de edición -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardContent"
         android:layout_width="match_parent"
@@ -43,7 +43,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="480dp"
-            android:padding="10dp">
+            android:padding="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -60,10 +60,10 @@
                         android:id="@+id/etTitulo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="22sp"
                         android:textColor="@android:color/black"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Categoría editable -->
                 <!-- Categoría editable -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_marginTop="8dp"
@@ -71,11 +71,13 @@
                     android:layout_height="wrap_content"
                     android:hint="Categoría">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <AutoCompleteTextView
                         android:id="@+id/etCategoria"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/darkgreen"/>
+                        android:layout_height="60dp"
+                        android:textColor="@color/darkgreen"
+                        android:inputType="none"
+                        android:focusable="true"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Ubicación editable -->
@@ -116,7 +118,8 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etDescripcion"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="100dp"
+                        android:gravity="top"
                         android:textColor="@color/black"
                         android:minLines="3"/>
                 </com.google.android.material.textfield.TextInputLayout>
@@ -125,7 +128,7 @@
         </ScrollView>
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- Botón Guardar -->
+    <!-- Botón Guardar cambios -->
     <Button
         android:id="@+id/btnGuardar"
         android:text="Guardar cambios"
