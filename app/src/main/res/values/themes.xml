@@ -2,14 +2,13 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.GreenMeet" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Colores principales -->
-        <item name="colorPrimary">@color/green_300</item>
+        <item name="colorPrimary">@color/darkgreen</item>
         <item name="colorOnPrimary">@color/black</item>
 
         <item name="colorSecondary">@color/green_200</item>
         <item name="colorOnSecondary">@color/black</item>
 
-        <!-- Opcional: quita completamente el morado dinámico -->
-        <item name="android:colorAccent">@color/green_300</item>
+        <item name="android:colorAccent">@color/darkgreen</item>
     </style>
 
     <style name="Theme.GreenMeet" parent="Base.Theme.GreenMeet">
