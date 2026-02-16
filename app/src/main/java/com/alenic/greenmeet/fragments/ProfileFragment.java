@@ -15,7 +15,6 @@ import com.alenic.greenmeet.activities.LoginActivity;
 import com.alenic.greenmeet.R;
 import com.alenic.greenmeet.repositories.AuthRepository;
 import com.alenic.greenmeet.viewmodel.UserViewModel;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class ProfileFragment extends Fragment {
 
@@ -53,6 +52,8 @@ public class ProfileFragment extends Fragment {
 //        view.findViewById(R.id.menu_notifications).setOnClickListener(v -> openFragment(new NotificationsFragment()));
         view.findViewById(R.id.menu_language).setOnClickListener(v -> openFragment(new LanguageFragment()));
         view.findViewById(R.id.menu_privacity).setOnClickListener(v -> openFragment(new PrivacyFragment()));
+        view.findViewById(R.id.menu_acerca).setOnClickListener(v -> openFragment(new LicenseFragment()));
+
         view.findViewById(R.id.disconnect).setOnClickListener(v -> logout());
 
         return view;

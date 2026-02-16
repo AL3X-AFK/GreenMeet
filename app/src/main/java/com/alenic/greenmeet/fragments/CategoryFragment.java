@@ -21,6 +21,9 @@ import com.alenic.greenmeet.data.Act;
 import com.alenic.greenmeet.utils.NavigationUtils;
 import com.alenic.greenmeet.viewmodel.ActViewModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CategoryFragment extends Fragment {
 
     private static final String ARG_CATEGORY = "category_name";
@@ -94,23 +97,31 @@ public class CategoryFragment extends Fragment {
     private void observeActs() {
 
         actViewModel.getActs().observe(getViewLifecycleOwner(), acts -> {
-            if (acts != null) {
+
+            if (acts == null) return;
+
+            if (categoriaSeleccionada == null || categoriaSeleccionada.isEmpty()) {
                 adapter.submitList(acts);
+                return;
             }
+
+            List<Act> filtradas = new ArrayList<>();
+
+            for (Act act : acts) {
+                if (act.getCategoria() != null &&
+                        act.getCategoria().trim()
+                                .equalsIgnoreCase(categoriaSeleccionada.trim())) {
+
+                    filtradas.add(act);
+                }
+            }
+
+            adapter.submitList(filtradas);
         });
     }
 
     private void loadData() {
         actViewModel.loadActs();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        if (categoriaSeleccionada != null) {
-            actViewModel.filterByCategory(categoriaSeleccionada);
-        }
     }
 
     private void openDetailsFragment(Act act) {
