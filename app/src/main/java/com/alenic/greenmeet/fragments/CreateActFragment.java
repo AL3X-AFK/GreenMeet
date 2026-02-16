@@ -50,14 +50,14 @@ import android.app.Activity;
 public class CreateActFragment extends Fragment {
 
     private CreateActViewModel viewModel;
-
-    private ImageView imgUpload;
+    private ImageView imgUpload,btnBack;
     private Uri imageUri;
-
+    private TextView tvTitle;
+    private View header;
     private TextInputEditText etTitulo, etUbicacion, etDescripcion, etDate;
     private AutoCompleteTextView actvCategoria;
 
-    private Button btnNext;
+    private Button btnNext,btnCancel;
 
     private LinearLayout layoutUpload, layoutPlaceholder;
 
@@ -91,11 +91,16 @@ public class CreateActFragment extends Fragment {
         etDate = view.findViewById(R.id.etDate);
         actvCategoria = view.findViewById(R.id.actvCategoria);
 
+        header = view.findViewById(R.id.headerBack);
+        btnBack = header.findViewById(R.id.btnBack);
+        tvTitle = header.findViewById(R.id.tvTitle);
+
         layoutUpload = view.findViewById(R.id.layoutUpload);
         layoutPlaceholder = view.findViewById(R.id.layoutPlaceholder);
         imgUpload = view.findViewById(R.id.imgUpload);
 
         btnNext = view.findViewById(R.id.btnNext);
+        btnCancel = view.findViewById(R.id.btnCancel);
 
         // Configuración de categoría
         String[] categorias = {"ARTE URBANO", "VERDE Y NATURALEZA", "LIMPIEZA URBANA", "SALUD Y DEPORTE", "CULTURA Y SOCIEDAD"};
@@ -126,6 +131,9 @@ public class CreateActFragment extends Fragment {
         layoutUpload.setOnClickListener(v -> openFileChooser());
         etDate.setOnClickListener(v -> showDatePicker());
         btnNext.setOnClickListener(v -> guardarAccion());
+        btnCancel.setOnClickListener(v -> NavigationUtils.volver(this));
+        tvTitle.setText("Crear actividad");
+        btnBack.setOnClickListener(v -> NavigationUtils.volver(this));
     }
 
     private void openFileChooser() {

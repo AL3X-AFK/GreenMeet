@@ -76,6 +76,21 @@ public class ActViewModel extends ViewModel {
         acts.setValue(filteredList);
     }
 
+    public void filterByCategory(String categoria) {
+
+        List<Act> filtradas = new ArrayList<>();
+
+        for (Act act : allActs) {
+            if (act.getCategoria() != null &&
+                    act.getCategoria().equalsIgnoreCase(categoria)) {
+
+                filtradas.add(act);
+            }
+        }
+
+        acts.setValue(filtradas);
+    }
+
     public void selectAct(Act act) {
         selectedAct.setValue(act);
     }
