@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.alenic.greenmeet.R;
 import com.alenic.greenmeet.data.Act;
+import com.alenic.greenmeet.repositories.ActRepository;
 import com.alenic.greenmeet.utils.NavigationUtils;
 import com.alenic.greenmeet.viewmodel.ActViewModel;
 import com.bumptech.glide.Glide;
@@ -110,9 +111,8 @@ public class EditActFragment extends Fragment {
     private void setupListeners() {
         btnBack.setOnClickListener(v -> NavigationUtils.volver(this));
 
-        btnGuardar.setOnClickListener(v ->
-                Toast.makeText(requireContext(), "Funcionalidad de guardar no implementada aún", Toast.LENGTH_SHORT).show()
-        );
+        btnGuardar.setOnClickListener(v -> updateAct());
+
 
         etFecha.setOnClickListener(v -> showDatePicker());
     }
@@ -131,4 +131,51 @@ public class EditActFragment extends Fragment {
             etFecha.setText(sdf.format(new Date(selection)));
         });
     }
+
+    private void updateAct() {
+
+        Act actOriginal = actViewModel.getSelectedAct().getValue();
+
+        if (actOriginal == null) {
+            Toast.makeText(requireContext(), "Error al obtener actividad", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String titulo = etTitulo.getText().toString().trim();
+        String ubicacion = etUbicacion.getText().toString().trim();
+        String fecha = etFecha.getText().toString().trim();
+        String descripcion = etDescripcion.getText().toString().trim();
+        String categoria = spinnerCategoria.getSelectedItem().toString();
+
+        if (titulo.isEmpty() || ubicacion.isEmpty() || fecha.isEmpty()) {
+            Toast.makeText(requireContext(), "Completa los campos obligatorios", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        //  Creamos nueva Act con MISMO ID e imagen
+        Act actActualizada = new Act(
+                titulo,
+                categoria,
+                fecha,
+                ubicacion,
+                descripcion,
+                actOriginal.getImagenUrl()
+        );
+
+        actActualizada.setId(actOriginal.getId()); // 🔥 CRUCIAL
+
+        new ActRepository().updateAct(actActualizada, new ActRepository.ActCallback<Void>() {
+            @Override
+            public void onSuccess(Void result) {
+                Toast.makeText(requireContext(), "Actividad actualizada", Toast.LENGTH_SHORT).show();
+                NavigationUtils.volver(EditActFragment.this);
+            }
+
+            @Override
+            public void onError(String error) {
+                Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }

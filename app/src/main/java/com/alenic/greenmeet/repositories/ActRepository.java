@@ -59,7 +59,14 @@ public class ActRepository {
 
                                 for (Object snapObj : results) {
                                     QuerySnapshot snap = (QuerySnapshot) snapObj;
-                                    lista.addAll(snap.toObjects(Act.class));
+                                    for (DocumentSnapshot doc : snap.getDocuments()) {
+                                        Act act = doc.toObject(Act.class);
+                                        if (act != null) {
+                                            act.setId(doc.getId()); // GUARDAMOS EL ID
+                                            lista.add(act);
+                                        }
+                                    }
+
                                 }
 
                                 callback.onSuccess(lista);
@@ -84,9 +91,21 @@ public class ActRepository {
                 .collection("acciones")
                 .get()
                 .addOnSuccessListener(querySnapshot -> {
-                    List<Act> acts = querySnapshot.toObjects(Act.class);
+
+                    List<Act> acts = new ArrayList<>();
+
+                    for (DocumentSnapshot doc : querySnapshot.getDocuments()) {
+                        Act act = doc.toObject(Act.class);
+
+                        if (act != null) {
+                            act.setId(doc.getId()); // 🔥 GUARDAMOS EL ID
+                            acts.add(act);
+                        }
+                    }
+
                     callback.onSuccess(acts);
                 })
+
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
@@ -106,4 +125,26 @@ public class ActRepository {
                 .addOnSuccessListener(doc -> callback.onSuccess(null))
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
+
+    public void updateAct(Act act, ActCallback<Void> callback) {
+        FirebaseUser user = auth.getCurrentUser();
+        if (user == null) {
+            callback.onError("Usuario no autenticado");
+            return;
+        }
+
+        if (act.getId() == null) {
+            callback.onError("ID de actividad inválido");
+            return;
+        }
+
+        db.collection("usuarios")
+                .document(user.getUid())
+                .collection("acciones")
+                .document(act.getId())
+                .set(act)
+                .addOnSuccessListener(unused -> callback.onSuccess(null))
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
+    }
+
 }

@@ -1,7 +1,7 @@
 package com.alenic.greenmeet.data;
 
 public class Act {
-
+    private String id;
     private String titulo;
     private String descripcion;
     private String categoria;
@@ -24,6 +24,8 @@ public class Act {
     }
 
     // Getters y setters
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
     public String getTitulo() { return titulo; }
     public String getCategoria() { return categoria; }
     public String getDescripcion() { return descripcion; }
