@@ -20,10 +20,12 @@ public class AuthViewModel extends ViewModel {
     public LiveData<String> getAuthState() {
         return authState;
     }
-
-    public LiveData<Boolean> getLoading() {
-        return loading;
+    public LiveData<Boolean> getLoginResult() {
+        return loginResult;
     }
+
+
+    private final MutableLiveData<Boolean> loginResult = new MutableLiveData<>();
 
     public void register(String nombre, String email, String password) {
         loading.setValue(true);
@@ -49,14 +51,12 @@ public class AuthViewModel extends ViewModel {
         repository.login(email, password, new AuthRepository.AuthCallback() {
             @Override
             public void onSuccess() {
-                loading.postValue(false);
-                authState.postValue("LOGIN_SUCCESS");
+                loginResult.postValue(true);
             }
 
             @Override
             public void onError(String error) {
-                loading.postValue(false);
-                authState.postValue(error);
+                loginResult.postValue(false);
             }
         });
     }
