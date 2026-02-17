@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -36,6 +37,7 @@ public class HomeFragment extends Fragment {
     private ActAdapter adapterSugeridas;
     private TextView tvNombre;
     private TextView tvEmail;
+    private LinearLayout catArte,catNaturaleza,catLimpieza,catSalud,catCultura;
 
     public HomeFragment() {
         // Required empty constructor
@@ -54,6 +56,7 @@ public class HomeFragment extends Fragment {
         initViewModels();
         initViews(view);
         setupRecyclerViews(view);
+        setupListeners();
         observeUser();
         observeActs();
         loadData();
@@ -72,6 +75,23 @@ public class HomeFragment extends Fragment {
     private void initViews(View view) {
         tvNombre = view.findViewById(R.id.tvNombre);
         tvEmail = view.findViewById(R.id.tvEmail);
+        catArte = view.findViewById(R.id.catArte);
+        catCultura = view.findViewById(R.id.catCultura);
+        catLimpieza = view.findViewById(R.id.catLimpieza);
+        catNaturaleza = view.findViewById(R.id.catNaturaleza);
+        catSalud = view.findViewById(R.id.catSalud);
+    }
+
+    private void setupListeners(){
+        catArte.setOnClickListener(v -> openCategory("Arte urbano"));
+
+        catNaturaleza.setOnClickListener(v -> openCategory("Verde y naturaleza"));
+
+        catLimpieza.setOnClickListener(v -> openCategory("Limpieza urbana"));
+
+        catSalud.setOnClickListener(v -> openCategory("Salud y deporte"));
+
+        catCultura.setOnClickListener(v -> openCategory("Cultura y sociedad"));
     }
 
     private void setupRecyclerViews(View view) {
@@ -151,6 +171,17 @@ public class HomeFragment extends Fragment {
         actViewModel.selectAct(act);
 
         DetailsActFragment fragment = new DetailsActFragment();
+
+        requireActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame_layout, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void openCategory(String categoryName) {
+
+        CategoryFragment fragment = CategoryFragment.newInstance(categoryName);
 
         requireActivity().getSupportFragmentManager()
                 .beginTransaction()

@@ -207,6 +207,36 @@
                 android:src="@drawable/arrow_right"
                 app:tint="@color/black"/>
         </LinearLayout>
+        <!-- Acerca de -->
+        <LinearLayout
+            android:id="@+id/menu_acerca"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/about_icon" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Licencias"
+                android:textSize="18sp"
+                android:layout_marginStart="16dp" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/arrow_right"
+                app:tint="@color/black"/>
+        </LinearLayout>
 
         <!-- Desconectarse -->
         <LinearLayout
