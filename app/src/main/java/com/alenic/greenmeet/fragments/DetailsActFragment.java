@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ public class DetailsActFragment extends Fragment {
     private TextView tvTitulo, tvCategoria, tvUbicacion, tvDescripcion, tvFecha;
     private ImageView imgHeader;
     private ImageButton btnBack;
+    private Button btnApuntarse;
 
     public DetailsActFragment() {
         // Required empty public constructor
@@ -44,6 +46,7 @@ public class DetailsActFragment extends Fragment {
         tvFecha = view.findViewById(R.id.tvFecha);
         imgHeader = view.findViewById(R.id.imgHeader);
         btnBack = view.findViewById(R.id.btnBack);
+        btnApuntarse = view.findViewById(R.id.btnApuntarse);
 
         btnBack.setOnClickListener(v -> NavigationUtils.volver(this));
         // ViewModel compartido
