@@ -1,7 +1,9 @@
 package com.alenic.greenmeet.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -14,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alenic.greenmeet.R;
+import com.alenic.greenmeet.data.Act;
 import com.alenic.greenmeet.utils.NavigationUtils;
 import com.alenic.greenmeet.viewmodel.ActViewModel;
 import com.bumptech.glide.Glide;
@@ -53,6 +56,8 @@ public class DetailsActFragment extends Fragment {
         actViewModel = new ViewModelProvider(requireActivity())
                 .get(ActViewModel.class);
 
+        actViewModel.getEstaApuntado().observe(getViewLifecycleOwner(), this::actualizarBoton);
+
         // Observar actividad seleccionada
         actViewModel.getSelectedAct().observe(getViewLifecycleOwner(), act -> {
             if (act == null) return;
@@ -67,8 +72,37 @@ public class DetailsActFragment extends Fragment {
                     .load(act.getImagenUrl())
                     .centerCrop()
                     .into(imgHeader);
+
+            // Comprobar si está apuntado
+            actViewModel.comprobarSiEstaApuntado(act);
+        });
+
+        btnApuntarse.setOnClickListener(v -> {
+            Act act = actViewModel.getSelectedAct().getValue();
+            Boolean apuntado = actViewModel.getEstaApuntado().getValue();
+
+            if (act == null || apuntado == null) return;
+
+            if (apuntado) {
+                actViewModel.desapuntarse(act);
+            } else {
+                actViewModel.apuntarse(act);
+            }
+
         });
 
         return view;
+    }
+
+    private void actualizarBoton(boolean apuntado) {
+        btnApuntarse.setText(apuntado ? "Desapuntarse" : "Me apunto");
+
+        if (apuntado) {
+            btnApuntarse.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.red));
+            btnApuntarse.setTextColor(Color.WHITE);
+        } else {
+            btnApuntarse.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.green_100));
+            btnApuntarse.setTextColor(Color.BLACK);
+        }
     }
 }

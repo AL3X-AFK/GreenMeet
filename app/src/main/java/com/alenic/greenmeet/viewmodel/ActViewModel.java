@@ -26,6 +26,7 @@ public class ActViewModel extends ViewModel {
     private final MutableLiveData<List<Act>> acts = new MutableLiveData<>();
     private final MutableLiveData<Act> selectedAct = new MutableLiveData<>();
     private final MutableLiveData<String> state = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> estaApuntado = new MutableLiveData<>();
 
 
     private List<Act> allActs = new ArrayList<>();
@@ -39,6 +40,11 @@ public class ActViewModel extends ViewModel {
     public LiveData<Act> getSelectedAct() { return selectedAct; }
 
     public LiveData<String> getState() { return state; }
+
+    public LiveData<Boolean> getEstaApuntado() {
+        return estaApuntado;
+    }
+
 
     public void loadActs() {
 
@@ -78,5 +84,52 @@ public class ActViewModel extends ViewModel {
 
     public void selectAct(Act act) {
         selectedAct.setValue(act);
+    }
+
+    public void apuntarse(Act act) {
+
+        repository.apuntarseActividad(act, new ActRepository.ActCallback<Void>() {
+            @Override
+            public void onSuccess(Void result) {
+                estaApuntado.setValue(true);
+                state.setValue("APUNTADO_OK");
+            }
+
+            @Override
+            public void onError(String error) {
+                state.setValue(error);
+            }
+        });
+    }
+
+    public void desapuntarse(Act act) {
+
+        repository.desapuntarseActividad(act, new ActRepository.ActCallback<Void>() {
+            @Override
+            public void onSuccess(Void result) {
+                estaApuntado.setValue(false);
+                state.setValue("DESAPUNTADO_OK");
+            }
+
+            @Override
+            public void onError(String error) {
+                state.setValue(error);
+            }
+        });
+    }
+
+    public void comprobarSiEstaApuntado(Act act) {
+
+        repository.isUserApuntado(act, new ActRepository.ActCallback<Boolean>() {
+            @Override
+            public void onSuccess(Boolean result) {
+                estaApuntado.setValue(result);
+            }
+
+            @Override
+            public void onError(String error) {
+                state.setValue(error);
+            }
+        });
     }
 }

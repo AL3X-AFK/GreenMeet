@@ -1,5 +1,8 @@
 package com.alenic.greenmeet.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Act {
     private String id;
     private String titulo;
@@ -9,6 +12,9 @@ public class Act {
     private String ubicacion;
     private String imagenUrl;
     private long createdAt;
+    private String ownerUid;
+
+    private List<String> participantes;
 
     public Act() { }
 
@@ -21,6 +27,7 @@ public class Act {
         this.descripcion = descripcion;
         this.imagenUrl = imagenUrl;
         this.createdAt = System.currentTimeMillis();
+        this.participantes = new ArrayList<>();
     }
 
     // Getters y setters
@@ -33,5 +40,18 @@ public class Act {
     public String getUbicacion() { return ubicacion; }
     public String getImagenUrl() { return imagenUrl; }
     public long getCreatedAt() { return createdAt; }
+
+    public String getOwnerUid() {
+        return ownerUid;
+    }
+
+    public void setOwnerUid(String ownerUid) {
+        this.ownerUid = ownerUid;
+    }
+    public List<String> getParticipantes() { return participantes; }
+
+    public void setParticipantes(List<String> participantes) {
+        this.participantes = participantes;
+    }
 
 }
