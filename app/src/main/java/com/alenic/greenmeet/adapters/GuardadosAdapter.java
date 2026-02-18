@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alenic.greenmeet.R;
 import com.alenic.greenmeet.data.Act;
+import com.alenic.greenmeet.utils.Utils;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -47,7 +48,8 @@ public class GuardadosAdapter extends RecyclerView.Adapter<GuardadosAdapter.View
         Act act = lista.get(position);
 
         holder.txtTitulo.setText(act.getTitulo());
-        holder.txtFecha.setText(act.getFecha());
+
+        holder.txtFecha.setText(Utils.formatDate(act.getFecha()));
         holder.txtDescripcion.setText(act.getDescripcion());
 
         // Cargar imagen con Glide

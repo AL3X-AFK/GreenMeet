@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alenic.greenmeet.R;
 import com.alenic.greenmeet.data.Act;
+import com.alenic.greenmeet.utils.Utils;
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import android.widget.TextView;
@@ -76,7 +77,7 @@ public class MisActividadesAdapter extends ListAdapter<Act, MisActividadesAdapte
 
         void bind(Act act) {
             txtTitulo.setText(act.getTitulo());
-            txtFecha.setText(act.getFecha());
+            txtFecha.setText(Utils.formatDate(act.getFecha()));
 
             Glide.with(itemView.getContext())
                     .load(act.getImagenUrl())

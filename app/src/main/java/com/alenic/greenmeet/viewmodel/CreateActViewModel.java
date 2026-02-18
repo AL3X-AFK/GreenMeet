@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel;
 import com.alenic.greenmeet.data.Act;
 import com.alenic.greenmeet.repositories.ActRepository;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -47,24 +48,58 @@ public class CreateActViewModel extends ViewModel {
         return uploadError;
     }
 
-    public void uploadAct(Context context, Uri imageUri,
-                          String titulo, String fecha, String ubicacion,
-                          String descripcion, String categoria) {
+    public void uploadAct(Context context,
+                          Uri imageUri,
+                          String titulo,
+                          long fechaMillis,
+                          String ubicacion,
+                          String descripcion,
+                          String categoria) {
 
         if (imageUri == null) {
             uploadError.postValue("Selecciona una imagen primero");
             return;
         }
 
+        if (titulo == null || titulo.isEmpty()) {
+            uploadError.postValue("El título es obligatorio");
+            return;
+        }
+
+        if (fechaMillis==0) {
+            uploadError.postValue("La fecha es obligatoria");
+            return;
+        }
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            uploadError.postValue("Usuario no autenticado");
+            return;
+        }
+
         new Thread(() -> {
             try {
-                InputStream inputStream = context.getContentResolver().openInputStream(imageUri);
+                InputStream inputStream =
+                        context.getContentResolver().openInputStream(imageUri);
+
+                if (inputStream == null) {
+                    uploadError.postValue("No se pudo leer la imagen");
+                    return;
+                }
+
                 byte[] bytes = new byte[inputStream.available()];
                 inputStream.read(bytes);
+                inputStream.close();
 
                 String filename = "imagen_" + System.currentTimeMillis() + ".jpg";
-                String publicUrl = SUPABASE_URL + "/storage/v1/object/public/" + BUCKET_NAME + "/" + filename;
-                String uploadUrl = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
+
+                String publicUrl = SUPABASE_URL +
+                        "/storage/v1/object/public/" +
+                        BUCKET_NAME + "/" + filename;
+
+                String uploadUrl = SUPABASE_URL +
+                        "/storage/v1/object/" +
+                        BUCKET_NAME + "/" + filename;
 
                 RequestBody body = RequestBody.create(
                         bytes,
@@ -87,7 +122,15 @@ public class CreateActViewModel extends ViewModel {
                 }
 
                 // Crear objeto Act
-                Act act = new Act(titulo, categoria, fecha, ubicacion, descripcion, publicUrl);
+                Act act = new Act(
+                        titulo,
+                        categoria,
+                        fechaMillis,
+                        ubicacion,
+                        descripcion,
+                        publicUrl,
+                        user.getUid()
+                );
 
                 repository.addAct(act, new ActRepository.ActCallback<Void>() {
                     @Override

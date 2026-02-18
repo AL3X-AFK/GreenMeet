@@ -19,7 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.alenic.greenmeet.R;
 import com.alenic.greenmeet.data.Act;
 import com.alenic.greenmeet.repositories.ActRepository;
-import com.alenic.greenmeet.utils.NavigationUtils;
+import com.alenic.greenmeet.utils.Utils;
 import com.alenic.greenmeet.viewmodel.ActViewModel;
 import com.bumptech.glide.Glide;
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -40,11 +40,15 @@ public class EditActFragment extends Fragment {
     private ActViewModel actViewModel;
     private View rootView;
 
+    // 🔹 Guardamos la fecha real en millis
+    private long selectedDateMillis;
+
     public EditActFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         rootView = inflater.inflate(R.layout.fragment_edit_act, container, false);
 
         initViews(rootView);
@@ -77,57 +81,92 @@ public class EditActFragment extends Fragment {
     }
 
     private void setupSpinner() {
-        String[] categorias = {"ARTE URBANO", "VERDE Y NATURALEZA", "LIMPIEZA URBANA", "SALUD Y DEPORTE", "CULTURA Y SOCIEDAD"};
+        String[] categorias = {
+                "ARTE URBANO",
+                "VERDE Y NATURALEZA",
+                "LIMPIEZA URBANA",
+                "SALUD Y DEPORTE",
+                "CULTURA Y SOCIEDAD"
+        };
+
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 requireContext(),
                 android.R.layout.simple_spinner_item,
                 categorias
         );
+
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategoria.setAdapter(adapter);
     }
 
     private void setupObservers() {
+
         actViewModel.getSelectedAct().observe(getViewLifecycleOwner(), act -> {
+
             if (act == null) return;
 
             etTitulo.setText(act.getTitulo());
             etUbicacion.setText(act.getUbicacion());
-            etFecha.setText(act.getFecha());
             etDescripcion.setText(act.getDescripcion());
 
-            ArrayAdapter<String> adapter = (ArrayAdapter<String>) spinnerCategoria.getAdapter();
-            spinnerCategoria.setSelection(adapter.getPosition(act.getCategoria()));
+            // 🔹 Fecha long → formateada a texto
+            selectedDateMillis = act.getFecha();
 
-            // Cargar imagen con Glide
+            SimpleDateFormat sdf =
+                    new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
+            etFecha.setText(sdf.format(new Date(selectedDateMillis)));
+
+            ArrayAdapter<String> adapter =
+                    (ArrayAdapter<String>) spinnerCategoria.getAdapter();
+
+            spinnerCategoria.setSelection(
+                    adapter.getPosition(act.getCategoria())
+            );
+
+            // 🔹 Cargar imagen
             Glide.with(this)
                     .load(act.getImagenUrl())
                     .centerCrop()
                     .into(imgHeader);
-
         });
     }
 
     private void setupListeners() {
-        btnBack.setOnClickListener(v -> NavigationUtils.volver(this));
 
-        btnGuardar.setOnClickListener(v -> updateAct());
+        btnBack.setOnClickListener(v ->
+                Utils.volver(this)
+        );
 
+        btnGuardar.setOnClickListener(v ->
+                updateAct()
+        );
 
-        etFecha.setOnClickListener(v -> showDatePicker());
+        etFecha.setOnClickListener(v ->
+                showDatePicker()
+        );
     }
 
     private void showDatePicker() {
+
         MaterialDatePicker<Long> picker =
                 MaterialDatePicker.Builder.datePicker()
                         .setTitleText("Selecciona fecha")
                         .setTheme(R.style.MyMaterialCalendarTheme)
-                        .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                        .setSelection(selectedDateMillis != 0
+                                ? selectedDateMillis
+                                : MaterialDatePicker.todayInUtcMilliseconds())
                         .build();
 
         picker.show(getParentFragmentManager(), "DATE_PICKER");
+
         picker.addOnPositiveButtonClickListener(selection -> {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
+            selectedDateMillis = selection;
+
+            SimpleDateFormat sdf =
+                    new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
             etFecha.setText(sdf.format(new Date(selection)));
         });
     }
@@ -137,45 +176,64 @@ public class EditActFragment extends Fragment {
         Act actOriginal = actViewModel.getSelectedAct().getValue();
 
         if (actOriginal == null) {
-            Toast.makeText(requireContext(), "Error al obtener actividad", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(),
+                    "Error al obtener actividad",
+                    Toast.LENGTH_SHORT).show();
             return;
         }
 
         String titulo = etTitulo.getText().toString().trim();
         String ubicacion = etUbicacion.getText().toString().trim();
-        String fecha = etFecha.getText().toString().trim();
         String descripcion = etDescripcion.getText().toString().trim();
         String categoria = spinnerCategoria.getSelectedItem().toString();
 
-        if (titulo.isEmpty() || ubicacion.isEmpty() || fecha.isEmpty()) {
-            Toast.makeText(requireContext(), "Completa los campos obligatorios", Toast.LENGTH_SHORT).show();
+        if (titulo.isEmpty() || ubicacion.isEmpty() || selectedDateMillis == 0) {
+            Toast.makeText(requireContext(),
+                    "Completa los campos obligatorios",
+                    Toast.LENGTH_SHORT).show();
             return;
         }
 
-        //  Creamos nueva Act con MISMO ID e imagen
+        // 🔹 Creamos nueva Act manteniendo datos importantes
         Act actActualizada = new Act(
                 titulo,
                 categoria,
-                fecha,
+                selectedDateMillis,               // 🔥 ahora es long
                 ubicacion,
                 descripcion,
-                actOriginal.getImagenUrl()
+                actOriginal.getImagenUrl(),
+                actOriginal.getUserUid()          // 🔥 mantenemos dueño
         );
 
-        actActualizada.setId(actOriginal.getId()); // 🔥 CRUCIAL
+        // 🔹 Mantenemos ID
+        actActualizada.setUid(actOriginal.getUid());
 
-        new ActRepository().updateAct(actActualizada, new ActRepository.ActCallback<Void>() {
-            @Override
-            public void onSuccess(Void result) {
-                Toast.makeText(requireContext(), "Actividad actualizada", Toast.LENGTH_SHORT).show();
-                NavigationUtils.volver(EditActFragment.this);
-            }
+        // 🔹 Mantenemos fechaCreacion original
+        actActualizada.setFechaCreacion(
+                actOriginal.getFechaCreacion()
+        );
 
-            @Override
-            public void onError(String error) {
-                Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show();
-            }
-        });
+        new ActRepository().updateAct(
+                actActualizada,
+                new ActRepository.ActCallback<Void>() {
+
+                    @Override
+                    public void onSuccess(Void result) {
+
+                        Toast.makeText(requireContext(),
+                                "Actividad actualizada",
+                                Toast.LENGTH_SHORT).show();
+
+                        Utils.volver(EditActFragment.this);
+                    }
+
+                    @Override
+                    public void onError(String error) {
+
+                        Toast.makeText(requireContext(),
+                                error,
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
-
 }

@@ -14,8 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alenic.greenmeet.R;
+import com.alenic.greenmeet.adapters.ActAdapter;
 import com.alenic.greenmeet.adapters.GuardadosAdapter;
 import com.alenic.greenmeet.data.Act;
+import com.alenic.greenmeet.utils.Utils;
 import com.alenic.greenmeet.viewmodel.ActViewModel;
 import com.google.android.material.tabs.TabLayout;
 
@@ -25,18 +27,18 @@ public class InscriptionsFragment extends Fragment {
 
     private RecyclerView rvProximos;
     private RecyclerView rvRealizadas;
-
-    private GuardadosAdapter adapterProximos;
-    private GuardadosAdapter adapterRealizadas;
-
+    private ActAdapter adapterProximos;
+    private ActAdapter adapterRealizadas;
     private ActViewModel actViewModel;
+
+    public InscriptionsFragment(){}
 
     @Nullable
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater,
-            @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState
+             ViewGroup container,
+             Bundle savedInstanceState
     ) {
 
         View view = inflater.inflate(R.layout.fragment_inscriptions, container, false);
@@ -45,19 +47,38 @@ public class InscriptionsFragment extends Fragment {
         rvProximos = view.findViewById(R.id.rvProximos);
         rvRealizadas = view.findViewById(R.id.rvRealizadas);
 
+        // ViewModel
+        actViewModel = new ViewModelProvider(requireActivity())
+                .get(ActViewModel.class);
+
         rvProximos.setLayoutManager(new LinearLayoutManager(getContext()));
         rvRealizadas.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Adapter vacío al inicio usando GuardadosAdapter
-        adapterProximos = new GuardadosAdapter(new ArrayList<>(), this::openDetailsActivityFragment);
-        adapterRealizadas = new GuardadosAdapter(new ArrayList<>(), this::openDetailsActivityFragment);
+        // Adapters para próximos y realizadas
+        adapterProximos = new ActAdapter(R.layout.tarjeta_guardada, this::openDetailsFragment);
+        adapterRealizadas = new ActAdapter(R.layout.tarjeta_guardada, this::openDetailsFragment);
 
         rvProximos.setAdapter(adapterProximos);
         rvRealizadas.setAdapter(adapterRealizadas);
 
-        // Mostrar solo próximos por defecto
-        rvProximos.setVisibility(View.VISIBLE);
-        rvRealizadas.setVisibility(View.GONE);
+        // Observamos actividades próximas
+        actViewModel.getActsProximos().observe(getViewLifecycleOwner(), acts -> {
+            if (acts != null) {
+                adapterProximos.submitList(acts);
+
+            }
+        });
+
+        // Observamos actividades realizadas
+        actViewModel.getActsRealizadas().observe(getViewLifecycleOwner(), acts -> {
+            if (acts != null ) {
+                adapterRealizadas.submitList(acts);
+            }
+        });
+
+        // Cargar datos desde Firebase
+        actViewModel.loadActsProximos();
+        actViewModel.loadActsRealizadas();
 
         // Tabs
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -76,43 +97,19 @@ public class InscriptionsFragment extends Fragment {
             @Override public void onTabReselected(TabLayout.Tab tab) {}
         });
 
-        // ViewModel
-        actViewModel = new ViewModelProvider(requireActivity())
-                .get(ActViewModel.class);
-
-//        // Observamos actividades próximas
-//        actViewModel.getActsProximos().observe(getViewLifecycleOwner(), acts -> {
-//            adapterProximos.setActs(acts);
-//        });
-//
-//        // Observamos actividades realizadas
-//        actViewModel.getActsRealizadas().observe(getViewLifecycleOwner(), acts -> {
-//            adapterRealizadas.setActs(acts);
-//        });
-//
-//        // Cargar datos desde Firebase
-//        actViewModel.loadActsProximos();
-//        actViewModel.loadActsRealizadas();
-//
         return view;
     }
 
     // Abrir fragmento de detalles
-    private void openDetailsActivityFragment(Act act) {
+    private void openDetailsFragment(Act act) {
+        actViewModel.selectAct(act);
+
         DetailsActFragment fragment = new DetailsActFragment();
 
-        Bundle bundle = new Bundle();
-        bundle.putString("titulo", act.getTitulo());
-        bundle.putString("descripcion", act.getDescripcion());
-        bundle.putString("fecha", act.getFecha());
-        bundle.putString("ubicacion", act.getUbicacion());
-        bundle.putString("imagenUrl", act.getImagenUrl());
-        fragment.setArguments(bundle);
-
-        FragmentTransaction transaction =
-                requireActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_layout, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        requireActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame_layout, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 }

@@ -31,7 +31,8 @@ public class ActRepository {
         auth = FirebaseAuth.getInstance();
     }
 
-    public void getAllActs(ActCallback<List<Act>> callback) {
+    // Obtener todas las actividades (menos las mías)
+    public void getAllActsByCreate(ActCallback<List<Act>> callback) {
 
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser == null) {
@@ -39,116 +40,208 @@ public class ActRepository {
             return;
         }
 
-        db.collection("usuarios")
+        db.collection("acciones")
+                .orderBy("fechaCreacion")
                 .get()
-                .addOnSuccessListener(usersSnapshot -> {
+                .addOnSuccessListener(snapshot -> {
 
                     List<Act> lista = new ArrayList<>();
-                    List<Task<?>> tasks = new ArrayList<>();
 
-                    for (DocumentSnapshot userDoc : usersSnapshot.getDocuments()) {
+                    for (DocumentSnapshot doc : snapshot.getDocuments()) {
 
-                        String ownerUid = userDoc.getId();
+                        Act act = doc.toObject(Act.class);
 
-                        if (ownerUid.equals(currentUser.getUid())) continue;
+                        if (act != null) {
+                            act.setUid(doc.getId());
 
-                        Task<QuerySnapshot> task = userDoc.getReference()
-                                .collection("acciones")
-                                .get()
-                                .addOnSuccessListener(snapshot -> {
-
-                                    for (DocumentSnapshot doc : snapshot.getDocuments()) {
-
-                                        Act act = doc.toObject(Act.class);
-
-                                        if (act != null) {
-                                            act.setId(doc.getId());
-                                            act.setOwnerUid(ownerUid); // ✅ CORRECTO
-                                            lista.add(act);
-                                        }
-                                    }
-                                });
-
-                        tasks.add(task);
+                            // Excluir mis propias actividades
+                            if (!currentUser.getUid().equals(act.getUserUid())) {
+                                lista.add(act);
+                            }
+                        }
                     }
 
-                    Tasks.whenAllComplete(tasks)
-                            .addOnSuccessListener(unused ->
-                                    callback.onSuccess(lista))
-                            .addOnFailureListener(e ->
-                                    callback.onError(e.getMessage()));
+                    callback.onSuccess(lista);
                 })
                 .addOnFailureListener(e ->
                         callback.onError(e.getMessage()));
     }
 
-    public void getMyActs(ActCallback<List<Act>> callback) {
+    public void getAllActsByFecha(ActCallback<List<Act>> callback) {
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if (currentUser == null) {
+            callback.onError("Usuario no autenticado");
+            return;
+        }
+        long currentTime = System.currentTimeMillis();
+
+        db.collection("acciones")
+                .whereGreaterThanOrEqualTo("fecha", currentTime)
+                .orderBy("fecha")
+                .get()
+                .addOnSuccessListener(snapshot -> {
+
+                    List<Act> lista = new ArrayList<>();
+
+                    for (DocumentSnapshot doc : snapshot.getDocuments()) {
+                        Act act = doc.toObject(Act.class);
+                        if (act != null) {
+                            act.setUid(doc.getId());
+                            // Excluir mis propias actividades
+                            if (!currentUser.getUid().equals(act.getUserUid())) {
+                                lista.add(act);
+                            }
+                        }
+                    }
+                    callback.onSuccess(lista);
+                })
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
+    }
+
+    public void getNextActsForUser(ActCallback<List<Act>> callback) {
+
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser == null) {
             callback.onError("Usuario no autenticado");
             return;
         }
 
-        db.collection("usuarios")
-                .document(currentUser.getUid())
-                .collection("acciones")
+        long currentTime = System.currentTimeMillis();
+
+        db.collection("acciones")
+                .whereGreaterThanOrEqualTo("fecha", currentTime)
+                .orderBy("fecha")
                 .get()
-                .addOnSuccessListener(querySnapshot -> {
+                .addOnSuccessListener(snapshot -> {
 
-                    List<Act> acts = new ArrayList<>();
+                    List<Act> lista = new ArrayList<>();
+                    List<DocumentSnapshot> documents = snapshot.getDocuments();
 
-                    for (DocumentSnapshot doc : querySnapshot.getDocuments()) {
+                    if (documents.isEmpty()) {
+                        callback.onSuccess(lista);
+                        return;
+                    }
+
+                    final int totalDocs = documents.size();
+                    final int[] processedCount = {0};
+
+                    for (DocumentSnapshot doc : documents) {
+
                         Act act = doc.toObject(Act.class);
 
                         if (act != null) {
-                            act.setId(doc.getId()); // 🔥 GUARDAMOS EL ID
+                            act.setUid(doc.getId());
+
+                            if (!currentUser.getUid().equals(act.getUserUid())) {
+
+                                isUserApuntado(act, new ActCallback<Boolean>() {
+                                    @Override
+                                    public void onSuccess(Boolean isApuntado) {
+
+                                        if (isApuntado) {
+                                            lista.add(act);
+                                        }
+
+                                        processedCount[0]++;
+
+                                        if (processedCount[0] == totalDocs) {
+                                            callback.onSuccess(lista);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(String error) {
+                                        processedCount[0]++;
+
+                                        if (processedCount[0] == totalDocs) {
+                                            callback.onSuccess(lista);
+                                        }
+                                    }
+                                });
+
+                            } else {
+                                processedCount[0]++;
+                                if (processedCount[0] == totalDocs) {
+                                    callback.onSuccess(lista);
+                                }
+                            }
+                        } else {
+                            processedCount[0]++;
+                            if (processedCount[0] == totalDocs) {
+                                callback.onSuccess(lista);
+                            }
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
+    }
+
+
+    // Obtener solo mis actividades
+    public void getMyActs(ActCallback<List<Act>> callback) {
+
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if (currentUser == null) {
+            callback.onError("Usuario no autenticado");
+            return;
+        }
+
+        db.collection("acciones")
+                .whereEqualTo("userUid", currentUser.getUid())
+                .get()
+                .addOnSuccessListener(snapshot -> {
+
+                    List<Act> acts = new ArrayList<>();
+
+                    for (DocumentSnapshot doc : snapshot.getDocuments()) {
+                        Act act = doc.toObject(Act.class);
+
+                        if (act != null) {
+                            act.setUid(doc.getId());
                             acts.add(act);
                         }
                     }
 
                     callback.onSuccess(acts);
                 })
-
-                .addOnFailureListener(e -> callback.onError(e.getMessage()));
+                .addOnFailureListener(e ->
+                        callback.onError(e.getMessage()));
     }
 
-
+    // Añadir actividad
     public void addAct(Act act, ActCallback<Void> callback) {
+
         FirebaseUser user = auth.getCurrentUser();
         if (user == null) {
             callback.onError("Usuario no autenticado");
             return;
         }
 
-        db.collection("usuarios")
-                .document(user.getUid())
-                .collection("acciones")
+        act.setUserUid(user.getUid());
+        act.setFechaCreacion(System.currentTimeMillis());
+
+        db.collection("acciones")
                 .add(act)
                 .addOnSuccessListener(doc -> callback.onSuccess(null))
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
+    // Actualizar actividad
     public void updateAct(Act act, ActCallback<Void> callback) {
-        FirebaseUser user = auth.getCurrentUser();
-        if (user == null) {
-            callback.onError("Usuario no autenticado");
+
+        if (act.getUid() == null) {
+            callback.onError("ID inválido");
             return;
         }
 
-        if (act.getId() == null) {
-            callback.onError("ID de actividad inválido");
-            return;
-        }
-
-        db.collection("usuarios")
-                .document(user.getUid())
-                .collection("acciones")
-                .document(act.getId())
+        db.collection("acciones")
+                .document(act.getUid())
                 .set(act)
                 .addOnSuccessListener(unused -> callback.onSuccess(null))
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
+    // Apuntarse
     public void apuntarseActividad(Act act, ActCallback<Void> callback) {
 
         FirebaseUser currentUser = auth.getCurrentUser();
@@ -161,10 +254,8 @@ public class ActRepository {
         Map<String, Object> data = new HashMap<>();
         data.put("fechaInscripcion", FieldValue.serverTimestamp());
 
-        db.collection("usuarios")
-                .document(act.getOwnerUid())
-                .collection("acciones")
-                .document(act.getId())
+        db.collection("acciones")
+                .document(act.getUid())
                 .collection("asistentes")
                 .document(currentUser.getUid())
                 .set(data)
@@ -172,6 +263,7 @@ public class ActRepository {
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
+    // 🔹 Desapuntarse
     public void desapuntarseActividad(Act act, ActCallback<Void> callback) {
 
         FirebaseUser currentUser = auth.getCurrentUser();
@@ -181,10 +273,8 @@ public class ActRepository {
             return;
         }
 
-        db.collection("usuarios")
-                .document(act.getOwnerUid())
-                .collection("acciones")
-                .document(act.getId())
+        db.collection("acciones")
+                .document(act.getUid())
                 .collection("asistentes")
                 .document(currentUser.getUid())
                 .delete()
@@ -192,6 +282,7 @@ public class ActRepository {
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
+    // Comprobar si está apuntado
     public void isUserApuntado(Act act, ActCallback<Boolean> callback) {
 
         FirebaseUser currentUser = auth.getCurrentUser();
@@ -201,15 +292,92 @@ public class ActRepository {
             return;
         }
 
-        db.collection("usuarios")
-                .document(act.getOwnerUid())
-                .collection("acciones")
-                .document(act.getId())
+        db.collection("acciones")
+                .document(act.getUid())
                 .collection("asistentes")
                 .document(currentUser.getUid())
                 .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    callback.onSuccess(documentSnapshot.exists());
+                .addOnSuccessListener(documentSnapshot ->
+                        callback.onSuccess(documentSnapshot.exists()))
+                .addOnFailureListener(e ->
+                        callback.onError(e.getMessage()));
+    }
+
+
+    public void getPastActsForUser(ActCallback<List<Act>> callback) {
+
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if (currentUser == null) {
+            callback.onError("Usuario no autenticado");
+            return;
+        }
+
+        long currentTime = System.currentTimeMillis();
+
+        db.collection("acciones")
+                .whereLessThan("fecha", currentTime)
+                .orderBy("fecha")
+                .get()
+                .addOnSuccessListener(snapshot -> {
+
+                    List<Act> lista = new ArrayList<>();
+                    List<DocumentSnapshot> documents = snapshot.getDocuments();
+
+                    if (documents.isEmpty()) {
+                        callback.onSuccess(lista);
+                        return;
+                    }
+
+                    final int totalDocs = documents.size();
+                    final int[] processedCount = {0};
+
+                    for (DocumentSnapshot doc : documents) {
+
+                        Act act = doc.toObject(Act.class);
+
+                        if (act != null) {
+                            act.setUid(doc.getId());
+
+                            if (!currentUser.getUid().equals(act.getUserUid())) {
+
+                                isUserApuntado(act, new ActCallback<Boolean>() {
+                                    @Override
+                                    public void onSuccess(Boolean isApuntado) {
+
+                                        if (isApuntado) {
+                                            lista.add(act);
+                                        }
+
+                                        processedCount[0]++;
+
+                                        if (processedCount[0] == totalDocs) {
+                                            callback.onSuccess(lista);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(String error) {
+                                        processedCount[0]++;
+
+                                        if (processedCount[0] == totalDocs) {
+                                            callback.onSuccess(lista);
+                                        }
+                                    }
+                                });
+
+                            } else {
+                                processedCount[0]++;
+                                if (processedCount[0] == totalDocs) {
+                                    callback.onSuccess(lista);
+                                }
+                            }
+                        } else {
+                            processedCount[0]++;
+                            if (processedCount[0] == totalDocs) {
+                                callback.onSuccess(lista);
+                            }
+                        }
+                    }
                 })
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }

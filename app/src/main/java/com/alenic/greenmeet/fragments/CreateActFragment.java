@@ -11,38 +11,26 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alenic.greenmeet.R;
-import com.alenic.greenmeet.utils.NavigationUtils;
+import com.alenic.greenmeet.utils.Utils;
 import com.alenic.greenmeet.viewmodel.CreateActViewModel;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
-
-import okhttp3.*;
 
 import android.app.Activity;
 
@@ -60,6 +48,7 @@ public class CreateActFragment extends Fragment {
     private Button btnNext,btnCancel;
 
     private LinearLayout layoutUpload, layoutPlaceholder;
+    private long selectedDateMillis = 0;
 
     private final ActivityResultLauncher<Intent> pickImageLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -116,7 +105,7 @@ public class CreateActFragment extends Fragment {
         viewModel.getUploadSuccess().observe(getViewLifecycleOwner(), success -> {
             if (success) {
                 Toast.makeText(requireContext(), "Actividad creada con éxito", Toast.LENGTH_SHORT).show();
-                NavigationUtils.volver(this);
+                Utils.volver(this);
             }
         });
 
@@ -131,9 +120,9 @@ public class CreateActFragment extends Fragment {
         layoutUpload.setOnClickListener(v -> openFileChooser());
         etDate.setOnClickListener(v -> showDatePicker());
         btnNext.setOnClickListener(v -> guardarAccion());
-        btnCancel.setOnClickListener(v -> NavigationUtils.volver(this));
+        btnCancel.setOnClickListener(v -> Utils.volver(this));
         tvTitle.setText("Crear actividad");
-        btnBack.setOnClickListener(v -> NavigationUtils.volver(this));
+        btnBack.setOnClickListener(v -> Utils.volver(this));
     }
 
     private void openFileChooser() {
@@ -152,6 +141,7 @@ public class CreateActFragment extends Fragment {
 
         picker.show(getParentFragmentManager(), "DATE_PICKER");
         picker.addOnPositiveButtonClickListener(selection -> {
+            selectedDateMillis = selection;
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             etDate.setText(sdf.format(new Date(selection)));
         });
@@ -159,12 +149,12 @@ public class CreateActFragment extends Fragment {
 
     private void guardarAccion() {
         String titulo = etTitulo.getText().toString().trim();
-        String fecha = etDate.getText().toString().trim();
+        long fecha = selectedDateMillis;
         String ubicacion = etUbicacion.getText().toString().trim();
         String descripcion = etDescripcion.getText().toString().trim();
         String categoria = actvCategoria.getText().toString().trim();
 
-        if (titulo.isEmpty() || fecha.isEmpty() || ubicacion.isEmpty() ||
+        if (titulo.isEmpty() || fecha==0 || ubicacion.isEmpty() ||
                 descripcion.isEmpty() || categoria.isEmpty()) {
             Toast.makeText(requireContext(), "Rellena todos los campos", Toast.LENGTH_SHORT).show();
             return;

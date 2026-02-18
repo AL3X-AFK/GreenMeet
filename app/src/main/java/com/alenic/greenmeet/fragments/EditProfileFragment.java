@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alenic.greenmeet.R;
-import com.alenic.greenmeet.utils.NavigationUtils;
+import com.alenic.greenmeet.utils.Utils;
 import com.alenic.greenmeet.viewmodel.UserViewModel;
 
 public class EditProfileFragment extends Fragment {
@@ -118,7 +118,7 @@ public class EditProfileFragment extends Fragment {
     private void setupListeners() {
 
         btnBack.setOnClickListener(v ->
-                NavigationUtils.volver(this));
+                Utils.volver(this));
 
         btnSave.setOnClickListener(v -> {
 

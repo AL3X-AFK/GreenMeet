@@ -1,57 +1,77 @@
 package com.alenic.greenmeet.data;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Act {
-    private String id;
+    private String uid;
     private String titulo;
     private String descripcion;
     private String categoria;
-    private String fecha;
+    private long fecha;
     private String ubicacion;
     private String imagenUrl;
-    private long createdAt;
-    private String ownerUid;
-
-    private List<String> participantes;
+    private long fechaCreacion;
+    private String userUid;
 
     public Act() { }
 
-    public Act(String titulo,String categoria, String fecha, String ubicacion,
-               String descripcion, String imagenUrl) {
+    public Act(String titulo,
+               String categoria,
+               long fecha,
+               String ubicacion,
+               String descripcion,
+               String imagenUrl,
+               String ownerUid) {
+
         this.titulo = titulo;
         this.categoria = categoria;
         this.fecha = fecha;
         this.ubicacion = ubicacion;
         this.descripcion = descripcion;
         this.imagenUrl = imagenUrl;
-        this.createdAt = System.currentTimeMillis();
-        this.participantes = new ArrayList<>();
+        this.userUid = ownerUid;
+        this.fechaCreacion = System.currentTimeMillis();
     }
 
     // Getters y setters
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public String getUid() { return uid; }
     public String getTitulo() { return titulo; }
     public String getCategoria() { return categoria; }
     public String getDescripcion() { return descripcion; }
-    public String getFecha() { return fecha; }
+    public long getFecha() { return fecha; }
     public String getUbicacion() { return ubicacion; }
     public String getImagenUrl() { return imagenUrl; }
-    public long getCreatedAt() { return createdAt; }
-
-    public String getOwnerUid() {
-        return ownerUid;
+    public long getFechaCreacion() {
+        return fechaCreacion;
+    }
+    public String getUserUid() {
+        return userUid;
     }
 
-    public void setOwnerUid(String ownerUid) {
-        this.ownerUid = ownerUid;
+    public void setUserUid(String userUid) {
+        this.userUid = userUid;
     }
-    public List<String> getParticipantes() { return participantes; }
-
-    public void setParticipantes(List<String> participantes) {
-        this.participantes = participantes;
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+    public void setFecha(long fecha) {
+        this.fecha = fecha;
+    }
+    public void setFechaCreacion(long fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+    public void setImagenUrl(String imagenUrl) {
+        this.imagenUrl = imagenUrl;
+    }
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
     }
 
 }

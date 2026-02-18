@@ -10,7 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,13 +20,9 @@ import com.alenic.greenmeet.data.Act;
 import com.alenic.greenmeet.viewmodel.ActViewModel;
 import com.alenic.greenmeet.viewmodel.UserViewModel;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class HomeFragment extends Fragment {
 
@@ -71,6 +66,10 @@ public class HomeFragment extends Fragment {
         userViewModel = new ViewModelProvider(requireActivity())
                 .get(UserViewModel.class);
     }
+    private void loadData() {
+        actViewModel.loadActsByCreate();
+        actViewModel.loadActsByFecha();
+    }
 
     private void initViews(View view) {
         tvNombre = view.findViewById(R.id.tvNombre);
@@ -95,20 +94,14 @@ public class HomeFragment extends Fragment {
     }
 
     private void setupRecyclerViews(View view) {
-
         RecyclerView rvAcciones = view.findViewById(R.id.rvAcciones);
         RecyclerView rvSugeridas = view.findViewById(R.id.rvAccionesSugeridas);
 
-        rvAcciones.setLayoutManager(
-                new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
-        );
+        rvAcciones.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+        rvSugeridas.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        rvSugeridas.setLayoutManager(
-                new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
-        );
-
-        adapterAcciones = new ActAdapter(R.layout.act_card,this::openDetailsFragment);
-        adapterSugeridas = new ActAdapter(R.layout.act_card,this::openDetailsFragment);
+        adapterAcciones = new ActAdapter(R.layout.act_card, this::openDetailsFragment);
+        adapterSugeridas = new ActAdapter(R.layout.act_card, this::openDetailsFragment);
 
         rvAcciones.setAdapter(adapterAcciones);
         rvSugeridas.setAdapter(adapterSugeridas);
@@ -129,42 +122,16 @@ public class HomeFragment extends Fragment {
     }
 
     private void observeActs() {
-        actViewModel.getActs().observe(getViewLifecycleOwner(), acts -> {
-
-            if (acts == null || acts.isEmpty()) return;
-
-            adapterAcciones.submitList(getProximas(acts));
-            adapterSugeridas.submitList(getSugeridas(acts));
+        actViewModel.getActsByCreate().observe(getViewLifecycleOwner(), acts -> {
+            if (acts == null) return;
+            List<Act> limitedActsByCreate = new ArrayList<>(acts.subList(0, Math.min(5, acts.size())));
+            adapterSugeridas.submitList(limitedActsByCreate);
         });
-    }
-
-    private void loadData() {
-        actViewModel.loadActs();
-        userViewModel.loadUser();
-    }
-
-    private List<Act> getProximas(List<Act> acts) {
-
-        List<Act> ordenadas = new ArrayList<>(acts);
-
-        Collections.sort(ordenadas, (a1, a2) -> {
-            try {
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                Date d1 = sdf.parse(a1.getFecha());
-                Date d2 = sdf.parse(a2.getFecha());
-                return d1.compareTo(d2);
-            } catch (Exception e) {
-                return 0;
-            }
+        actViewModel.getActsByFecha().observe(getViewLifecycleOwner(), acts -> {
+            if (acts == null) return;
+            List<Act> limitedActsByFecha = new ArrayList<>(acts.subList(0, Math.min(5, acts.size())));
+            adapterAcciones.submitList(limitedActsByFecha);
         });
-
-        return ordenadas.size() > 5 ? ordenadas.subList(0, 5) : ordenadas;
-    }
-
-    private List<Act> getSugeridas(List<Act> acts) {
-        List<Act> sugeridas = new ArrayList<>(acts);
-        Collections.shuffle(sugeridas);
-        return sugeridas.size() > 5 ? sugeridas.subList(0, 5) : sugeridas;
     }
 
     private void openDetailsFragment(Act act) {

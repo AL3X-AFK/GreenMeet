@@ -1,6 +1,5 @@
 package com.alenic.greenmeet.viewmodel;
 
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -8,13 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.alenic.greenmeet.data.Act;
 import com.alenic.greenmeet.repositories.ActRepository;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +16,10 @@ public class ActViewModel extends ViewModel {
 
     private final ActRepository repository;
 
-    private final MutableLiveData<List<Act>> acts = new MutableLiveData<>();
+    private final MutableLiveData<List<Act>> actsByFecha = new MutableLiveData<>();
+    private final MutableLiveData<List<Act>> actsByCreate = new MutableLiveData<>();
+    private final MutableLiveData<List<Act>> actsProximos = new MutableLiveData<>();
+    private final MutableLiveData<List<Act>> actsRealizadas = new MutableLiveData<>();
     private final MutableLiveData<Act> selectedAct = new MutableLiveData<>();
     private final MutableLiveData<String> state = new MutableLiveData<>();
     private final MutableLiveData<Boolean> estaApuntado = new MutableLiveData<>();
@@ -35,24 +31,81 @@ public class ActViewModel extends ViewModel {
         repository = new ActRepository();
     }
 
-    public LiveData<List<Act>> getActs() { return acts; }
+    public LiveData<List<Act>> getActsByFecha() {
+        return actsByFecha;
+    }
+
+    // LiveData para las actividades ordenadas por fecha de creación
+    public LiveData<List<Act>> getActsByCreate() {
+        return actsByCreate;
+    }
 
     public LiveData<Act> getSelectedAct() { return selectedAct; }
 
     public LiveData<String> getState() { return state; }
+    public LiveData<List<Act>> getActsProximos() {
+        return actsProximos;
+    }
+
+    public LiveData<List<Act>> getActsRealizadas() {
+        return actsRealizadas;
+    }
 
     public LiveData<Boolean> getEstaApuntado() {
         return estaApuntado;
     }
 
 
-    public void loadActs() {
-
-        repository.getAllActs(new ActRepository.ActCallback<List<Act>>() {
+    // Cargar todas las actividades
+    public void loadActsByCreate() {
+        repository.getAllActsByCreate(new ActRepository.ActCallback<List<Act>>() {
             @Override
             public void onSuccess(List<Act> result) {
-                allActs = result;
-                acts.setValue(result);
+                allActs = new ArrayList<>(result);
+                actsByCreate.setValue(result);
+            }
+
+            @Override
+            public void onError(String error) {
+                state.setValue(error);
+            }
+        });
+    }
+
+    // Cargar solo las actividades limitadas a 5 y ordenadas por fecha (para HomeFragment)
+    public void loadActsByFecha() {
+        repository.getAllActsByFecha(new ActRepository.ActCallback<List<Act>>() {
+            @Override
+            public void onSuccess(List<Act> result) {
+                actsByFecha.setValue(result);
+            }
+
+            @Override
+            public void onError(String error) {
+                state.setValue(error);
+            }
+        });
+    }
+
+    public void loadActsProximos() {
+        repository.getNextActsForUser(new ActRepository.ActCallback<List<Act>>() {
+            @Override
+            public void onSuccess(List<Act> result) {
+                actsProximos.setValue(result);
+            }
+
+            @Override
+            public void onError(String error) {
+                state.setValue(error);
+            }
+        });
+    }
+
+    public void loadActsRealizadas() {
+        repository.getPastActsForUser(new ActRepository.ActCallback<List<Act>>() {
+            @Override
+            public void onSuccess(List<Act> result) {
+                actsRealizadas.setValue(result);
             }
 
             @Override
@@ -65,7 +118,7 @@ public class ActViewModel extends ViewModel {
     public void filterActs(String query) {
 
         if (query == null || query.isEmpty()) {
-            acts.setValue(allActs);
+            actsByCreate.setValue(allActs);
             return;
         }
 
@@ -79,7 +132,7 @@ public class ActViewModel extends ViewModel {
             }
         }
 
-        acts.setValue(filteredList);
+        actsByCreate.setValue(filteredList);
     }
 
     public void selectAct(Act act) {

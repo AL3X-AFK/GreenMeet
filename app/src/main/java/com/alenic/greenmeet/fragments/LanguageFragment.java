@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alenic.greenmeet.R;
-import com.alenic.greenmeet.utils.NavigationUtils;
+import com.alenic.greenmeet.utils.Utils;
 
 public class LanguageFragment extends Fragment {
 
@@ -69,7 +69,7 @@ public class LanguageFragment extends Fragment {
             }
         });
 
-        btnBack.setOnClickListener(v -> NavigationUtils.volver(this));
+        btnBack.setOnClickListener(v -> Utils.volver(this));
 
 
 
@@ -79,7 +79,7 @@ public class LanguageFragment extends Fragment {
         btnSave.setOnClickListener(v -> {
             // Aquí podrías guardar los datos en tu base de datos o ViewModel
             Toast.makeText(getContext(), "Idioma guardado", Toast.LENGTH_SHORT).show();
-            NavigationUtils.volver(this);
+            Utils.volver(this);
         });
 
 

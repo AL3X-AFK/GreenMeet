@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.alenic.greenmeet.R;
 import com.alenic.greenmeet.data.Act;
-import com.alenic.greenmeet.utils.NavigationUtils;
+import com.alenic.greenmeet.utils.Utils;
 import com.alenic.greenmeet.viewmodel.ActViewModel;
 import com.bumptech.glide.Glide;
 
@@ -51,7 +51,7 @@ public class DetailsActFragment extends Fragment {
         btnBack = view.findViewById(R.id.btnBack);
         btnApuntarse = view.findViewById(R.id.btnApuntarse);
 
-        btnBack.setOnClickListener(v -> NavigationUtils.volver(this));
+        btnBack.setOnClickListener(v -> Utils.volver(this));
         // ViewModel compartido
         actViewModel = new ViewModelProvider(requireActivity())
                 .get(ActViewModel.class);
@@ -66,7 +66,7 @@ public class DetailsActFragment extends Fragment {
             tvCategoria.setText(act.getCategoria());
             tvUbicacion.setText("📍 " + act.getUbicacion());
             tvDescripcion.setText(act.getDescripcion());
-            tvFecha.setText(act.getFecha());
+            tvFecha.setText(Utils.formatDate(act.getFecha()));
 
             Glide.with(this)
                     .load(act.getImagenUrl())

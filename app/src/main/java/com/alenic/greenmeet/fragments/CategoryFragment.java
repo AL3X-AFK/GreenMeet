@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.alenic.greenmeet.R;
 import com.alenic.greenmeet.adapters.ActAdapter;
 import com.alenic.greenmeet.data.Act;
-import com.alenic.greenmeet.utils.NavigationUtils;
+import com.alenic.greenmeet.utils.Utils;
 import com.alenic.greenmeet.viewmodel.ActViewModel;
 
 import java.util.ArrayList;
@@ -72,7 +72,7 @@ public class CategoryFragment extends Fragment {
         btnBack = header.findViewById(R.id.btnBack);
         tvTitle = header.findViewById(R.id.tvTitle);
 
-        btnBack.setOnClickListener(v -> NavigationUtils.volver(this));
+        btnBack.setOnClickListener(v -> Utils.volver(this));
 
         if (getArguments() != null) {
             categoriaSeleccionada = getArguments().getString(ARG_CATEGORY);
@@ -96,7 +96,7 @@ public class CategoryFragment extends Fragment {
 
     private void observeActs() {
 
-        actViewModel.getActs().observe(getViewLifecycleOwner(), acts -> {
+        actViewModel.getActsByCreate().observe(getViewLifecycleOwner(), acts -> {
 
             if (acts == null) return;
 
@@ -121,7 +121,7 @@ public class CategoryFragment extends Fragment {
     }
 
     private void loadData() {
-        actViewModel.loadActs();
+        actViewModel.loadActsByCreate();
     }
 
     private void openDetailsFragment(Act act) {

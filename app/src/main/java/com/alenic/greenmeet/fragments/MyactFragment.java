@@ -17,7 +17,7 @@ import com.alenic.greenmeet.R;
 import com.alenic.greenmeet.adapters.MisActividadesAdapter;
 import com.alenic.greenmeet.data.Act;
 import com.alenic.greenmeet.repositories.ActRepository;
-import com.alenic.greenmeet.utils.NavigationUtils;
+import com.alenic.greenmeet.utils.Utils;
 import com.alenic.greenmeet.viewmodel.ActViewModel;
 
 import java.util.List;
@@ -48,7 +48,7 @@ public class MyactFragment extends Fragment {
         tvTitle = header.findViewById(R.id.tvTitle);
 
         tvTitle.setText("Mis actividades");
-        btnBack.setOnClickListener(v -> NavigationUtils.volver(this));
+        btnBack.setOnClickListener(v -> Utils.volver(this));
 
         repository = new ActRepository();
 

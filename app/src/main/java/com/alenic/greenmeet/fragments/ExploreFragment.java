@@ -23,93 +23,93 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 
-public class ExploreFragment extends Fragment {
+    public class ExploreFragment extends Fragment {
 
-    private ActViewModel actViewModel;
-    private ActAdapter adapter;
+        private ActViewModel actViewModel;
+        private ActAdapter adapter;
 
-    public ExploreFragment() {
-        // Required empty public constructor
+        public ExploreFragment() {
+            // Required empty public constructor
+        }
+
+        @Nullable
+        @Override
+        public View onCreateView(
+                @NonNull LayoutInflater inflater,
+                ViewGroup container,
+                Bundle savedInstanceState) {
+
+            View view = inflater.inflate(R.layout.fragment_explore, container, false);
+
+            initViewModel();
+            setupRecyclerView(view);
+            setupSearch(view);
+            observeActs();
+            loadData();
+
+            return view;
+        }
+
+        private void initViewModel() {
+            actViewModel = new ViewModelProvider(requireActivity())
+                    .get(ActViewModel.class);
+        }
+
+        private void setupRecyclerView(View view) {
+
+            RecyclerView rvActividades = view.findViewById(R.id.acProx);
+
+            rvActividades.setLayoutManager(
+                    new LinearLayoutManager(getContext())
+            );
+
+            adapter = new ActAdapter(R.layout.tarjeta_guardada,this::openDetailsFragment);
+
+            rvActividades.setAdapter(adapter);
+        }
+
+        private void observeActs() {
+
+            actViewModel.getActsByCreate().observe(getViewLifecycleOwner(), acts -> {
+                if (acts != null) {
+                    adapter.submitList(acts);
+                }
+            });
+        }
+
+        private void loadData() {
+            actViewModel.loadActsByCreate();
+        }
+
+
+        private void openDetailsFragment(Act act) {
+            actViewModel.selectAct(act);
+
+            DetailsActFragment fragment = new DetailsActFragment();
+
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.frame_layout, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
+
+        private void setupSearch(View view) {
+
+            TextInputEditText searchEditText =
+                    view.findViewById(R.id.searchEditText);
+
+            searchEditText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    actViewModel.filterActs(s.toString());
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+            });
+        }
     }
-
-    @Nullable
-    @Override
-    public View onCreateView(
-            @NonNull LayoutInflater inflater,
-            ViewGroup container,
-            Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_explore, container, false);
-
-        initViewModel();
-        setupRecyclerView(view);
-        setupSearch(view);
-        observeActs();
-        loadData();
-
-        return view;
-    }
-
-    private void initViewModel() {
-        actViewModel = new ViewModelProvider(requireActivity())
-                .get(ActViewModel.class);
-    }
-
-    private void setupRecyclerView(View view) {
-
-        RecyclerView rvActividades = view.findViewById(R.id.acProx);
-
-        rvActividades.setLayoutManager(
-                new LinearLayoutManager(getContext())
-        );
-
-        adapter = new ActAdapter(R.layout.tarjeta_guardada,this::openDetailsFragment);
-
-        rvActividades.setAdapter(adapter);
-    }
-
-    private void observeActs() {
-
-        actViewModel.getActs().observe(getViewLifecycleOwner(), acts -> {
-            if (acts != null) {
-                adapter.submitList(acts);
-            }
-        });
-    }
-
-    private void loadData() {
-        actViewModel.loadActs();
-    }
-
-
-    private void openDetailsFragment(Act act) {
-        actViewModel.selectAct(act);
-
-        DetailsActFragment fragment = new DetailsActFragment();
-
-        requireActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frame_layout, fragment)
-                .addToBackStack(null)
-                .commit();
-    }
-
-    private void setupSearch(View view) {
-
-        TextInputEditText searchEditText =
-                view.findViewById(R.id.searchEditText);
-
-        searchEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                actViewModel.filterActs(s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
-    }
-}
