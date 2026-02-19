@@ -236,7 +236,7 @@
         android:id="@+id/txtPregunta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="tienesIniSesion"
+        android:text="@string/tienesIniSesion"
         android:textColor="#979797"
         android:textSize="15sp"
         android:paddingVertical="15dp"
