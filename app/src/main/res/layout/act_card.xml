@@ -16,8 +16,8 @@
             android:id="@+id/imgAccion"
             android:layout_width="0dp"
             android:layout_height="150dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/arte"
+            android:scaleType="centerInside"
+            android:src="@drawable/placeholder"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>

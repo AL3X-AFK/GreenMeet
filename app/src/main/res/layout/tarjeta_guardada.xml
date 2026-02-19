@@ -19,8 +19,8 @@
             android:id="@+id/imgAccion"
             android:layout_width="match_parent"
             android:layout_height="140dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/arte" />
+            android:scaleType="centerInside"
+            android:src="@drawable/placeholder" />
 
         <!-- Contenido horizontal: texto a la izquierda, botón a la derecha -->
         <LinearLayout

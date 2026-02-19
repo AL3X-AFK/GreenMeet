@@ -55,7 +55,7 @@ public class GuardadosAdapter extends RecyclerView.Adapter<GuardadosAdapter.View
         // Cargar imagen con Glide
         Glide.with(holder.itemView.getContext())
                 .load(act.getImagenUrl())
-                .placeholder(R.drawable.arte)
+                .placeholder(R.drawable.placeholder)
                 .centerCrop()
                 .into(holder.imgEvento);
 
