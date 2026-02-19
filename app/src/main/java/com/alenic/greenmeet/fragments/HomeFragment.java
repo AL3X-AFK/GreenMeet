@@ -82,7 +82,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void setupListeners(){
-        catArte.setOnClickListener(v -> openCategory("Arte urbano"));
+        catArte.setOnClickListener(v -> openCategory(getString(R.string.arteUrbano)));
 
         catNaturaleza.setOnClickListener(v -> openCategory("Verde y naturaleza"));
 
