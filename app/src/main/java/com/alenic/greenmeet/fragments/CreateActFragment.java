@@ -104,7 +104,7 @@ public class CreateActFragment extends Fragment {
 
         viewModel.getUploadSuccess().observe(getViewLifecycleOwner(), success -> {
             if (success) {
-                Toast.makeText(requireContext(), "Actividad creada con éxito", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), (getString(R.string.actCreadaConExito)), Toast.LENGTH_SHORT).show();
                 Utils.volver(this);
             }
         });
@@ -121,7 +121,7 @@ public class CreateActFragment extends Fragment {
         etDate.setOnClickListener(v -> showDatePicker());
         btnNext.setOnClickListener(v -> guardarAccion());
         btnCancel.setOnClickListener(v -> Utils.volver(this));
-        tvTitle.setText("Crear actividad");
+        tvTitle.setText(getString(R.string.crearActividad));
         btnBack.setOnClickListener(v -> Utils.volver(this));
     }
 
@@ -134,7 +134,7 @@ public class CreateActFragment extends Fragment {
     private void showDatePicker() {
         MaterialDatePicker<Long> picker =
                 MaterialDatePicker.Builder.datePicker()
-                        .setTitleText("Selecciona fecha")
+                        .setTitleText(getString(R.string.selecFecha))
                         .setTheme(R.style.MyMaterialCalendarTheme)
                         .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                         .build();
@@ -156,7 +156,7 @@ public class CreateActFragment extends Fragment {
 
         if (titulo.isEmpty() || fecha==0 || ubicacion.isEmpty() ||
                 descripcion.isEmpty() || categoria.isEmpty()) {
-            Toast.makeText(requireContext(), "Rellena todos los campos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), getString(R.string.rellenaTodosLosCampos), Toast.LENGTH_SHORT).show();
             return;
         }
 

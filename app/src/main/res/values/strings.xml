@@ -26,7 +26,7 @@
     <string name="inicio">Inicio</string>
     <string name="explorar">Explorar</string>
     <string name="inscrito">Inscrito</string>
-    <string name="perfil" translatable="false">Perfil</string>
+    <string name="perfil">Perfil</string>
 
     <!--    Menu Generos-->
     <string-array name="generos">
@@ -127,7 +127,9 @@
 
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 
-
+    <string name="actCreadaConExito">Actividad creada con éxito</string>
+    <string name="crearActividad">Crear actividad</string>
+    <string name="rellenaTodosLosCampos">Rellena todos los campos</string>
 
 
 

@@ -76,5 +76,8 @@
     <string name="polPrivacidad">"Privacy Policy "</string>
     <string name="licencias">Licences</string>
     <string name="desconectarse">Sign out</string>
+    <string name="actCreadaConExito">Activity created successfully</string>
+    <string name="crearActividad">Create actividad</string>
+    <string name="rellenaTodosLosCampos">Fill in all the fields</string>
 
 </resources>
