@@ -82,7 +82,7 @@ public class MisActividadesAdapter extends ListAdapter<Act, MisActividadesAdapte
             Glide.with(itemView.getContext())
                     .load(act.getImagenUrl())
                     .centerCrop()
-                    .placeholder(R.drawable.arte)
+                    .placeholder(R.drawable.placeholder)
                     .into(imgEvento);
         }
     }

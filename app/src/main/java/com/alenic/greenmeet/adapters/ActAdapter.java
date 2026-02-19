@@ -103,7 +103,7 @@ public class ActAdapter extends ListAdapter<Act, ActAdapter.ActViewHolder> {
                 Glide.with(itemView.getContext())
                         .load(act.getImagenUrl())
                         .centerCrop()
-                        .placeholder(R.drawable.arte)
+                        .placeholder(R.drawable.placeholder)
                         .into(imgAccion);
             }
         }

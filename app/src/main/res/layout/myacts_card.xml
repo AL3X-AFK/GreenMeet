@@ -23,7 +23,7 @@
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/arte"
+            android:src="@drawable/placeholder"
             android:clipToOutline="true"/>
 
         <!-- CONTENIDO IZQUIERDA -->
