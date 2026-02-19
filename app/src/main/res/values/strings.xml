@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GreenMeet</string>
+    <string name="app_name" translatable="false">GreenMeet</string>
     <string name="screen1">Bienvenido a GreenMeet</string>
     <string name="screen1desc">Descubre una app para crear y realizar actividades que te gustan en el espacio urbano. La ciudad es tu espacio.</string>
     <string name="screen2desc">Conecta con personas que comparten tus ideas e intereses.  Crea experiencias juntos..</string>
