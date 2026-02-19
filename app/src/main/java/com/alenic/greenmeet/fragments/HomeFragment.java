@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,7 +19,6 @@ import com.alenic.greenmeet.R;
 import com.alenic.greenmeet.data.Act;
 import com.alenic.greenmeet.viewmodel.ActViewModel;
 import com.alenic.greenmeet.viewmodel.UserViewModel;
-import com.bumptech.glide.Glide;
 
 
 import java.util.ArrayList;
@@ -35,12 +33,6 @@ public class HomeFragment extends Fragment {
     private TextView tvNombre;
     private TextView tvEmail;
     private LinearLayout catArte,catNaturaleza,catLimpieza,catSalud,catCultura;
-    private ImageView imgArte, imgNaturaleza, imgLimpieza, imgSalud, imgCultura;
-    private View loadingLayout;
-
-    private boolean isUserLoaded = false;
-    private boolean isActsCreateLoaded = false;
-    private boolean isActsFechaLoaded = false;
 
     public HomeFragment() {
         // Required empty constructor
@@ -58,7 +50,6 @@ public class HomeFragment extends Fragment {
 
         initViewModels();
         initViews(view);
-        loadCategoryImages();
         setupRecyclerViews(view);
         setupListeners();
         observeUser();
@@ -88,26 +79,18 @@ public class HomeFragment extends Fragment {
         catLimpieza = view.findViewById(R.id.catLimpieza);
         catNaturaleza = view.findViewById(R.id.catNaturaleza);
         catSalud = view.findViewById(R.id.catSalud);
-
-        imgArte = view.findViewById(R.id.imgArte);
-        imgNaturaleza = view.findViewById(R.id.imgNaturaleza);
-        imgLimpieza = view.findViewById(R.id.imgLimpieza);
-        imgSalud = view.findViewById(R.id.imgSalud);
-        imgCultura = view.findViewById(R.id.imgCultura);
-
-        loadingLayout = view.findViewById(R.id.loadingLayout);
     }
 
     private void setupListeners(){
-        catArte.setOnClickListener(v -> openCategory("Arte urbano"));
+        catArte.setOnClickListener(v -> openCategory(getString(R.string.arteUrbano)));
 
-        catNaturaleza.setOnClickListener(v -> openCategory("Verde y naturaleza"));
+        catNaturaleza.setOnClickListener(v -> openCategory(getString(R.string.verdeYnaturaleza)));
 
-        catLimpieza.setOnClickListener(v -> openCategory("Limpieza urbana"));
+        catLimpieza.setOnClickListener(v -> openCategory(getString(R.string.limpUrbana)));
 
-        catSalud.setOnClickListener(v -> openCategory("Salud y deporte"));
+        catSalud.setOnClickListener(v -> openCategory(getString(R.string.salYdeporte)));
 
-        catCultura.setOnClickListener(v -> openCategory("Cultura y sociedad"));
+        catCultura.setOnClickListener(v -> openCategory(getString(R.string.cultYsociedad)));
     }
 
     private void setupRecyclerViews(View view) {
@@ -124,47 +107,10 @@ public class HomeFragment extends Fragment {
         rvSugeridas.setAdapter(adapterSugeridas);
     }
 
-    private void loadCategoryImages() {
-
-        String baseUrl = "https://hckkchzuxzmtjdjalohk.supabase.co/storage/v1/object/public/greenmeet/";
-
-        Glide.with(this)
-                .load(baseUrl + "arte.jpg")
-                .placeholder(R.drawable.placeholder)
-                .centerCrop()
-                .into(imgArte);
-
-        Glide.with(this)
-                .load(baseUrl + "natural.jpg")
-                .placeholder(R.drawable.placeholder)
-                .centerCrop()
-                .into(imgNaturaleza);
-
-        Glide.with(this)
-                .load(baseUrl + "clean.jpg")
-                .placeholder(R.drawable.placeholder)
-                .centerCrop()
-                .into(imgLimpieza);
-
-        Glide.with(this)
-                .load(baseUrl + "deporte.jpg")
-                .placeholder(R.drawable.placeholder)
-                .centerCrop()
-                .into(imgSalud);
-
-        Glide.with(this)
-                .load(baseUrl + "sociedad.jpg")
-                .placeholder(R.drawable.placeholder)
-                .centerCrop()
-                .into(imgCultura);
-    }
-
     private void observeUser() {
         userViewModel.getUsuario().observe(getViewLifecycleOwner(), usuario -> {
             if (usuario != null) {
-                tvNombre.setText("Hola, " + usuario.getNombre());
-                isUserLoaded = true;
-                checkIfAllLoaded();
+                tvNombre.setText((getString(R.string.hola)) + usuario.getNombre());
             }
         });
 
@@ -180,15 +126,11 @@ public class HomeFragment extends Fragment {
             if (acts == null) return;
             List<Act> limitedActsByCreate = new ArrayList<>(acts.subList(0, Math.min(5, acts.size())));
             adapterSugeridas.submitList(limitedActsByCreate);
-            isActsCreateLoaded = true;
-            checkIfAllLoaded();
         });
         actViewModel.getActsByFecha().observe(getViewLifecycleOwner(), acts -> {
             if (acts == null) return;
             List<Act> limitedActsByFecha = new ArrayList<>(acts.subList(0, Math.min(5, acts.size())));
             adapterAcciones.submitList(limitedActsByFecha);
-            isActsFechaLoaded = true;
-            checkIfAllLoaded();
         });
     }
 
@@ -213,10 +155,5 @@ public class HomeFragment extends Fragment {
                 .replace(R.id.frame_layout, fragment)
                 .addToBackStack(null)
                 .commit();
-    }
-    private void checkIfAllLoaded() {
-        if (isUserLoaded && isActsCreateLoaded && isActsFechaLoaded) {
-            loadingLayout.setVisibility(View.GONE);
-        }
     }
 }
