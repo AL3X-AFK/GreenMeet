@@ -92,7 +92,7 @@ public class CreateActFragment extends Fragment {
         btnCancel = view.findViewById(R.id.btnCancel);
 
         // Configuración de categoría
-        String[] categorias = {"ARTE URBANO", "VERDE Y NATURALEZA", "LIMPIEZA URBANA", "SALUD Y DEPORTE", "CULTURA Y SOCIEDAD"};
+        String[] categorias = {(getString(R.string.arteUrbano)), (getString(R.string.verdeYnaturaleza)), (getString(R.string.limpUrbana)), (getString(R.string.salYdeporte)), (getString(R.string.cultYsociedad))};
         ArrayAdapter<String> categoriaAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, categorias);
         actvCategoria.setAdapter(categoriaAdapter);
         actvCategoria.setKeyListener(null);

@@ -84,13 +84,13 @@ public class HomeFragment extends Fragment {
     private void setupListeners(){
         catArte.setOnClickListener(v -> openCategory(getString(R.string.arteUrbano)));
 
-        catNaturaleza.setOnClickListener(v -> openCategory("Verde y naturaleza"));
+        catNaturaleza.setOnClickListener(v -> openCategory(getString(R.string.verdeYnaturaleza)));
 
-        catLimpieza.setOnClickListener(v -> openCategory("Limpieza urbana"));
+        catLimpieza.setOnClickListener(v -> openCategory(getString(R.string.limpUrbana)));
 
-        catSalud.setOnClickListener(v -> openCategory("Salud y deporte"));
+        catSalud.setOnClickListener(v -> openCategory(getString(R.string.salYdeporte)));
 
-        catCultura.setOnClickListener(v -> openCategory("Cultura y sociedad"));
+        catCultura.setOnClickListener(v -> openCategory(getString(R.string.cultYsociedad)));
     }
 
     private void setupRecyclerViews(View view) {
@@ -110,7 +110,7 @@ public class HomeFragment extends Fragment {
     private void observeUser() {
         userViewModel.getUsuario().observe(getViewLifecycleOwner(), usuario -> {
             if (usuario != null) {
-                tvNombre.setText("Hola, " + usuario.getNombre());
+                tvNombre.setText((getString(R.string.hola)) + usuario.getNombre());
             }
         });
 
