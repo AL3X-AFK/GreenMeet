@@ -95,7 +95,7 @@ public class DetailsActFragment extends Fragment {
     }
 
     private void actualizarBoton(boolean apuntado) {
-        btnApuntarse.setText(apuntado ? "Desapuntarse" : "Me apunto");
+        btnApuntarse.setText(apuntado ? getString(R.string.desapuntarse) : getString(R.string.meApunto));
 
         if (apuntado) {
             btnApuntarse.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.red));

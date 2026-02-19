@@ -37,7 +37,7 @@ public class NotificationsFragment extends Fragment {
         btnBack = header.findViewById(R.id.btnBack);
         tvTitle = header.findViewById(R.id.tvTitle);
 
-        tvTitle.setText("Notificaciones");
+        tvTitle.setText(getString(R.string.notificaciones));
 
         btnBack.setOnClickListener(v -> Utils.volver(this));
 

@@ -40,7 +40,7 @@ public class EditActFragment extends Fragment {
     private ActViewModel actViewModel;
     private View rootView;
 
-    // 🔹 Guardamos la fecha real en millis
+    // Guardamos la fecha real en millis
     private long selectedDateMillis;
 
     public EditActFragment() {}
@@ -72,7 +72,7 @@ public class EditActFragment extends Fragment {
         header = view.findViewById(R.id.headerBack);
         btnBack = header.findViewById(R.id.btnBack);
         tvTitle = header.findViewById(R.id.tvTitle);
-        tvTitle.setText("Editar actividad");
+        tvTitle.setText(getString(R.string.editarAct));
     }
 
     private void setupViewModel() {
@@ -82,11 +82,11 @@ public class EditActFragment extends Fragment {
 
     private void setupSpinner() {
         String[] categorias = {
-                "ARTE URBANO",
-                "VERDE Y NATURALEZA",
-                "LIMPIEZA URBANA",
-                "SALUD Y DEPORTE",
-                "CULTURA Y SOCIEDAD"
+                getString(R.string.arteUrbano),
+                getString(R.string.verdeYnaturaleza),
+                getString(R.string.limpUrbana),
+                getString(R.string.salYdeporte),
+                getString(R.string.cultYsociedad)
         };
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
@@ -109,7 +109,7 @@ public class EditActFragment extends Fragment {
             etUbicacion.setText(act.getUbicacion());
             etDescripcion.setText(act.getDescripcion());
 
-            // 🔹 Fecha long → formateada a texto
+            // Fecha long → formateada a texto
             selectedDateMillis = act.getFecha();
 
             SimpleDateFormat sdf =
@@ -124,7 +124,7 @@ public class EditActFragment extends Fragment {
                     adapter.getPosition(act.getCategoria())
             );
 
-            // 🔹 Cargar imagen
+            // Cargar imagen
             Glide.with(this)
                     .load(act.getImagenUrl())
                     .centerCrop()
@@ -151,7 +151,7 @@ public class EditActFragment extends Fragment {
 
         MaterialDatePicker<Long> picker =
                 MaterialDatePicker.Builder.datePicker()
-                        .setTitleText("Selecciona fecha")
+                        .setTitleText(getString(R.string.selecFecha))
                         .setTheme(R.style.MyMaterialCalendarTheme)
                         .setSelection(selectedDateMillis != 0
                                 ? selectedDateMillis
@@ -177,7 +177,7 @@ public class EditActFragment extends Fragment {
 
         if (actOriginal == null) {
             Toast.makeText(requireContext(),
-                    "Error al obtener actividad",
+                    getString(R.string.errorObtenerActividad),
                     Toast.LENGTH_SHORT).show();
             return;
         }
@@ -189,26 +189,26 @@ public class EditActFragment extends Fragment {
 
         if (titulo.isEmpty() || ubicacion.isEmpty() || selectedDateMillis == 0) {
             Toast.makeText(requireContext(),
-                    "Completa los campos obligatorios",
+                    getString(R.string.complCamposObl),
                     Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // 🔹 Creamos nueva Act manteniendo datos importantes
+        // Creamos nueva Act manteniendo datos importantes
         Act actActualizada = new Act(
                 titulo,
                 categoria,
-                selectedDateMillis,               // 🔥 ahora es long
+                selectedDateMillis,
                 ubicacion,
                 descripcion,
                 actOriginal.getImagenUrl(),
-                actOriginal.getUserUid()          // 🔥 mantenemos dueño
+                actOriginal.getUserUid()
         );
 
-        // 🔹 Mantenemos ID
+        // Mantenemos ID
         actActualizada.setUid(actOriginal.getUid());
 
-        // 🔹 Mantenemos fechaCreacion original
+        // Mantenemos fechaCreacion original
         actActualizada.setFechaCreacion(
                 actOriginal.getFechaCreacion()
         );
@@ -221,7 +221,7 @@ public class EditActFragment extends Fragment {
                     public void onSuccess(Void result) {
 
                         Toast.makeText(requireContext(),
-                                "Actividad actualizada",
+                                getString(R.string.actActualizada),
                                 Toast.LENGTH_SHORT).show();
 
                         Utils.volver(EditActFragment.this);

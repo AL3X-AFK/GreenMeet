@@ -130,6 +130,23 @@
     <string name="actCreadaConExito">Actividad creada con éxito</string>
     <string name="crearActividad">Crear actividad</string>
     <string name="rellenaTodosLosCampos">Rellena todos los campos</string>
+    <string name="editarAct">Editar actividad</string>
+    <string name="desapuntarse">Desapuntarse</string>
+    <string name="errorObtenerActividad">Error al obtener actividad</string>
+    <string name="complCamposObl">Completa los campos obligatorios</string>
+    <string name="actActualizada">Actividad actualizada</string>
+    <string name="editarPefil">Editar perfil</string>
+    <string name="noEspecificar">No especificar</string>
+    <string name="male">Masculino</string>
+    <string name="female">Femenino</string>
+    <string name="otro">Otro</string>
+    <string name="perfilActualizado">Perfil actualizado</string>
+    <string name="verif">Verificacion</string>
+    <string name="conf">Confirmar</string>
+    <string name="idiomaGuard">Idioma guardado</string>
+    <string name="noHayActiv">No hay actividades</string>
+    <string name="error" translatable="false">Error</string>
+    <string name="notificaciones">Notificaciones</string>
 
 
 

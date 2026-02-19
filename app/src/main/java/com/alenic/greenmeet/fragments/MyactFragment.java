@@ -47,7 +47,7 @@ public class MyactFragment extends Fragment {
         btnBack = header.findViewById(R.id.btnBack);
         tvTitle = header.findViewById(R.id.tvTitle);
 
-        tvTitle.setText("Mis actividades");
+        tvTitle.setText(getString(R.string.misActs));
         btnBack.setOnClickListener(v -> Utils.volver(this));
 
         repository = new ActRepository();
@@ -82,14 +82,14 @@ public class MyactFragment extends Fragment {
             @Override
             public void onSuccess(List<Act> result) {
                 if (result.isEmpty()) {
-                    Toast.makeText(getContext(), "No hay actividades", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.noHayActiv), Toast.LENGTH_SHORT).show();
                 }
                 adapter.submitList(result); // Actualizamos el RecyclerView
             }
 
             @Override
             public void onError(String error) {
-                Toast.makeText(getContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.error) + error, Toast.LENGTH_SHORT).show();
             }
         });
     }

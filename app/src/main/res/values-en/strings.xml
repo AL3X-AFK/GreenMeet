@@ -52,7 +52,7 @@
     <string name="expAcciones">Explore actions</string>
     <string name="hola">"Hi, "</string>
     <string name="categorias">Categories</string>
-    <string name="arteUrbano">Urban art</string>
+    <string name="arteUrbano">Urban\nart</string>
     <string name="verdeYnaturaleza">Green and nature</string>
     <string name="limpUrbana">Urban cleaning</string>
     <string name="salYdeporte">Health and sport</string>
@@ -63,7 +63,7 @@
     <string name="proximas">Upcoming</string>
     <string name="realizadas">Made</string>
     <string name="selecIdioma">"Select the app language "</string>
-    <string name="credits_text">The images used in this application come from Unsplash and are used under the Unsplash License.  Photo by Ryoji Iwata on Unsplash Photo by Martin Sanchez on Unsplash Photo by RhondaK Native Florida Folk Artist on Unsplash Photo by Eugene Golovesov on Unsplash Photo by Guillermo Casales on Unsplash Photo by Gia Duabav on Unsplash Photo by Hannah Busing on Unsplash</string>
+    <string name="credits_text">The images used in this application come from Unsplash and are used under the Unsplash License.  \nPhoto by Ryoji Iwata on Unsplash \nPhoto by Martin Sanchez on Unsplash \nPhoto by RhondaK Native Florida Folk Artist on Unsplash \nPhoto by Eugene Golovesov on Unsplash \nPhoto by Guillermo Casales on Unsplash \nPhoto by Gia Duabav on Unsplash \nPhoto by Hannah Busing on Unsplash</string>
     <string name="tituloNoti1">Noti title</string>
     <string name="descNoti1">Here is the notification message. It can be long and descriptive.</string>
     <string name="tiempoNoti1">2 hours ago</string>
@@ -79,5 +79,21 @@
     <string name="actCreadaConExito">Activity created successfully</string>
     <string name="crearActividad">Create actividad</string>
     <string name="rellenaTodosLosCampos">Fill in all the fields</string>
+    <string name="editarAct">Edit Activity</string>
+    <string name="desapuntarse">Unsubscribe</string>
+    <string name="errorObtenerActividad">Error getting activity</string>
+    <string name="complCamposObl">"Complete the required fields "</string>
+    <string name="actActualizada">Activity updated</string>
+    <string name="editarPefil">Edit profile</string>
+    <string name="verif">Verification</string>
+    <string name="conf">Confirm</string>
+    <string name="noEspecificar">Don\'t specify</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="otro">Other</string>
+    <string name="perfilActualizado">Profile updated</string>
+    <string name="idiomaGuard">Language Saved</string>
+    <string name="noHayActiv">There aren\'t activities</string>
+    <string name="notificaciones">Notifications</string>
 
 </resources>

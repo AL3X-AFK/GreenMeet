@@ -36,7 +36,7 @@ public class PrivacyFragment extends Fragment {
         btnBack = header.findViewById(R.id.btnBack);
         tvTitle = header.findViewById(R.id.tvTitle);
 
-        tvTitle.setText("Política de privacidad");
+        tvTitle.setText(getString(R.string.polPrivacidad));
         btnBack.setOnClickListener(v -> Utils.volver(this));
 
         return  view;

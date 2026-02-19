@@ -57,7 +57,7 @@ public class EditProfileFragment extends Fragment {
         header = view.findViewById(R.id.headerBack);
         btnBack = header.findViewById(R.id.btnBack);
         tvTitle = header.findViewById(R.id.tvTitle);
-        tvTitle.setText("Editar perfil");
+        tvTitle.setText(getString(R.string.editarPefil));
     }
 
     private void setupViewModel() {
@@ -66,7 +66,7 @@ public class EditProfileFragment extends Fragment {
     }
 
     private void setupSpinner() {
-        String[] genders = {"No especificar","Masculino", "Femenino", "Otro"};
+        String[] genders = {getString(R.string.noEspecificar),getString(R.string.male), getString(R.string.female), getString(R.string.otro)};
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 requireContext(),
@@ -100,7 +100,7 @@ public class EditProfileFragment extends Fragment {
             if (state.equals("UPDATE_SUCCESS")) {
 
                 Toast.makeText(getContext(),
-                        "Perfil actualizado",
+                        getString(R.string.perfilActualizado),
                         Toast.LENGTH_SHORT).show();
                         userViewModel.clearState();
 
@@ -142,9 +142,9 @@ public class EditProfileFragment extends Fragment {
         EditText etPassword = dialog.findViewById(R.id.etPassword);
 
         new AlertDialog.Builder(requireContext())
-                .setTitle("Verificación")
+                .setTitle(getString(R.string.verif))
                 .setView(dialog)
-                .setPositiveButton("Confirmar", (d, w) -> {
+                .setPositiveButton(getString(R.string.conf), (d, w) -> {
 
                     String passwordActual =
                             etPassword.getText().toString().trim();
@@ -157,7 +157,7 @@ public class EditProfileFragment extends Fragment {
                             emailNuevo
                     );
                 })
-                .setNegativeButton("Cancelar", null)
+                .setNegativeButton(getString(R.string.cancelar), null)
                 .show();
     }
 }

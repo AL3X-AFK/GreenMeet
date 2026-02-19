@@ -42,11 +42,11 @@ public class LanguageFragment extends Fragment {
         btnBack = header.findViewById(R.id.btnBack);
         tvTitle = header.findViewById(R.id.tvTitle);
 
-        tvTitle.setText("Idioma");
+        tvTitle.setText(getString(R.string.idioma));
 
         // Inicializamos Spinner
         spinnerLanguage = view.findViewById(R.id.spinnerAppLanguage);
-        String[] languages = {"Español", "Ingles", "Alemán"};
+        String[] languages = {"Español", "English", "Deutsch"};
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 getContext(),
@@ -78,7 +78,7 @@ public class LanguageFragment extends Fragment {
         btnSave = view.findViewById(R.id.btnSave);
         btnSave.setOnClickListener(v -> {
             // Aquí podrías guardar los datos en tu base de datos o ViewModel
-            Toast.makeText(getContext(), "Idioma guardado", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.idiomaGuard), Toast.LENGTH_SHORT).show();
             Utils.volver(this);
         });
 
