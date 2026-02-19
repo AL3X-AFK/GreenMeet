@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">GreenMeet</string>
     <string name="screen1">Welcome to GreenMeet</string>
+    <string name="idioma">Language</string>
 </resources>
