@@ -73,7 +73,7 @@
                 android:id="@+id/btnVerMas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ver más"
+                android:text="@string/verMas"
                 android:textColor="@color/black"
                 android:backgroundTint="@color/green_200"
                 android:paddingLeft="16dp"

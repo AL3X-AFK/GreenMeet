@@ -59,7 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
-                android:text="Ver más"
+                android:text="@string/verMas"
                 android:textAllCaps="false"
                 android:backgroundTint="@color/green_100"
                 android:textColor="@color/black"

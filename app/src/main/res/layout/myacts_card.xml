@@ -58,7 +58,7 @@
                 android:id="@+id/btnVerMas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Editar"
+                android:text="@string/editar"
                 android:textColor="@color/black"
                 android:backgroundTint="@color/green_200"
                 android:paddingLeft="16dp"

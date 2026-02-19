@@ -42,7 +42,7 @@
                 android:id="@+id/tvNombre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hola, "
+                android:text="@string/hola"
                 android:textStyle="bold"
                 android:textSize="16sp"/>
 
@@ -60,12 +60,12 @@
         android:id="@+id/tvCategories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Categorías"
+        android:text="@string/categorias"
         app:layout_constraintTop_toBottomOf="@id/userLayout"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="16dp"
         android:textColor="@color/darkgreen"
-        android:textSize="20dp"
+        android:textSize="20sp"
         />
     <LinearLayout
         android:id="@+id/lyCategories"
@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:gravity="center"
-                android:text="Arte urbano"
+                android:text="@string/arteUrbano"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -125,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:gravity="center"
-                android:text="Verde y naturaleza"
+                android:text="@string/verdeYnaturaleza"
                 android:textSize="12sp" />
         </LinearLayout>
         <LinearLayout
@@ -147,7 +147,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:gravity="center"
-                android:text="Limpieza urbana"
+                android:text="@string/limpUrbana"
                 android:textSize="12sp" />
         </LinearLayout>
         <LinearLayout
@@ -169,7 +169,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:gravity="center"
-                android:text="Salud y deporte"
+                android:text="@string/salYdeporte"
                 android:textSize="12sp" />
         </LinearLayout>
         <LinearLayout
@@ -191,7 +191,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:gravity="center"
-                android:text="Cultura y sociedad"
+                android:text="@string/cultYsociedad"
                 android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
@@ -210,7 +210,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:text="Acciones próximas"
+            android:text="@string/accProx"
             android:textColor="@color/darkgreen"/>
 <!--        <TextView-->
 <!--            android:layout_width="match_parent"-->
@@ -236,7 +236,7 @@
         android:id="@+id/tvSuggestions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sugerencias"
+        android:text="@string/sugerencias"
         app:layout_constraintTop_toBottomOf="@id/rvAcciones"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="16dp"

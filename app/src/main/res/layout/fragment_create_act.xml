@@ -64,7 +64,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="Subir una imagen"
+                        android:text="@string/subirImagen"
                         android:textColor="@color/gray"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -74,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Título"
+                android:text="@string/titulo"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
@@ -90,7 +90,7 @@
                     android:id="@+id/tietTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Introduce el título"
+                    android:hint="@string/intrTitulo"
                     android:textColorHint="@color/gray"
                     android:textSize="14sp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -99,7 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Categoría"
+                android:text="@string/categoria"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
             <com.google.android.material.textfield.TextInputLayout
@@ -114,7 +114,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingVertical="15dp"
-                    android:hint="Selecciona una categoría"
+                    android:hint="@string/selecCategoria"
                     android:textSize="14sp"
                     android:textColorHint="@color/gray"
                     android:inputType="none" />
@@ -125,7 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Fecha Actividad"
+                android:text="@string/fechaAct"
                 android:textColor="@color/black"
                 android:textSize="15sp"/>
 
@@ -144,7 +144,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
-                    android:hint="Selecciona la fecha"
+                    android:hint="@string/selecFecha"
                     android:textSize="14sp" />
             </com.google.android.material.textfield.TextInputLayout>
             <!-- Ubicación -->
@@ -153,7 +153,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Ubicación"
+                android:text="@string/ubicacion"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
@@ -171,7 +171,7 @@
                     android:id="@+id/tietLocation"
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
-                    android:hint="Introduce la ubicación"
+                    android:hint="@string/intrUbicacion"
                     android:textSize="14sp" />
             </com.google.android.material.textfield.TextInputLayout>
             <!-- Descripción -->
@@ -180,7 +180,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Descripción"
+                android:text="@string/descripcion"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
@@ -197,7 +197,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:gravity="top"
-                    android:hint="Introduce la descripción..."
+                    android:hint="@string/intrDescripcion"
                     android:textSize="14sp" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
@@ -209,7 +209,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
         android:backgroundTint="@color/green_100"
-        android:text="Guardar"
+        android:text="@string/guardar"
         android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@id/btnCancel"
         app:layout_constraintEnd_toEndOf="parent"
@@ -221,7 +221,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="5dp"
         android:backgroundTint="@android:color/transparent"
-        android:text="Cancelar"
+        android:text="@string/cancelar"
         android:textColor="@color/green_100"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -24,7 +24,7 @@
             android:layout_marginTop="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Selecciona el idioma de la app"
+            android:text="@string/selecIdioma"
             android:textSize="16sp"
             android:textColor="@color/darkgreen"
             android:textStyle="bold"
@@ -41,7 +41,7 @@
             android:id="@+id/btnSave"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:text="Guardar"
+            android:text="@string/guardar"
             android:textColor="#000000"
             android:background="@color/green_200" />
 

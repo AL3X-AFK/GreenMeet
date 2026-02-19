@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Perfil"
+            android:text="@string/perfil"
             android:textSize="32sp"
             android:textStyle="bold"
             android:layout_centerInParent="true"
@@ -51,7 +51,7 @@
 
             <TextView
                 android:id="@+id/tvProfileName"
-                android:text="name"
+                android:text="@string/nom"
                 android:textStyle="bold"
                 android:textSize="24sp"
                 android:textColor="#000000"
@@ -103,7 +103,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Mis Actividades"
+                android:text="@string/misActs"
                 android:textSize="18sp"
                 android:layout_marginStart="16dp" />
 
@@ -166,7 +166,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Idioma"
+                android:text="@string/idioma"
                 android:textSize="18sp"
                 android:layout_marginStart="16dp" />
 
@@ -197,7 +197,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Política de Privacidad"
+                android:text="@string/polPrivacidad"
                 android:textSize="18sp"
                 android:layout_marginStart="16dp" />
 
@@ -227,7 +227,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Licencias"
+                android:text="@string/licencias"
                 android:textSize="18sp"
                 android:layout_marginStart="16dp" />
 
@@ -258,7 +258,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Desconectase"
+                android:text="@string/desconectarse"
                 android:textSize="18sp"
                 android:layout_marginStart="16dp"
                 android:textColor="@color/red"/>

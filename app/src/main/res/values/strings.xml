@@ -8,22 +8,99 @@
 <!--    act_card-->
     <string name="MeApunto">Me apunto</string>
 
-<!--    activity_login-->
+<!--    activity_login y signup-->
     <string name="IniciarSesion">Iniciar Sesión</string>
     <string name="Email">Email</string>
-    <string name="Contraseña">Contraseña.</string>
+    <string name="Contrasena">Contraseña</string>
+    <string name="IntrEmail">Introduce tu email</string>
+    <string name="IntrContraseña">Introduce tu contraseña"</string>
+    <string name="NoTienCuenta">¿No tienes cuenta? Regístrate</string>
 
+    <string name="crearCuenta">Crear Cuenta</string>
+    <string name="nom">Nombre</string>
+    <string name="intNomb">Introduce un nombre</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="tienesIniSesion">¿Tienes una cuenta? Inicia Sesión</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+<!--    Menu Main-->
+    <string name="inicio">Inicio</string>
+    <string name="explorar">Explorar</string>
+    <string name="inscrito">Inscrito</string>
+    <string name="perfil">Perfil</string>
 
+    <!--    Menu Generos-->
     <string-array name="generos">
         <item>Masculino</item>
         <item>Femenino</item>
         <item>Otro</item>
     </string-array>
 
-    <string name="privacy_policy_text">"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur? "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?"</string>
+<!--    Activity Navigation-->
+    <string name="siguiente">Siguiente</string>
+    <string name="omitir">Omitir</string>
 
+<!--    Dialog Password-->
+    <string name="confirmarContrasena">Confirmar contraseña"</string>
+    <string name="contrasenaActual">Contraseña actual</string>
+
+<!--    View Header Back-->
+    <string name="titulo">Título</string>
+
+<!--    Tarjeta Guardadas-->
+    <string name="verMas">Ver más</string>
+
+<!--    Slider Screen-->
+    <string name="bienv">Bienvenido a GreenMeet</string>
+    <string name="descSliderScreen">Descubre una aplicación para crear y realizar actividades al aire libre con personas que comparten tus intereses.</string>
+
+<!--    Myacts  Card-->
+    <string name="editar">Editar</string>
+
+<!--    Fragemnt Create, Edit, Details Act-->
+    <string name="subirImagen">Subir una imagen</string>
+    <string name="intrTitulo">Introduce el título</string>
+    <string name="categoria">Categoría</string>
+    <string name="selecCategoria">Selecciona una categoría</string>
+    <string name="fechaAct">Fecha Actividad</string>
+    <string name="selecFecha">Selecciona la fecha</string>
+    <string name="ubicacion">Ubicación</string>
+    <string name="intrUbicacion">Introduce la ubicación</string>
+    <string name="descripcion">Descripción</string>
+    <string name="intrDescripcion">Introduce la descripción"></string>
+    <string name="guardar">Guardar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="fecha">Fecha</string>
+    <string name="meApunto">Me apunto</string>
+    <string name="guardarCambios">Guardar cambios</string>
+
+<!--Edit Profile-->
+    <string name="telefono">Teléfono</string>
+    <string name="genero">Género</string>
+
+<!--    Fragment Explore-->
+    <string name="mapaProx">Mapa proximamente</string>
+    <string name="expAcciones">Explora acciones</string>
+
+<!--    Fragment home-->
+    <string name="hola">Hola, </string>
+    <string name="categorias">Categorías</string>
+    <string name="arteUrbano">Arte urbano</string>
+    <string name="verdeYnaturaleza">Verde y naturaleza</string>
+    <string name="limpUrbana">Limpieza urbana</string>
+    <string name="salYdeporte">Salud y deporte</string>
+    <string name="cultYsociedad">Cultura y sociedad</string>
+    <string name="accProx">Acciones próximas</string>
+    <string name="sugerencias">Sugerencias</string>
+
+<!--    Fragmen Inscriptions-->
+    <string name="misInscrip">Mis inscripciones</string>
+    <string name="proximas">Próximas</string>
+    <string name="realizadas">Realizadas</string>
+
+<!--    Fragment Language-->
+    <string name="selecIdioma">Selecciona el idioma de la app</string>
+
+<!--    Fragment License-->
     <string name="credits_text">
     Créditos de imágenes\n\n
     Las imágenes utilizadas en esta aplicación provienen de Unsplash y se utilizan bajo la Unsplash License.\n\n
@@ -35,5 +112,35 @@
     Foto de Gia Duabav en Unsplash\n
     Foto de Hannah Busing en Unsplash
     </string>
+
+<!--    Fragment Notifications-->
+    <string name="tituloNoti1">Título de la notificación</string>
+    <string name="descNoti1">Aquí va el mensaje de la notificación. Puede ser largo y descriptivo.</string>
+    <string name="tiempoNoti1">Hace 2 horas</string>
+    <string name="tituloNoti2">Otra notificación</string>
+    <string name="descNoti2">Mensaje de otra notificación para mostrar cómo se ve.</string>
+    <string name="tiempoNoti2">Ayer</string>
+    <string name="tituloNoti3">Notificacion ya leida</string>
+    <string name="descNoti3">Cuando una notificacion ya fue mostrada, cambiara de color</string>
+    <string name="tiempoNoti3">Hace 1 mes</string>
+
+    <!--Fragment Privacity-->
+    <string name="privacy_policy_text">"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur? "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?"</string>
+
+<!--    Fragment profile-->
+    <string name="misActs">Mis Actividades</string>
+    <string name="idioma">Idioma</string>
+    <string name="polPrivacidad">Política de Privacidad</string>
+    <string name="licencias">Licencias</string>
+    <string name="desconectarse">Desconectase</string>
+    <string name=""></string>
+    <string name=""></string>
+
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+
+
 
 </resources>

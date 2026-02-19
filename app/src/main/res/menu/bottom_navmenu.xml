@@ -6,25 +6,25 @@
     <item
         android:id="@+id/home"
         android:icon="@drawable/home_icon"
-        android:title="Inicio"
+        android:title="@string/inicio"
         app:showAsAction="always"/>
 
     <item
         android:id="@+id/explore"
         android:icon="@drawable/explore_icon"
-        android:title="Explorar"
+        android:title="@string/explorar"
         app:showAsAction="always"/>
 
     <!-- DERECHA -->
     <item
         android:id="@+id/collection"
         android:icon="@drawable/fertile"
-        android:title="Inscrito"
+        android:title="@string/inscrito"
         app:showAsAction="always"/>
 
     <item
         android:id="@+id/profile"
         android:icon="@drawable/profile_icon"
-        android:title="Perfil"
+        android:title="@string/perfil"
         app:showAsAction="always"/>
 </menu>

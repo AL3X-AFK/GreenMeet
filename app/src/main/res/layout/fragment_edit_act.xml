@@ -41,7 +41,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Título"
+                android:text="@string/titulo"
                 android:textSize="16sp"
                 android:textColor="@color/darkgreen"
                 android:textStyle="bold"/>
@@ -58,7 +58,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Categoría"
+                android:text="@string/categoria"
                 android:textSize="16sp"
                 android:textColor="@color/darkgreen"
                 android:textStyle="bold"/>
@@ -73,7 +73,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ubicación"
+                android:text="@string/ubicacion"
                 android:textSize="16sp"
                 android:textColor="@color/darkgreen"
                 android:textStyle="bold"/>
@@ -89,7 +89,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Fecha"
+                android:text="@string/fecha"
                 android:textSize="16sp"
                 android:textColor="@color/darkgreen"
                 android:textStyle="bold"/>
@@ -107,7 +107,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Descripción"
+                android:text="@string/descripcion"
                 android:textSize="16sp"
                 android:textColor="@color/darkgreen"
                 android:textStyle="bold"/>
@@ -125,7 +125,7 @@
                 android:id="@+id/btnGuardar"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:text="Guardar cambios"
+                android:text="@string/guardarCambios"
                 android:textColor="#000000"
                 android:background="@color/green_200"
                 android:layout_marginBottom="24dp"/>

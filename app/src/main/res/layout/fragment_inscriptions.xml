@@ -11,7 +11,7 @@
         android:id="@+id/tvGuardados"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Mis inscripciones"
+        android:text="@string/misInscrip"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:textAlignment="center"
@@ -32,12 +32,12 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Próximas"/>
+            android:text="@string/proximas"/>
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Realizadas"/>
+            android:text="@string/realizadas"/>
     </com.google.android.material.tabs.TabLayout>
 
     <!-- Recycler Próximos -->
