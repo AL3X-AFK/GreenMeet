@@ -20,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:scaleType="centerInside"
+            android:contentDescription="@string/imgDescription"
             android:src="@drawable/placeholder" />
 
         <!-- Contenido horizontal: texto a la izquierda, botón a la derecha -->
@@ -41,7 +42,7 @@
                     android:id="@+id/txtTitulo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ejemplo Título"
+                    android:text="@string/title_example"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -50,7 +51,7 @@
                     android:id="@+id/txtFecha"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="14 Feb - 18 Feb"
+                    android:text="@string/intrFecha"
                     android:textSize="13sp"
                     android:textColor="#666666"
                     android:layout_marginTop="2dp" />
@@ -59,7 +60,7 @@
                     android:id="@+id/txtDescripcion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Aquí va la descripción del evento"
+                    android:text="@string/intrDescripcion"
                     android:textSize="14sp"
                     android:textColor="#333333"
                     android:layout_marginTop="4dp"
@@ -79,7 +80,7 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"/>
+                android:layout_marginEnd="8dp"/>
 
         </LinearLayout>
 

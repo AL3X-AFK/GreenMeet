@@ -1,5 +1,7 @@
 package com.alenic.greenmeet;
 
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -17,8 +19,9 @@ import com.alenic.greenmeet.fragments.InscriptionsFragment;
 import com.alenic.greenmeet.fragments.ProfileFragment;
 import com.alenic.greenmeet.viewmodel.UserViewModel;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.Locale;
 
+public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private UserViewModel userViewModel;
 
@@ -26,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
+
+        loadLocale();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -62,6 +67,23 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frame_layout,fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    private void loadLocale() {
+
+        SharedPreferences prefs = getSharedPreferences("Settings", MODE_PRIVATE);
+        String langCode = prefs.getString("app_lang", "es");
+
+        Locale locale = new Locale(langCode);
+        Locale.setDefault(locale);
+
+        Configuration config = new Configuration();
+        config.setLocale(locale);
+
+        getResources().updateConfiguration(
+                config,
+                getResources().getDisplayMetrics()
+        );
     }
 
 }

@@ -53,8 +53,8 @@
                         android:id="@+id/tvEmail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="email@gmail.com"
-                        android:textColor="#777777"
+                        android:text="@string/IntrEmail"
+                        android:textColor="@color/black"
                         android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -75,6 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:baselineAligned="false"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingHorizontal="8dp"
@@ -91,21 +92,23 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <ImageView
+                    <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/imgArte"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:background="@drawable/circle_bg"
-                        android:clipToOutline="true"
-                        android:scaleType="centerCrop" />
+                        android:scaleType="centerCrop"
+                        app:shapeAppearanceOverlay="@style/CircleImage"
+                        />
 
                     <TextView
-                        android:layout_width="70dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:gravity="center"
                         android:text="@string/arteUrbano"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:lines="2"
+                        android:ellipsize="end"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -116,21 +119,23 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <ImageView
+                    <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/imgNaturaleza"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:background="@drawable/circle_bg"
-                        android:clipToOutline="true"
-                        android:scaleType="centerCrop" />
+                        android:scaleType="centerCrop"
+                        app:shapeAppearanceOverlay="@style/CircleImage"
+                        />
 
                     <TextView
-                        android:layout_width="70dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:gravity="center"
                         android:text="@string/verdeYnaturaleza"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:maxLines="2"
+                        android:ellipsize="end"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -141,21 +146,23 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <ImageView
+                    <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/imgLimpieza"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:background="@drawable/circle_bg"
-                        android:clipToOutline="true"
-                        android:scaleType="centerCrop" />
+                        android:scaleType="centerCrop"
+                        app:shapeAppearanceOverlay="@style/CircleImage"
+                        />
 
                     <TextView
-                        android:layout_width="70dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:gravity="center"
                         android:text="@string/limpUrbana"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:maxLines="2"
+                        android:ellipsize="end"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -166,21 +173,23 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <ImageView
+                    <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/imgSalud"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:background="@drawable/circle_bg"
-                        android:clipToOutline="true"
-                        android:scaleType="centerCrop" />
+                        android:scaleType="centerCrop"
+                        app:shapeAppearanceOverlay="@style/CircleImage"
+                        />
 
                     <TextView
-                        android:layout_width="70dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:gravity="center"
                         android:text="@string/salYdeporte"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:maxLines="2"
+                        android:ellipsize="end"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -191,21 +200,23 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <ImageView
+                    <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/imgCultura"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:background="@drawable/circle_bg"
-                        android:clipToOutline="true"
-                        android:scaleType="centerCrop" />
+                        android:scaleType="centerCrop"
+                        app:shapeAppearanceOverlay="@style/CircleImage"
+                        />
 
                     <TextView
-                        android:layout_width="70dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:gravity="center"
                         android:text="@string/cultYsociedad"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:lines="2"
+                        android:ellipsize="end"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -224,7 +235,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/accProx"
                     android:textColor="@color/darkgreen"
-                    android:textSize="20dp" />
+                    android:textSize="20sp" />
                 <!--        <TextView-->
                 <!--            android:layout_width="match_parent"-->
                 <!--            android:layout_height="wrap_content"-->
@@ -253,7 +264,7 @@
                 android:layout_margin="16dp"
                 android:text="@string/sugerencias"
                 android:textColor="@color/darkgreen"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/rvAcciones" />
 
@@ -287,7 +298,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Cargando..." />
+            android:text="@string/loading" />
 
     </LinearLayout>
 </FrameLayout>

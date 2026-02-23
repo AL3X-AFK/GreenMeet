@@ -9,7 +9,8 @@
     <!-- Toolbar -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
+        android:minHeight="56dp"
         android:layout_marginTop="64dp">
 
         <TextView
@@ -59,7 +60,6 @@
                 android:layout_height="wrap_content" />
                 <TextView
                     android:id="@+id/tvProfileEmail"
-                    android:text="email@gmail.com"
                     android:textSize="16sp"
                     android:textColor="#333333"
                     android:layout_width="wrap_content"
@@ -73,6 +73,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/arrow_forward"
+            android:contentDescription="@string/imgDescription"
             app:tint="@color/black"/>
     </LinearLayout>
 
@@ -88,7 +89,8 @@
         <LinearLayout
             android:id="@+id/menu_saves"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
+            android:minHeight="56dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:paddingHorizontal="16dp"
@@ -97,6 +99,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:contentDescription="@string/imgDescription"
                 android:src="@drawable/fertile" />
 
             <TextView
@@ -111,6 +114,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/arrow_right"
+                android:contentDescription="@string/imgDescription"
                 app:tint="@color/black"/>
         </LinearLayout>
 
@@ -150,7 +154,8 @@
         <LinearLayout
             android:id="@+id/menu_language"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
+            android:minHeight="56dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:paddingHorizontal="16dp"
@@ -160,6 +165,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:contentDescription="@string/imgDescription"
                 android:src="@drawable/language" />
 
             <TextView
@@ -174,6 +180,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/arrow_right"
+                android:contentDescription="@string/imgDescription"
                 app:tint="@color/black"/>
         </LinearLayout>
 
@@ -181,7 +188,8 @@
         <LinearLayout
             android:id="@+id/menu_privacity"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
+            android:minHeight="56dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:paddingHorizontal="16dp"
@@ -191,6 +199,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:contentDescription="@string/imgDescription"
                 android:src="@drawable/doc" />
 
             <TextView
@@ -205,13 +214,15 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/arrow_right"
+                android:contentDescription="@string/imgDescription"
                 app:tint="@color/black"/>
         </LinearLayout>
         <!-- Acerca de -->
         <LinearLayout
             android:id="@+id/menu_acerca"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
+            android:minHeight="56dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:paddingHorizontal="16dp"
@@ -221,6 +232,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:contentDescription="@string/imgDescription"
                 android:src="@drawable/about_icon" />
 
             <TextView
@@ -235,6 +247,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/arrow_right"
+                android:contentDescription="@string/imgDescription"
                 app:tint="@color/black"/>
         </LinearLayout>
 
@@ -242,7 +255,8 @@
         <LinearLayout
             android:id="@+id/disconnect"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
+            android:minHeight="56dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:paddingHorizontal="16dp"
@@ -252,6 +266,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/exit"
+                android:contentDescription="@string/imgDescription"
                 app:tint="@color/red"/>
 
             <TextView
@@ -267,6 +282,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/arrow_right"
+                android:contentDescription="@string/imgDescription"
                 app:tint="@color/red"/>
         </LinearLayout>
 

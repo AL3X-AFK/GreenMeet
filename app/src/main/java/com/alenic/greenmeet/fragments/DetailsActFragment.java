@@ -20,6 +20,7 @@ import com.alenic.greenmeet.data.Act;
 import com.alenic.greenmeet.utils.Utils;
 import com.alenic.greenmeet.viewmodel.ActViewModel;
 import com.bumptech.glide.Glide;
+import com.google.android.material.button.MaterialButton;
 
 public class DetailsActFragment extends Fragment {
 
@@ -28,7 +29,7 @@ public class DetailsActFragment extends Fragment {
     private TextView tvTitulo, tvCategoria, tvUbicacion, tvDescripcion, tvFecha;
     private ImageView imgHeader;
     private ImageButton btnBack;
-    private Button btnApuntarse;
+    private MaterialButton btnApuntarse;
 
     public DetailsActFragment() {
         // Required empty public constructor
@@ -52,13 +53,11 @@ public class DetailsActFragment extends Fragment {
         btnApuntarse = view.findViewById(R.id.btnApuntarse);
 
         btnBack.setOnClickListener(v -> Utils.volver(this));
-        // ViewModel compartido
         actViewModel = new ViewModelProvider(requireActivity())
                 .get(ActViewModel.class);
 
         actViewModel.getEstaApuntado().observe(getViewLifecycleOwner(), this::actualizarBoton);
 
-        // Observar actividad seleccionada
         actViewModel.getSelectedAct().observe(getViewLifecycleOwner(), act -> {
             if (act == null) return;
 
@@ -73,8 +72,20 @@ public class DetailsActFragment extends Fragment {
                     .centerCrop()
                     .into(imgHeader);
 
-            // Comprobar si está apuntado
-            actViewModel.comprobarSiEstaApuntado(act);
+            long currentTime = System.currentTimeMillis();
+
+            if (act.getFecha() < currentTime) {
+                // La actividad ya pasó pues mostrar botón gris
+                btnApuntarse.setEnabled(false);
+                btnApuntarse.setText(getString(R.string.completed));
+                btnApuntarse.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.gray));
+                btnApuntarse.setTextColor(Color.WHITE);
+
+            } else {
+                // La actividad aún no ha pasado pues comportamiento normal
+                btnApuntarse.setEnabled(true);
+                actViewModel.comprobarSiEstaApuntado(act);
+            }
         });
 
         btnApuntarse.setOnClickListener(v -> {

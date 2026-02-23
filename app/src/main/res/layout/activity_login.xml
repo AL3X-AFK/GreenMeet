@@ -12,8 +12,8 @@
         android:id="@+id/overlayGreen"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:alpha="0.8"
-        android:background="#192200"
+        android:alpha="0.95"
+        android:background="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +24,7 @@
         android:layout_width="120dp"
         android:layout_height="100dp"
         android:layout_marginTop="40dp"
-        android:contentDescription="Logo"
+        android:contentDescription="@string/imgDescription"
         android:src="@drawable/logosvg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,6 +66,7 @@
         app:layout_constraintStart_toStartOf="@id/guideline1"
         app:layout_constraintTop_toBottomOf="@id/txtEmail">
 
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
@@ -74,7 +75,7 @@
             android:inputType="textEmailAddress"
             android:paddingBottom="8dp"
             android:textColor="@color/white"
-            android:textColorHint="@color/gray" />
+            android:textColorHint="@color/gray_light" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Contraseña -->
@@ -109,7 +110,7 @@
             android:inputType="textPassword"
             android:paddingBottom="8dp"
             android:textColor="@color/white"
-            android:textColorHint="@color/gray" />
+            android:textColorHint="@color/gray_light" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -231,7 +232,7 @@
         android:layout_height="wrap_content"
         android:paddingVertical="15dp"
         android:text="@string/NoTienCuenta"
-        android:textColor="#979797"
+        android:textColor="@color/gray_light"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -244,7 +245,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.1" />
+        app:layout_constraintGuide_percent="0.15" />
 
     <!-- Guideline 2 -->
     <androidx.constraintlayout.widget.Guideline
@@ -252,6 +253,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.9" />
+        app:layout_constraintGuide_percent="0.85" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

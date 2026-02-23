@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="24dp"
+    android:background="@color/black"
     app:flow_horizontalAlign="center"
     >
 
@@ -14,7 +15,8 @@
         android:layout_height="200dp"
         android:id="@+id/sliderImage"
         android:src="@drawable/logosvg"
-        app:tint="@color/green_200"
+        android:contentDescription="@string/imgDescription"
+        app:tint="@color/green_100"
         />
 
     <TextView

@@ -43,31 +43,22 @@
                     android:id="@+id/imgUpload"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:contentDescription="@string/imgDescription"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
                     android:visibility="gone" />
                 <!-- Placeholder -->
-                <LinearLayout
+                <TextView
                     android:id="@+id/layoutPlaceholder"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:drawableTopCompat="@drawable/upload_icon"
+                    android:drawablePadding="6dp"
                     android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/upload_icon"
-                        app:tint="@color/gray" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:text="@string/subirImagen"
-                        android:textColor="@color/gray"
-                        android:textSize="13sp" />
-                </LinearLayout>
+                    android:text="@string/subirImagen"
+                    android:textColor="@color/black"
+                    android:textSize="13sp"
+                    app:drawableTint="@color/gray"/>
             </LinearLayout>
             <!-- Título -->
             <TextView
@@ -220,9 +211,9 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="5dp"
-        android:backgroundTint="@android:color/transparent"
+        android:backgroundTint="@android:color/white"
         android:text="@string/cancelar"
-        android:textColor="@color/green_100"
+        android:textColor="@color/darkgreen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

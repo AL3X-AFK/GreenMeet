@@ -1,5 +1,8 @@
 package com.alenic.greenmeet.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.AppCompatButton;
@@ -16,6 +19,8 @@ import android.widget.Toast;
 
 import com.alenic.greenmeet.R;
 import com.alenic.greenmeet.utils.Utils;
+
+import java.util.Locale;
 
 public class LanguageFragment extends Fragment {
 
@@ -46,7 +51,7 @@ public class LanguageFragment extends Fragment {
 
         // Inicializamos Spinner
         spinnerLanguage = view.findViewById(R.id.spinnerAppLanguage);
-        String[] languages = {"Español", "English", "Deutsch"};
+        String[] languages = {(getString(R.string.spanish)), (getString(R.string.english))};
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 getContext(),
@@ -77,13 +82,48 @@ public class LanguageFragment extends Fragment {
         // Botón Guardar
         btnSave = view.findViewById(R.id.btnSave);
         btnSave.setOnClickListener(v -> {
-            // Aquí podrías guardar los datos en tu base de datos o ViewModel
-            Toast.makeText(getContext(), getString(R.string.idiomaGuard), Toast.LENGTH_SHORT).show();
-            Utils.volver(this);
+
+            int position = spinnerLanguage.getSelectedItemPosition();
+            String langCode;
+
+            if (position == 0) {
+                langCode = "es";
+            } else {
+                langCode = "en";
+            }
+
+            saveLanguage(langCode);
+            setLocale(langCode);
+
         });
 
 
         return view;
+    }
+
+    private void saveLanguage(String langCode) {
+        SharedPreferences prefs = requireActivity()
+                .getSharedPreferences("Settings", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("app_lang", langCode);
+        editor.apply();
+    }
+
+    private void setLocale(String langCode) {
+
+        Locale locale = new Locale(langCode);
+        Locale.setDefault(locale);
+
+        Configuration config = new Configuration();
+        config.setLocale(locale);
+
+        requireActivity().getResources().updateConfiguration(
+                config,
+                requireActivity().getResources().getDisplayMetrics()
+        );
+
+        requireActivity().recreate();
     }
 
 }

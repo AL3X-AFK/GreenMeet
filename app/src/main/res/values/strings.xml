@@ -65,6 +65,7 @@
     <string name="selecFecha">Selecciona la fecha</string>
     <string name="ubicacion">Ubicación</string>
     <string name="intrUbicacion">Introduce la ubicación</string>
+    <string name="intrFecha">Introduce la fecha</string>
     <string name="descripcion">Descripción</string>
     <string name="intrDescripcion">Introduce la descripción</string>
     <string name="guardar">Guardar</string>
@@ -72,6 +73,7 @@
     <string name="fecha">Fecha</string>
     <string name="meApunto">Me apunto</string>
     <string name="guardarCambios">Guardar cambios</string>
+    <string name="completed">Reailizada</string>
 
 <!--Edit Profile-->
     <string name="telefono">Teléfono</string>
@@ -99,6 +101,8 @@
 
 <!--    Fragment Language-->
     <string name="selecIdioma">Selecciona el idioma de la app</string>
+    <string name="spanish">Español</string>
+    <string name="english">Inglés</string>
 
 <!--    Fragment License-->
     <string name="credits_text">"     Créditos de imágenes       Las imágenes utilizadas en esta aplicación provienen de Unsplash y se utilizan bajo la Unsplash License.       Foto de Ryoji Iwata en Unsplash      Foto de Martin Sanchez en Unsplash      Foto de RhondaK Native Florida Folk Artist en Unsplash      Foto de Eugene Golovesov en Unsplash      Foto de Guillermo Casales en Unsplash      Foto de Gia Duabav en Unsplash      Foto de Hannah Busing en Unsplash     "</string>
@@ -147,7 +151,16 @@
     <string name="noHayActiv">No hay actividades</string>
     <string name="error" translatable="false">Error</string>
     <string name="notificaciones">Notificaciones</string>
+    <string name="intTele">Introduce tu teléfono</string>
 
+
+
+<!--    Fragment Notifications-->
+    <string name="imgDescription" translatable="false">imgDescription</string>
+    <string name="cdBtnBack" translatable="false">cdBtnBack</string>
+    <string name="date_example" translatable="false">14 Feb - 18 Feb</string>
+    <string name="title_example" translatable="false">Reforestación Urbana</string>
+    <string name="loading">Cargando...</string>
 
 
 </resources>

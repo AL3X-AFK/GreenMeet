@@ -40,7 +40,7 @@
         android:layout_margin="16dp"
         app:hintEnabled="false"
         app:startIconDrawable="@drawable/search_icon"
-        app:boxBackgroundColor="@color/green_100"
+        app:boxBackgroundColor="@color/white"
         app:boxCornerRadiusTopStart="12dp"
         app:boxCornerRadiusTopEnd="12dp"
         app:boxCornerRadiusBottomStart="12dp"
@@ -54,6 +54,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/expAcciones"
+            android:textColorHint="@color/gray"
+            android:textColor="@color/black"
             android:textSize="14sp"
             android:drawableStart="@drawable/search_icon"
             android:background="@null"/>

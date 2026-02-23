@@ -47,7 +47,7 @@ public class CreateActFragment extends Fragment {
 
     private Button btnNext,btnCancel;
 
-    private LinearLayout layoutUpload, layoutPlaceholder;
+    private LinearLayout layoutUpload;
     private long selectedDateMillis = 0;
 
     private final ActivityResultLauncher<Intent> pickImageLauncher =
@@ -56,7 +56,6 @@ public class CreateActFragment extends Fragment {
                     imageUri = result.getData().getData();
                     imgUpload.setImageURI(imageUri);
                     imgUpload.setVisibility(View.VISIBLE);
-                    layoutPlaceholder.setVisibility(View.GONE);
                 }
             });
 
@@ -85,7 +84,6 @@ public class CreateActFragment extends Fragment {
         tvTitle = header.findViewById(R.id.tvTitle);
 
         layoutUpload = view.findViewById(R.id.layoutUpload);
-        layoutPlaceholder = view.findViewById(R.id.layoutPlaceholder);
         imgUpload = view.findViewById(R.id.imgUpload);
 
         btnNext = view.findViewById(R.id.btnNext);
