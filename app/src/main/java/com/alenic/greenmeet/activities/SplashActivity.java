@@ -18,7 +18,7 @@ public class SplashActivity extends AppCompatActivity {
                 .getBoolean("onboarding_done", false);
 
         if (!onboardingDone) {
-            // PRIMERA VEZ → navigation
+            // PRIMERA VEZ > navigation
             startActivity(new Intent(this, NavigationActivity.class));
         } else if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             // Ya vio navigation pero NO está logueado
