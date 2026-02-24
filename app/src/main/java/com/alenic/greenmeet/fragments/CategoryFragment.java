@@ -24,8 +24,12 @@ import com.alenic.greenmeet.viewmodel.ActViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Fragment encargado de mostrar las actividades filtradas
+ * por una categoría seleccionada.
+ */
 public class CategoryFragment extends Fragment {
-
+    // Clave para recibir la categoría como argumento
     private static final String ARG_CATEGORY = "category_name";
     private ActViewModel actViewModel;
     private ActAdapter adapter;
@@ -34,6 +38,10 @@ public class CategoryFragment extends Fragment {
     private View header;
     private ImageView btnBack;
 
+    /**
+     * Métod estático para crear una nueva instancia del fragment
+     * pasando la categoría como argumento.
+     */
     public static CategoryFragment newInstance(String categoryName) {
         CategoryFragment fragment = new CategoryFragment();
         Bundle args = new Bundle();
@@ -66,6 +74,11 @@ public class CategoryFragment extends Fragment {
                 .get(ActViewModel.class);
     }
 
+    /**
+     * Inicializa el header:
+     * - Botón volver
+     * - Título con la categoría seleccionada
+     */
     private void initHeader(View view) {
 
         header = view.findViewById(R.id.headerBack);
@@ -80,6 +93,10 @@ public class CategoryFragment extends Fragment {
         }
     }
 
+
+    /**
+     * Configura el RecyclerView y su adapter.
+     */
     private void setupRecycler(View view) {
 
         RecyclerView rv = view.findViewById(R.id.rvAcciones);
@@ -94,6 +111,10 @@ public class CategoryFragment extends Fragment {
         rv.setAdapter(adapter);
     }
 
+    /**
+     * Observa la lista de actividades desde el ViewModel.
+     * Filtra por categoría antes de mostrar.
+     */
     private void observeActs() {
 
         actViewModel.getActsByCreate().observe(getViewLifecycleOwner(), acts -> {
@@ -120,10 +141,12 @@ public class CategoryFragment extends Fragment {
         });
     }
 
+    //Solicita al ViewModel que cargue las actividades.
     private void loadData() {
         actViewModel.loadActsByCreate();
     }
 
+    //Abre el fragmento de detalles al pulsar una actividad.
     private void openDetailsFragment(Act act) {
 
         actViewModel.selectAct(act);

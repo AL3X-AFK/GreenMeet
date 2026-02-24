@@ -22,6 +22,12 @@ import com.alenic.greenmeet.viewmodel.ActViewModel;
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 
+/**
+ * Fragment que muestra el detalle completo de una actividad.
+ * Permite:
+ * - Ver información detallada
+ * - Apuntarse o desapuntarse
+ */
 public class DetailsActFragment extends Fragment {
 
     private ActViewModel actViewModel;
@@ -52,21 +58,26 @@ public class DetailsActFragment extends Fragment {
         btnBack = view.findViewById(R.id.btnBack);
         btnApuntarse = view.findViewById(R.id.btnApuntarse);
 
+        // Botón volver
         btnBack.setOnClickListener(v -> Utils.volver(this));
         actViewModel = new ViewModelProvider(requireActivity())
                 .get(ActViewModel.class);
 
+        // Observar si el usuario está apuntado
         actViewModel.getEstaApuntado().observe(getViewLifecycleOwner(), this::actualizarBoton);
 
+        // Observar actividad seleccionada
         actViewModel.getSelectedAct().observe(getViewLifecycleOwner(), act -> {
             if (act == null) return;
 
+            // Mostrar datos
             tvTitulo.setText(act.getTitulo());
             tvCategoria.setText(act.getCategoria());
             tvUbicacion.setText("📍 " + act.getUbicacion());
             tvDescripcion.setText(act.getDescripcion());
             tvFecha.setText(Utils.formatDate(act.getFecha()));
 
+            // Cargar imagen con Glide
             Glide.with(this)
                     .load(act.getImagenUrl())
                     .centerCrop()
@@ -74,8 +85,8 @@ public class DetailsActFragment extends Fragment {
 
             long currentTime = System.currentTimeMillis();
 
+            // La actividad ya pasó pues mostrar botón gris
             if (act.getFecha() < currentTime) {
-                // La actividad ya pasó pues mostrar botón gris
                 btnApuntarse.setEnabled(false);
                 btnApuntarse.setText(getString(R.string.completed));
                 btnApuntarse.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.gray));
@@ -88,6 +99,7 @@ public class DetailsActFragment extends Fragment {
             }
         });
 
+        // Click en apuntarse / desapuntarse
         btnApuntarse.setOnClickListener(v -> {
             Act act = actViewModel.getSelectedAct().getValue();
             Boolean apuntado = actViewModel.getEstaApuntado().getValue();
@@ -105,6 +117,10 @@ public class DetailsActFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Actualiza el estado visual del botón según
+     * si el usuario está apuntado o no.
+     */
     private void actualizarBoton(boolean apuntado) {
         btnApuntarse.setText(apuntado ? getString(R.string.desapuntarse) : getString(R.string.meApunto));
 

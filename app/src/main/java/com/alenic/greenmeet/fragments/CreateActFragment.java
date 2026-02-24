@@ -34,22 +34,33 @@ import java.util.Locale;
 
 import android.app.Activity;
 
+/**
+ * Fragment encargado de crear una nueva actividad.
+ * Permite al usuario:
+ * - Introducir datos
+ * - Seleccionar una imagen
+ * - Guardar la actividad en la base de datos
+ */
 
 public class CreateActFragment extends Fragment {
 
     private CreateActViewModel viewModel;
-    private ImageView imgUpload,btnBack;
+    private ImageView imgUpload, btnBack;
     private Uri imageUri;
     private TextView tvTitle;
     private View header;
     private TextInputEditText etTitulo, etUbicacion, etDescripcion, etDate;
     private AutoCompleteTextView actvCategoria;
 
-    private Button btnNext,btnCancel;
+    private Button btnNext, btnCancel;
 
     private LinearLayout layoutUpload;
     private long selectedDateMillis = 0;
 
+    /**
+     * Launcher moderno para abrir el selector de imágenes
+     * y recibir el resultado.
+     */
     private final ActivityResultLauncher<Intent> pickImageLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
@@ -93,13 +104,18 @@ public class CreateActFragment extends Fragment {
         String[] categorias = {(getString(R.string.arteUrbano)), (getString(R.string.verdeYnaturaleza)), (getString(R.string.limpUrbana)), (getString(R.string.salYdeporte)), (getString(R.string.cultYsociedad))};
         ArrayAdapter<String> categoriaAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, categorias);
         actvCategoria.setAdapter(categoriaAdapter);
+        // Evita escritura manual (solo selección)
         actvCategoria.setKeyListener(null);
         actvCategoria.setOnClickListener(v -> actvCategoria.showDropDown());
     }
 
+    /**
+     * Inicializa el ViewModel y observa resultados.
+     */
     private void initViewModel() {
         viewModel = new ViewModelProvider(this).get(CreateActViewModel.class);
 
+        // Observa éxito en subida
         viewModel.getUploadSuccess().observe(getViewLifecycleOwner(), success -> {
             if (success) {
                 Toast.makeText(requireContext(), (getString(R.string.actCreadaConExito)), Toast.LENGTH_SHORT).show();
@@ -107,6 +123,7 @@ public class CreateActFragment extends Fragment {
             }
         });
 
+        // Observa errores
         viewModel.getUploadError().observe(getViewLifecycleOwner(), error -> {
             if (error != null) {
                 Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show();
@@ -123,12 +140,18 @@ public class CreateActFragment extends Fragment {
         btnBack.setOnClickListener(v -> Utils.volver(this));
     }
 
+    /**
+     * Abre el selector de archivos para elegir imagen.
+     */
     private void openFileChooser() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         pickImageLauncher.launch(intent);
     }
 
+    /**
+     * Muestra el selector de fecha con MaterialDatePicker.
+     */
     private void showDatePicker() {
         MaterialDatePicker<Long> picker =
                 MaterialDatePicker.Builder.datePicker()
@@ -145,6 +168,9 @@ public class CreateActFragment extends Fragment {
         });
     }
 
+    /**
+     * Valida campos y envía datos al ViewModel.
+     */
     private void guardarAccion() {
         String titulo = etTitulo.getText().toString().trim();
         long fecha = selectedDateMillis;
@@ -152,7 +178,7 @@ public class CreateActFragment extends Fragment {
         String descripcion = etDescripcion.getText().toString().trim();
         String categoria = actvCategoria.getText().toString().trim();
 
-        if (titulo.isEmpty() || fecha==0 || ubicacion.isEmpty() ||
+        if (titulo.isEmpty() || fecha == 0 || ubicacion.isEmpty() ||
                 descripcion.isEmpty() || categoria.isEmpty()) {
             Toast.makeText(requireContext(), getString(R.string.rellenaTodosLosCampos), Toast.LENGTH_SHORT).show();
             return;

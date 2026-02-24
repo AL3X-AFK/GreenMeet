@@ -19,8 +19,11 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class SignupActivity extends AppCompatActivity {
-
-    private TextInputLayout emailLayout, passwordLayout,nameLayout;
+    /**
+     * Activity encargada del registro de nuevos usuarios.
+     * Valida los campos introducidos y delega la lógica de autenticación al AuthViewModel.
+     */
+    private TextInputLayout emailLayout, passwordLayout, nameLayout;
     private EditText etEmail, etPassword, etNombre;
     private MaterialButton btnRegister;
     private AuthViewModel viewModel;
@@ -37,7 +40,8 @@ public class SignupActivity extends AppCompatActivity {
         observeViewModel();
     }
 
-    private void initViews(){
+    //Inicializa las vistas del layout.
+    private void initViews() {
         emailLayout = findViewById(R.id.emailLayout);
         passwordLayout = findViewById(R.id.passwordLayout);
         nameLayout = findViewById(R.id.nameLayout);
@@ -48,24 +52,27 @@ public class SignupActivity extends AppCompatActivity {
         txtPregunta = findViewById(R.id.txtPregunta);
     }
 
-    private void setupViewModel(){
+    private void setupViewModel() {
         viewModel = new ViewModelProvider(this).get(AuthViewModel.class);
     }
 
-    private void setupListeners(){
+    private void setupListeners() {
+        //Redirige al login si el usuario ya tiene cuenta
         txtPregunta.setOnClickListener(v -> {
             Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
             startActivity(intent);
         });
-
+// Ejecuta validación al pulsar el botón
         btnRegister.setOnClickListener(v -> validarCampos());
 
+// Limpia errores automáticamente cuando el usuario escribe
         etEmail.addTextChangedListener(emailWatcher);
         etPassword.addTextChangedListener(passwordWatcher);
         etNombre.addTextChangedListener(nameWatcher);
 
     }
 
+    //Valida los campos antes de registrar el usuario.
     private void validarCampos() {
 
         String nombre = etNombre.getText().toString().trim();
@@ -100,9 +107,11 @@ public class SignupActivity extends AppCompatActivity {
 
     }
 
+    //Limpia error del email mientras el usuario escribe.
     private final TextWatcher emailWatcher = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -110,12 +119,15 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         @Override
-        public void afterTextChanged(Editable s) {}
+        public void afterTextChanged(Editable s) {
+        }
     };
 
+    //Limpia error de la contraseña mientras el usuario escribe.
     private final TextWatcher passwordWatcher = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -123,12 +135,15 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         @Override
-        public void afterTextChanged(Editable s) {}
+        public void afterTextChanged(Editable s) {
+        }
     };
 
+    //Limpia error del nombre mientras el usuario escribe.
     private final TextWatcher nameWatcher = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -136,9 +151,15 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         @Override
-        public void afterTextChanged(Editable s) {}
+        public void afterTextChanged(Editable s) {
+        }
     };
 
+    /**
+     * Observa el estado de autenticación desde el ViewModel.
+     * Si el registro es exitoso > abre MainActivity.
+     * Si falla > muestra mensaje de error.
+     */
     private void observeViewModel() {
 
         viewModel.getAuthState().observe(this, state -> {
