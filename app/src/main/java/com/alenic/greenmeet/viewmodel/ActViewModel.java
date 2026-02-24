@@ -40,9 +40,10 @@ public class ActViewModel extends ViewModel {
         return actsByCreate;
     }
 
-    public LiveData<Act> getSelectedAct() { return selectedAct; }
+    public LiveData<Act> getSelectedAct() {
+        return selectedAct;
+    }
 
-    public LiveData<String> getState() { return state; }
     public LiveData<List<Act>> getActsProximos() {
         return actsProximos;
     }
@@ -58,7 +59,7 @@ public class ActViewModel extends ViewModel {
 
     // Cargar todas las actividades
     public void loadActsByCreate() {
-        repository.getAllActsByCreate(new ActRepository.ActCallback<List<Act>>() {
+        repository.getAllActsByCreate(new ActRepository.ActCallback<>() {
             @Override
             public void onSuccess(List<Act> result) {
                 allActs = new ArrayList<>(result);
@@ -74,7 +75,7 @@ public class ActViewModel extends ViewModel {
 
     // Cargar solo las actividades limitadas a 5 y ordenadas por fecha (para HomeFragment)
     public void loadActsByFecha() {
-        repository.getAllActsByFecha(new ActRepository.ActCallback<List<Act>>() {
+        repository.getAllActsByDate(new ActRepository.ActCallback<List<Act>>() {
             @Override
             public void onSuccess(List<Act> result) {
                 actsByFecha.setValue(result);
@@ -125,9 +126,7 @@ public class ActViewModel extends ViewModel {
         List<Act> filteredList = new ArrayList<>();
 
         for (Act act : allActs) {
-            if (act.getTitulo() != null &&
-                    act.getTitulo().toLowerCase().contains(query.toLowerCase())) {
-
+            if (act.getTitulo() != null && act.getTitulo().toLowerCase().contains(query.toLowerCase())) {
                 filteredList.add(act);
             }
         }

@@ -53,7 +53,7 @@ public class ActAdapter extends ListAdapter<Act, ActAdapter.ActViewHolder> {
     public ActViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(itemLayout, parent, false);
-        return new ActViewHolder(view,itemLayout);
+        return new ActViewHolder(view, itemLayout);
     }
 
     @Override
@@ -80,7 +80,8 @@ public class ActAdapter extends ListAdapter<Act, ActAdapter.ActViewHolder> {
                 int position = getBindingAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
                     listener.onItemClick(getItem(position));
-                };
+                }
+                ;
             });
 
 

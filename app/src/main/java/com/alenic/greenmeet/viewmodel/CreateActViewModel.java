@@ -66,7 +66,7 @@ public class CreateActViewModel extends ViewModel {
             return;
         }
 
-        if (fechaMillis==0) {
+        if (fechaMillis == 0) {
             uploadError.postValue("La fecha es obligatoria");
             return;
         }

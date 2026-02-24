@@ -20,7 +20,7 @@ public class AuthRepository {
         void onError(String error);
     }
 
-    // 🔹 Registro
+    // Registro
     public void register(String nombre, String email, String password, AuthCallback callback) {
 
         auth.createUserWithEmailAndPassword(email, password)
@@ -42,7 +42,7 @@ public class AuthRepository {
                         callback.onError(e.getMessage()));
     }
 
-    // 🔹 Login
+    // Login
     public void login(String email, String password, AuthCallback callback) {
 
         auth.signInWithEmailAndPassword(email, password)

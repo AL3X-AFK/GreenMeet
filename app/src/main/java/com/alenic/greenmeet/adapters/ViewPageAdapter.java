@@ -18,6 +18,7 @@ public class ViewPageAdapter extends PagerAdapter {
     Context context;
     int sliderAllDesc[] = {R.string.screen1desc, R.string.screen2desc, R.string.screen3desc};
     int[] sliderBackgrounds = {R.drawable.slidebg1, R.drawable.slidebg2, R.drawable.slidebg3};
+
     public ViewPageAdapter(Context context) {
         this.context = context;
     }

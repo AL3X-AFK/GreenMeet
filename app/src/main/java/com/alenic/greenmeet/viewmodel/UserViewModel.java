@@ -78,7 +78,10 @@ public class UserViewModel extends ViewModel {
                 });
     }
 
-    public void clearSession() { usuario.setValue(null); email.setValue(null); }
+    public void clearSession() {
+        usuario.setValue(null);
+        email.setValue(null);
+    }
 
     public void clearState() {
         state.setValue(null);

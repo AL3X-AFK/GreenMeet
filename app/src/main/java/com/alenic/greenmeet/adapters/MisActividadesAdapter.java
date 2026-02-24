@@ -16,6 +16,7 @@ import com.alenic.greenmeet.data.Act;
 import com.alenic.greenmeet.utils.Utils;
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
+
 import android.widget.TextView;
 
 public class MisActividadesAdapter extends ListAdapter<Act, MisActividadesAdapter.ViewHolder> {

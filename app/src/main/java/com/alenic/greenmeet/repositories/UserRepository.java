@@ -17,6 +17,7 @@ public class UserRepository {
 
     public interface UserCallback<T> {
         void onSuccess(T result);
+
         void onError(String error);
     }
 

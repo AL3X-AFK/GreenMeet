@@ -20,6 +20,7 @@ public class AuthViewModel extends ViewModel {
     public LiveData<String> getAuthState() {
         return authState;
     }
+
     public LiveData<Boolean> getLoginResult() {
         return loginResult;
     }
