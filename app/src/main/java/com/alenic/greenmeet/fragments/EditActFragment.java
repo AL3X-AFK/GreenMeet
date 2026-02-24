@@ -29,7 +29,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class EditActFragment extends Fragment {
-
+    //Fragment encargado de editar una actividad existente.
     private EditText etTitulo, etUbicacion, etFecha, etDescripcion;
     private Spinner spinnerCategoria;
     private AppCompatButton btnGuardar;
@@ -43,7 +43,8 @@ public class EditActFragment extends Fragment {
     // Guardamos la fecha real en millis
     private long selectedDateMillis;
 
-    public EditActFragment() {}
+    public EditActFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,6 +81,9 @@ public class EditActFragment extends Fragment {
                 .get(ActViewModel.class);
     }
 
+    /**
+     * Configura las categorías del Spinner.
+     */
     private void setupSpinner() {
         String[] categorias = {
                 getString(R.string.arteUrbano),
@@ -99,6 +103,10 @@ public class EditActFragment extends Fragment {
         spinnerCategoria.setAdapter(adapter);
     }
 
+    /**
+     * Observa la actividad seleccionada.
+     * Cuando cambia, actualiza automáticamente la UI.
+     */
     private void setupObservers() {
 
         actViewModel.getSelectedAct().observe(getViewLifecycleOwner(), act -> {
@@ -147,6 +155,9 @@ public class EditActFragment extends Fragment {
         );
     }
 
+    /**
+     * Muestra un MaterialDatePicker para seleccionar fecha.
+     */
     private void showDatePicker() {
 
         MaterialDatePicker<Long> picker =
@@ -171,6 +182,11 @@ public class EditActFragment extends Fragment {
         });
     }
 
+    /**
+     * Recoge los datos del formulario,
+     * valida campos obligatorios
+     * y actualiza la actividad en base de datos.
+     */
     private void updateAct() {
 
         Act actOriginal = actViewModel.getSelectedAct().getValue();
