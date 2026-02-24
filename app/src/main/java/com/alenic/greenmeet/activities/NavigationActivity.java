@@ -41,9 +41,9 @@ public class NavigationActivity extends AppCompatActivity {
             setDotIndicator(position);
             // Cambia el texto del botón en la última página
             if (position == 2) {
-                nextButton.setText("Inicio Sesión");
+                nextButton.setText(R.string.IniciarSesion);
             } else {
-                nextButton.setText("Siguiente");
+                nextButton.setText(R.string.siguiente);
             }
         }
 
