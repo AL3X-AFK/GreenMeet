@@ -162,15 +162,17 @@ public class SignupActivity extends AppCompatActivity {
      */
     private void observeViewModel() {
 
-        viewModel.getAuthState().observe(this, state -> {
-
-            if (state.equals("REGISTER_SUCCESS")) {
+        viewModel.getSuccess().observe(this, isSuccess -> {
+            if (Boolean.TRUE.equals(isSuccess)) {
                 Toast.makeText(this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this, MainActivity.class));
+
+                startActivity(new Intent(this, LoginActivity.class));
                 finish();
-            } else {
-                Toast.makeText(this, "Pruebe con una contraseña más fuerte", Toast.LENGTH_SHORT).show();
             }
+        });
+
+        viewModel.getError().observe(this, errorMessage -> {
+            Toast.makeText(this, "Error al registrarse", Toast.LENGTH_SHORT).show();
         });
     }
 }

@@ -1,5 +1,6 @@
 package com.alenic.greenmeet.adapters;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ public class MisActividadesAdapter extends ListAdapter<Act, MisActividadesAdapte
                     return oldItem.getTitulo().equals(newItem.getTitulo());
                 }
 
+                @SuppressLint("DiffUtilEquals")
                 @Override
                 public boolean areContentsTheSame(@NonNull Act oldItem, @NonNull Act newItem) {
                     return oldItem.equals(newItem);

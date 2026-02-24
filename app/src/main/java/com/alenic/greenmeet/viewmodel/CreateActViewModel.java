@@ -48,6 +48,7 @@ public class CreateActViewModel extends ViewModel {
         return uploadError;
     }
 
+    //Método para crear una actividad
     public void uploadAct(Context context,
                           Uri imageUri,
                           String titulo,
@@ -122,15 +123,7 @@ public class CreateActViewModel extends ViewModel {
                 }
 
                 // Crear objeto Act
-                Act act = new Act(
-                        titulo,
-                        categoria,
-                        fechaMillis,
-                        ubicacion,
-                        descripcion,
-                        publicUrl,
-                        user.getUid()
-                );
+                Act act = new Act(titulo, categoria, fechaMillis, ubicacion, descripcion, publicUrl, user.getUid());
 
                 repository.addAct(act, new ActRepository.ActCallback<Void>() {
                     @Override

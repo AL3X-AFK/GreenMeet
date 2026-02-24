@@ -90,8 +90,7 @@ public class EditProfileFragment extends Fragment {
             spinnerGender.setSelection(adapter.getPosition(u.getGenero()));
         });
 
-        userViewModel.getEmail().observe(getViewLifecycleOwner(),
-                etEmail::setText);
+        etEmail.setText(userViewModel.getEmail());
 
         userViewModel.getState().observe(getViewLifecycleOwner(), state -> {
 
@@ -99,18 +98,14 @@ public class EditProfileFragment extends Fragment {
 
             if (state.equals("UPDATE_SUCCESS")) {
 
-                Toast.makeText(getContext(),
-                        getString(R.string.perfilActualizado),
-                        Toast.LENGTH_SHORT).show();
-                        userViewModel.clearState();
+                Toast.makeText(getContext(), getString(R.string.perfilActualizado), Toast.LENGTH_SHORT).show();
+                userViewModel.clearState();
 
-                requireActivity().getSupportFragmentManager().popBackStack();
+                Utils.volver(this);
 
             } else {
 
-                Toast.makeText(getContext(),
-                        state,
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Error al actualizar el perfil", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -123,41 +118,11 @@ public class EditProfileFragment extends Fragment {
         btnSave.setOnClickListener(v -> {
 
             String nombre = etName.getText().toString().trim();
-            String emailNuevo = etEmail.getText().toString().trim();
             String telefono = etPhone.getText().toString().trim();
             String genero = spinnerGender.getSelectedItem().toString();
 
-            showReauthDialog(nombre, telefono, genero, emailNuevo);
+            userViewModel.updateProfile(nombre, telefono, genero);
         });
     }
 
-    private void showReauthDialog(String nombre,
-                                  String telefono,
-                                  String genero,
-                                  String emailNuevo) {
-
-        View dialog = LayoutInflater.from(getContext())
-                .inflate(R.layout.dialog_password, null);
-
-        EditText etPassword = dialog.findViewById(R.id.etPassword);
-
-        new AlertDialog.Builder(requireContext())
-                .setTitle(getString(R.string.verif))
-                .setView(dialog)
-                .setPositiveButton(getString(R.string.conf), (d, w) -> {
-
-                    String passwordActual =
-                            etPassword.getText().toString().trim();
-
-                    userViewModel.updateProfile(
-                            nombre,
-                            telefono,
-                            genero,
-                            passwordActual,
-                            emailNuevo
-                    );
-                })
-                .setNegativeButton(getString(R.string.cancelar), null)
-                .show();
-    }
 }

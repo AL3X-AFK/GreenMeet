@@ -41,11 +41,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        userViewModel.getEmail().observe(getViewLifecycleOwner(), email -> {
-            if (email != null) {
-                tvEmail.setText(email);
-            }
-        });
+        tvEmail.setText(userViewModel.getEmail());
 
         view.findViewById(R.id.menu_saves).setOnClickListener(v -> openFragment(new MyactFragment()));
         view.findViewById(R.id.editProfile).setOnClickListener(v -> openFragment(new EditProfileFragment()));

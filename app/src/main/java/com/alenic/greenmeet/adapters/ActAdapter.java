@@ -22,9 +22,8 @@ import java.util.List;
 
 public class ActAdapter extends ListAdapter<Act, ActAdapter.ActViewHolder> {
 
-
-    private final OnItemClickListener listener;
-    private final int itemLayout;
+    private final OnItemClickListener listener; // Interfaz para manejar clicks
+    private final int itemLayout; // Layout de la tarjeta
 
     public ActAdapter(int itemLayout, OnItemClickListener listener) {
         super(DIFF_CALLBACK);
@@ -32,8 +31,9 @@ public class ActAdapter extends ListAdapter<Act, ActAdapter.ActViewHolder> {
         this.listener = listener;
     }
 
+    // DiffUtil para optimizar cambios en la lista
     private static final DiffUtil.ItemCallback<Act> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<Act>() {
+            new DiffUtil.ItemCallback<>() {
 
                 @Override
                 public boolean areItemsTheSame(@NonNull Act oldItem, @NonNull Act newItem) {
@@ -48,6 +48,7 @@ public class ActAdapter extends ListAdapter<Act, ActAdapter.ActViewHolder> {
                 }
             };
 
+    // Crear ViewHolder inflando el layout
     @NonNull
     @Override
     public ActViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -56,6 +57,7 @@ public class ActAdapter extends ListAdapter<Act, ActAdapter.ActViewHolder> {
         return new ActViewHolder(view, itemLayout);
     }
 
+    // Asignar datos a la tarjeta
     @Override
     public void onBindViewHolder(@NonNull ActViewHolder holder, int position) {
         holder.bind(getItem(position));
@@ -73,18 +75,18 @@ public class ActAdapter extends ListAdapter<Act, ActAdapter.ActViewHolder> {
         public ActViewHolder(@NonNull View itemView, int layout) {
             super(itemView);
 
+            // Inicializamos elementos comunes
             imgAccion = itemView.findViewById(R.id.imgAccion);
             txtTitulo = itemView.findViewById(R.id.txtTitulo);
             btnVerMas = itemView.findViewById(R.id.btnVerMas);
+            // Click en el botón "Ver más"
             btnVerMas.setOnClickListener(v -> {
                 int position = getBindingAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
                     listener.onItemClick(getItem(position));
                 }
-                ;
             });
-
-
+            // Inicializamos elementos según layout
             if (layout == R.layout.act_card) {
                 txtUbicacion = itemView.findViewById(R.id.txtUbicacion);
             } else if (layout == R.layout.tarjeta_guardada) {
@@ -94,6 +96,7 @@ public class ActAdapter extends ListAdapter<Act, ActAdapter.ActViewHolder> {
             }
         }
 
+        // Asignar valores a los elementos de la UI
         void bind(Act act) {
             if (txtTitulo != null) txtTitulo.setText(act.getTitulo());
             if (txtUbicacion != null) txtUbicacion.setText(act.getUbicacion());
@@ -110,6 +113,7 @@ public class ActAdapter extends ListAdapter<Act, ActAdapter.ActViewHolder> {
         }
     }
 
+    //Emite la señal de que alguien ha hecho click sobre algo
     public interface OnItemClickListener {
         void onItemClick(Act act);
     }
