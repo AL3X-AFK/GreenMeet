@@ -10,54 +10,49 @@ public class AuthViewModel extends ViewModel {
 
     private final AuthRepository repository;
 
-    private final MutableLiveData<String> authState = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> loading = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> success = new MutableLiveData<>();
+    private final MutableLiveData<String> error = new MutableLiveData<>();
 
     public AuthViewModel() {
         repository = new AuthRepository();
     }
 
-    public LiveData<String> getAuthState() {
-        return authState;
+    public LiveData<Boolean> getSuccess() {
+        return success;
     }
 
-    public LiveData<Boolean> getLoginResult() {
-        return loginResult;
+    public LiveData<String> getError() {
+        return error;
     }
 
-
-    private final MutableLiveData<Boolean> loginResult = new MutableLiveData<>();
-
+    //Método para registrarse
     public void register(String nombre, String email, String password) {
-        loading.setValue(true);
 
         repository.register(nombre, email, password, new AuthRepository.AuthCallback() {
             @Override
             public void onSuccess() {
-                loading.postValue(false);
-                authState.postValue("REGISTER_SUCCESS");
+                success.postValue(true);
             }
 
             @Override
-            public void onError(String error) {
-                loading.postValue(false);
-                authState.postValue(error);
+            public void onError(String errorMessage) {
+                error.postValue(errorMessage);
             }
         });
     }
 
+    //Método para iniciar sesión
     public void login(String email, String password) {
-        loading.setValue(true);
 
         repository.login(email, password, new AuthRepository.AuthCallback() {
             @Override
             public void onSuccess() {
-                loginResult.postValue(true);
+                success.postValue(true);
             }
 
             @Override
-            public void onError(String error) {
-                loginResult.postValue(false);
+            public void onError(String errorMessage) {
+                error.postValue(errorMessage);
             }
         });
     }

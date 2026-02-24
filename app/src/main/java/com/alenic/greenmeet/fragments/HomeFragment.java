@@ -168,11 +168,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        userViewModel.getEmail().observe(getViewLifecycleOwner(), email -> {
-            if (email != null) {
-                tvEmail.setText(email);
-            }
-        });
+        tvEmail.setText(userViewModel.getEmail());
     }
 
     private void observeActs() {

@@ -171,9 +171,11 @@ public class ActRepository {
             return;
         }
 
+        // Esto es momentaneo, lo sustituiremos por un objeto de tipo Asistente
         Map<String, Object> data = new HashMap<>();
         data.put("fechaInscripcion", FieldValue.serverTimestamp());
 
+        //Guardamos los datos
         db.collection("acciones")
                 .document(act.getUid())
                 .collection("asistentes")
@@ -183,7 +185,7 @@ public class ActRepository {
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
-    // Desapuntarse
+    // Desapuntarse de un a actividad (Borrar el documento)
     public void desapuntarseActividad(Act act, ActCallback<Void> callback) {
 
         // Validar si el usuario ha iniciado sesión
@@ -212,6 +214,7 @@ public class ActRepository {
             return;
         }
 
+        //De momento, solo verifica si el documento existe o no (Si participamos en la actividad)
         db.collection("acciones")
                 .document(act.getUid())
                 .collection("asistentes")
@@ -224,6 +227,7 @@ public class ActRepository {
     }
 
 
+    // Recoger todas las actividades a las que el usuario esta apuntado (Actividades pasadas)
     public void getPastActsForUser(ActCallback<List<Act>> callback) {
 
         // Validar si el usuario ha iniciado sesión
@@ -244,31 +248,19 @@ public class ActRepository {
                     List<Act> lista = new ArrayList<>();
                     List<DocumentSnapshot> documents = snapshot.getDocuments();
 
-                    if (documents.isEmpty()) {
-                        callback.onSuccess(lista);
-                        return;
-                    }
-
                     final int totalDocs = documents.size();
                     final int[] processedCount = {0};
 
                     for (DocumentSnapshot doc : documents) {
-
                         Act act = doc.toObject(Act.class);
-
                         if (act != null) {
                             act.setUid(doc.getId());
-
-                            if (!currentUser.getUid().equals(act.getUserUid())) {
-
-                                isUserApuntado(act, new ActCallback<Boolean>() {
+                                isUserApuntado(act, new ActCallback<>() {
                                     @Override
                                     public void onSuccess(Boolean isApuntado) {
-
                                         if (isApuntado) {
                                             lista.add(act);
                                         }
-
                                         processedCount[0]++;
 
                                         if (processedCount[0] == totalDocs) {
@@ -279,19 +271,11 @@ public class ActRepository {
                                     @Override
                                     public void onError(String error) {
                                         processedCount[0]++;
-
                                         if (processedCount[0] == totalDocs) {
                                             callback.onSuccess(lista);
                                         }
                                     }
                                 });
-
-                            } else {
-                                processedCount[0]++;
-                                if (processedCount[0] == totalDocs) {
-                                    callback.onSuccess(lista);
-                                }
-                            }
                         } else {
                             processedCount[0]++;
                             if (processedCount[0] == totalDocs) {
@@ -303,6 +287,7 @@ public class ActRepository {
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
+    // Recoger todas las actividades a las que el usuario esta apuntado (Proximas a la fecha actual)
     public void getNextActsForUser(ActCallback<List<Act>> callback) {
 
         // Validar si el usuario ha iniciado sesión
@@ -323,54 +308,34 @@ public class ActRepository {
                     List<Act> lista = new ArrayList<>();
                     List<DocumentSnapshot> documents = snapshot.getDocuments();
 
-                    if (documents.isEmpty()) {
-                        callback.onSuccess(lista);
-                        return;
-                    }
-
                     final int totalDocs = documents.size();
                     final int[] processedCount = {0};
 
                     for (DocumentSnapshot doc : documents) {
-
                         Act act = doc.toObject(Act.class);
-
                         if (act != null) {
                             act.setUid(doc.getId());
-
-                            if (!currentUser.getUid().equals(act.getUserUid())) {
-
-                                isUserApuntado(act, new ActCallback<Boolean>() {
-                                    @Override
-                                    public void onSuccess(Boolean isApuntado) {
-
-                                        if (isApuntado) {
-                                            lista.add(act);
-                                        }
-
-                                        processedCount[0]++;
-
-                                        if (processedCount[0] == totalDocs) {
-                                            callback.onSuccess(lista);
-                                        }
+                            isUserApuntado(act, new ActCallback<>() {
+                                @Override
+                                public void onSuccess(Boolean isApuntado) {
+                                    if (isApuntado) {
+                                        lista.add(act);
                                     }
+                                    processedCount[0]++;
 
-                                    @Override
-                                    public void onError(String error) {
-                                        processedCount[0]++;
-
-                                        if (processedCount[0] == totalDocs) {
-                                            callback.onSuccess(lista);
-                                        }
+                                    if (processedCount[0] == totalDocs) {
+                                        callback.onSuccess(lista);
                                     }
-                                });
-
-                            } else {
-                                processedCount[0]++;
-                                if (processedCount[0] == totalDocs) {
-                                    callback.onSuccess(lista);
                                 }
-                            }
+
+                                @Override
+                                public void onError(String error) {
+                                    processedCount[0]++;
+                                    if (processedCount[0] == totalDocs) {
+                                        callback.onSuccess(lista);
+                                    }
+                                }
+                            });
                         } else {
                             processedCount[0]++;
                             if (processedCount[0] == totalDocs) {

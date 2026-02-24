@@ -118,17 +118,17 @@ public class LoginActivity extends AppCompatActivity {
 
     private void observeViewModel() {
 
-        viewModel.getLoginResult().observe(this, success -> {
-
-            if (success == null) return;
-
-            if (success) {
+        viewModel.getSuccess().observe(this, isSuccess -> {
+            if (Boolean.TRUE.equals(isSuccess)) {
                 Toast.makeText(this, "Credenciales correctas", Toast.LENGTH_SHORT).show();
+
                 startActivity(new Intent(this, MainActivity.class));
                 finish();
-            } else {
-                Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
             }
+        });
+
+        viewModel.getError().observe(this, errorMessage -> {
+                Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
         });
     }
 }

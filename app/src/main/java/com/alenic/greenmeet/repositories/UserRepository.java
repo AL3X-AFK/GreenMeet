@@ -1,14 +1,9 @@
 package com.alenic.greenmeet.repositories;
 
-import com.alenic.greenmeet.data.Usuario;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthProvider;
+import com.alenic.greenmeet.data.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class UserRepository {
 
@@ -17,7 +12,6 @@ public class UserRepository {
 
     public interface UserCallback<T> {
         void onSuccess(T result);
-
         void onError(String error);
     }
 
@@ -26,8 +20,8 @@ public class UserRepository {
         db = FirebaseFirestore.getInstance();
     }
 
-    public void getUser(UserCallback<Usuario> callback) {
-
+    //Recoger los datos del usuario que ha iniciado sesión
+    public void getUser(UserCallback<User> callback) {
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser == null) {
             callback.onError("Usuario no autenticado");
@@ -38,58 +32,32 @@ public class UserRepository {
                 .document(currentUser.getUid())
                 .get()
                 .addOnSuccessListener(doc -> {
-                    if (doc.exists()) {
-                        callback.onSuccess(doc.toObject(Usuario.class));
-                    } else {
-                        callback.onError("Usuario no encontrado");
-                    }
+                    User user = doc.toObject(User.class);
+                        callback.onSuccess(user);
+
                 })
-                .addOnFailureListener(e ->
-                        callback.onError(e.getMessage()));
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
+    //Recoger el email del user Auth
     public String getCurrentEmail() {
         FirebaseUser user = auth.getCurrentUser();
         return user != null ? user.getEmail() : null;
     }
 
-    public void updateProfile(String nombre,
-                              String telefono,
-                              String genero,
-                              String passwordActual,
-                              String emailNuevo,
-                              UserCallback<Void> callback) {
+    //Actualizar los datos del usuario
+    public void updateProfile(User usuario, UserCallback<Void> callback) {
 
-        FirebaseUser user = auth.getCurrentUser();
-        if (user == null) {
+        FirebaseUser firebaseUser = auth.getCurrentUser();
+        if (firebaseUser == null) {
             callback.onError("Usuario no autenticado");
             return;
         }
 
-        AuthCredential credential = EmailAuthProvider
-                .getCredential(user.getEmail(), passwordActual);
-
-        user.reauthenticate(credential)
-                .addOnSuccessListener(unused -> {
-
-                    user.verifyBeforeUpdateEmail(emailNuevo)
-                            .addOnSuccessListener(unused2 -> {
-
-                                Map<String, Object> updates = new HashMap<>();
-                                updates.put("nombre", nombre);
-                                updates.put("telefono", telefono);
-                                updates.put("genero", genero);
-
-                                db.collection("usuarios")
-                                        .document(user.getUid())
-                                        .update(updates)
-                                        .addOnSuccessListener(unused3 ->
-                                                callback.onSuccess(null))
-                                        .addOnFailureListener(e ->
-                                                callback.onError(e.getMessage()));
-                            });
-                })
-                .addOnFailureListener(e ->
-                        callback.onError("Contraseña incorrecta"));
+        db.collection("usuarios")
+                .document(firebaseUser.getUid())
+                .set(usuario)
+                .addOnSuccessListener(unused -> callback.onSuccess(null))
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 }

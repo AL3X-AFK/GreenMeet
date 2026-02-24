@@ -1,21 +1,23 @@
 package com.alenic.greenmeet.data;
 
-public class Usuario {
+import com.google.firebase.firestore.Exclude;
 
+public class User {
+    @Exclude
     private String uid;
     private String nombre;
     private String telefono;
     private String genero;
 
-    public Usuario() {
+    public User() {
     }
 
-    public Usuario(String nombre, String telefono, String genero) {
+    public User(String nombre, String telefono, String genero) {
         this.nombre = nombre;
         this.telefono = telefono;
         this.genero = genero;
     }
-
+    @Exclude
     public String getUid() {
         return uid;
     }
@@ -31,7 +33,7 @@ public class Usuario {
     public String getGenero() {
         return genero;
     }
-
+    @Exclude
     public void setUid(String uid) {
         this.uid = uid;
     }

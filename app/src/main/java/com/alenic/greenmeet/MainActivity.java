@@ -56,11 +56,13 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
+        //Abrir Crear Actividad Fragment
         binding.fabAdd.setOnClickListener(v -> {
             replaceFragment(new CreateActFragment());
         });
     }
 
+    //Método para cambiar entre fragments
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -69,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    //Método para la configuración del idioma
     private void loadLocale() {
 
         SharedPreferences prefs = getSharedPreferences("Settings", MODE_PRIVATE);

@@ -4,51 +4,40 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.alenic.greenmeet.data.Usuario;
+import com.alenic.greenmeet.data.User;
 import com.alenic.greenmeet.repositories.UserRepository;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthProvider;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class UserViewModel extends ViewModel {
 
     private final UserRepository repository;
 
-    private final MutableLiveData<Usuario> usuario = new MutableLiveData<>();
-    private final MutableLiveData<String> email = new MutableLiveData<>();
+    private final MutableLiveData<User> usuario = new MutableLiveData<>();
     private final MutableLiveData<String> state = new MutableLiveData<>();
 
     public UserViewModel() {
         repository = new UserRepository();
     }
 
-    public LiveData<Usuario> getUsuario() {
+    public LiveData<User> getUsuario() {
         return usuario;
     }
 
-    public LiveData<String> getEmail() {
-        return email;
+    public String getEmail() {
+        return repository.getCurrentEmail();
     }
 
     public LiveData<String> getState() {
         return state;
     }
 
+    // Cargar los datos del usuario sobre el objeto User
     public void loadUser() {
 
-        email.setValue(repository.getCurrentEmail());
-
-        repository.getUser(new UserRepository.UserCallback<Usuario>() {
+        repository.getUser(new UserRepository.UserCallback<>() {
             @Override
-            public void onSuccess(Usuario result) {
+            public void onSuccess(User result) {
                 usuario.setValue(result);
             }
-
             @Override
             public void onError(String error) {
                 state.setValue(error);
@@ -56,19 +45,26 @@ public class UserViewModel extends ViewModel {
         });
     }
 
+    //Actualizar los datos del usuario
     public void updateProfile(String nombre,
                               String telefono,
-                              String genero,
-                              String passwordActual,
-                              String emailNuevo) {
+                              String genero) {
 
-        repository.updateProfile(nombre, telefono, genero,
-                passwordActual, emailNuevo,
-                new UserRepository.UserCallback<Void>() {
+        User usuarioActual = usuario.getValue();
+        if (usuarioActual == null) {
+            state.setValue("Error inesperado");
+            return;
+        }
+
+        usuarioActual.setNombre(nombre);
+        usuarioActual.setTelefono(telefono);
+        usuarioActual.setGenero(genero);
+
+        repository.updateProfile(usuarioActual,
+                new UserRepository.UserCallback<>() {
                     @Override
                     public void onSuccess(Void result) {
                         state.setValue("UPDATE_SUCCESS");
-                        loadUser(); // refrescar datos
                     }
 
                     @Override
@@ -80,7 +76,6 @@ public class UserViewModel extends ViewModel {
 
     public void clearSession() {
         usuario.setValue(null);
-        email.setValue(null);
     }
 
     public void clearState() {
