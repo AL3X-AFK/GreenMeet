@@ -97,7 +97,7 @@ public class HomeFragment extends Fragment {
 
         loadingLayout = view.findViewById(R.id.loadingLayout);
     }
-
+//Configura listeners de categorías.
     private void setupListeners(){
         catArte.setOnClickListener(v -> openCategory(getString(R.string.arteUrbano)));
 
@@ -110,6 +110,7 @@ public class HomeFragment extends Fragment {
         catCultura.setOnClickListener(v -> openCategory(getString(R.string.cultYsociedad)));
     }
 
+    //Configura RecyclerViews horizontales.
     private void setupRecyclerViews(View view) {
         RecyclerView rvAcciones = view.findViewById(R.id.rvAcciones);
         RecyclerView rvSugeridas = view.findViewById(R.id.rvAccionesSugeridas);
@@ -124,6 +125,7 @@ public class HomeFragment extends Fragment {
         rvSugeridas.setAdapter(adapterSugeridas);
     }
 
+    //Carga imágenes de categorías desde Supabase usando Glide.
     private void loadCategoryImages() {
 
         String baseUrl = "https://hckkchzuxzmtjdjalohk.supabase.co/storage/v1/object/public/greenmeet/";
@@ -159,6 +161,7 @@ public class HomeFragment extends Fragment {
                 .into(imgCultura);
     }
 
+    //Observa datos del usuario.
     private void observeUser() {
         userViewModel.getUsuario().observe(getViewLifecycleOwner(), usuario -> {
             if (usuario != null) {
@@ -171,7 +174,9 @@ public class HomeFragment extends Fragment {
         tvEmail.setText(userViewModel.getEmail());
     }
 
+    //Observa listas de actividades.
     private void observeActs() {
+        // Actividades ordenadas por creación
         actViewModel.getActsByCreate().observe(getViewLifecycleOwner(), acts -> {
             if (acts == null) return;
             List<Act> limitedActsByCreate = new ArrayList<>(acts.subList(0, Math.min(5, acts.size())));
@@ -179,6 +184,7 @@ public class HomeFragment extends Fragment {
             isActsCreateLoaded = true;
             checkIfAllLoaded();
         });
+        // Actividades ordenadas por fecha
         actViewModel.getActsByFecha().observe(getViewLifecycleOwner(), acts -> {
             if (acts == null) return;
             List<Act> limitedActsByFecha = new ArrayList<>(acts.subList(0, Math.min(5, acts.size())));
@@ -188,6 +194,7 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    //Abre detalles de una actividad.
     private void openDetailsFragment(Act act) {
         actViewModel.selectAct(act);
 
@@ -200,6 +207,7 @@ public class HomeFragment extends Fragment {
                 .commit();
     }
 
+    //Abre fragment de categoría específica.
     private void openCategory(String categoryName) {
 
         CategoryFragment fragment = CategoryFragment.newInstance(categoryName);
@@ -210,6 +218,8 @@ public class HomeFragment extends Fragment {
                 .addToBackStack(null)
                 .commit();
     }
+
+    //Oculta loading cuando todo ha cargado.
     private void checkIfAllLoaded() {
         if (isUserLoaded && isActsCreateLoaded && isActsFechaLoaded) {
             loadingLayout.setVisibility(View.GONE);

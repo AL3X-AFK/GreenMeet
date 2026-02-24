@@ -23,6 +23,11 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 
+/**
+ * Fragment encargado de mostrar la lista de actividades
+ * y permitir su búsqueda en tiempo real.
+ */
+
     public class ExploreFragment extends Fragment {
 
         private ActViewModel actViewModel;
@@ -55,6 +60,7 @@ import java.util.ArrayList;
                     .get(ActViewModel.class);
         }
 
+        //Configura el RecyclerView
         private void setupRecyclerView(View view) {
 
             RecyclerView rvActividades = view.findViewById(R.id.acProx);
@@ -68,6 +74,10 @@ import java.util.ArrayList;
             rvActividades.setAdapter(adapter);
         }
 
+    /**
+     * Observa la lista de actividades desde el ViewModel.
+     * Cuando cambian los datos, se actualiza la lista automáticamente.
+     */
         private void observeActs() {
 
             actViewModel.getActsByCreate().observe(getViewLifecycleOwner(), acts -> {
@@ -82,6 +92,10 @@ import java.util.ArrayList;
         }
 
 
+    /**
+     * Se ejecuta cuando el usuario pulsa una actividad.
+     * Guarda la actividad seleccionada y navega al fragment de detalles.
+     */
         private void openDetailsFragment(Act act) {
             actViewModel.selectAct(act);
 
@@ -94,6 +108,10 @@ import java.util.ArrayList;
                     .commit();
         }
 
+    /**
+     * Configura la búsqueda en tiempo real.
+     * Cada vez que el texto cambia, se filtra la lista.
+     */
         private void setupSearch(View view) {
 
             TextInputEditText searchEditText =

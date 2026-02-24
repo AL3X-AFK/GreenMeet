@@ -39,7 +39,6 @@ public class LanguageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_language, container, false);
 
         header = view.findViewById(R.id.headerBack);
@@ -101,6 +100,10 @@ public class LanguageFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Guarda el idioma seleccionado en SharedPreferences.
+     * Esto permite que el idioma persista al cerrar la app.
+     */
     private void saveLanguage(String langCode) {
         SharedPreferences prefs = requireActivity()
                 .getSharedPreferences("Settings", Context.MODE_PRIVATE);
@@ -110,6 +113,10 @@ public class LanguageFragment extends Fragment {
         editor.apply();
     }
 
+    /**
+     * Aplica el nuevo idioma a la aplicación.
+     * Se recrea la Activity para que todos los recursos se actualicen.
+     */
     private void setLocale(String langCode) {
 
         Locale locale = new Locale(langCode);
@@ -123,6 +130,7 @@ public class LanguageFragment extends Fragment {
                 requireActivity().getResources().getDisplayMetrics()
         );
 
+        // Recrea la Activity para aplicar cambios
         requireActivity().recreate();
     }
 

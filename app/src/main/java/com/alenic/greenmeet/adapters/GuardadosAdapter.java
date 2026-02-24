@@ -29,7 +29,7 @@ public class GuardadosAdapter extends RecyclerView.Adapter<GuardadosAdapter.View
         this.listener = listener;
     }
 
-    // Actualizar lista
+    // Actualiza la lista de actividades y refresca el RecyclerView.
     public void setActs(List<Act> nuevaLista) {
         this.lista = nuevaLista;
         notifyDataSetChanged();
@@ -38,6 +38,7 @@ public class GuardadosAdapter extends RecyclerView.Adapter<GuardadosAdapter.View
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // Inflamos el layout de la tarjeta individual
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.tarjeta_guardada, parent, false); // usar tarejta_guardada.xml
         return new ViewHolder(view);
@@ -71,7 +72,7 @@ public class GuardadosAdapter extends RecyclerView.Adapter<GuardadosAdapter.View
         return lista == null ? 0 : lista.size();
     }
 
-    // ---------------- ViewHolder ----------------
+    //ViewHolder
     static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgEvento;
         TextView txtTitulo, txtFecha, txtDescripcion;
@@ -79,6 +80,7 @@ public class GuardadosAdapter extends RecyclerView.Adapter<GuardadosAdapter.View
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
+            // Referencias a los elementos del layout de la tarjeta
             imgEvento = itemView.findViewById(R.id.imgEvento);
             txtTitulo = itemView.findViewById(R.id.txtTitulo);
             txtFecha = itemView.findViewById(R.id.txtFecha);
@@ -87,7 +89,7 @@ public class GuardadosAdapter extends RecyclerView.Adapter<GuardadosAdapter.View
         }
     }
 
-    // ---------------- Interfaz de click ----------------
+    //  Interfaz de click
     public interface OnItemClickListener {
         void onItemClick(Act act);
     }

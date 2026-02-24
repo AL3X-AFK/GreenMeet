@@ -29,9 +29,10 @@ public class NotificationsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // Inflate the layout for this fragment
+        // Inflamos el layout del fragmento
         View view = inflater.inflate(R.layout.fragment_notifications, container, false);
 
+        // Obtenemos la vista del header personalizado
         header = view.findViewById(R.id.headerBack);
 
         btnBack = header.findViewById(R.id.btnBack);

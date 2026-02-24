@@ -16,23 +16,28 @@ import com.alenic.greenmeet.R;
 public class ViewPageAdapter extends PagerAdapter {
 
     Context context;
+    // Array con los IDs de los textos de descripción de cada pantalla
     int sliderAllDesc[] = {R.string.screen1desc, R.string.screen2desc, R.string.screen3desc};
+    // Array con los backgrounds de cada slider
     int[] sliderBackgrounds = {R.drawable.slidebg1, R.drawable.slidebg2, R.drawable.slidebg3};
 
     public ViewPageAdapter(Context context) {
         this.context = context;
     }
 
+    // Número de pantallas del ViewPager
     @Override
     public int getCount() {
         return sliderAllDesc.length;
     }
 
+    // Determina si una vista corresponde a un objeto creado por instantiateItem
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
         return view == (LinearLayout) object;
     }
 
+    // Crear e inflar la vista para cada página
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
@@ -53,6 +58,7 @@ public class ViewPageAdapter extends PagerAdapter {
         return view;
     }
 
+    // Destruir vista al salir de la pantalla
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((LinearLayout) object);

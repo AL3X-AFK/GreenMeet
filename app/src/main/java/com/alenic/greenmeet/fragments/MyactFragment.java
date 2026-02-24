@@ -50,6 +50,7 @@ public class MyactFragment extends Fragment {
         tvTitle.setText(getString(R.string.misActs));
         btnBack.setOnClickListener(v -> Utils.volver(this));
 
+        // Inicializamos el repositorio de actividades
         repository = new ActRepository();
 
         // Adapter
@@ -77,6 +78,10 @@ public class MyactFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Carga las actividades creadas por el usuario.
+     * Actualiza el RecyclerView con los datos obtenidos desde Firebase.
+     */
     private void loadUserActivities() {
         repository.getMyActs(new ActRepository.ActCallback<List<Act>>() {
             @Override

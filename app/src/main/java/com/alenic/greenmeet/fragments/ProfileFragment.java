@@ -35,14 +35,17 @@ public class ProfileFragment extends Fragment {
         userViewModel = new ViewModelProvider(requireActivity())
                 .get(UserViewModel.class);
 
+        // Observamos los datos del usuario
         userViewModel.getUsuario().observe(getViewLifecycleOwner(), usuario -> {
             if (usuario != null) {
                 tvName.setText(usuario.getNombre());
             }
         });
 
+        // Mostramos el email del usuario
         tvEmail.setText(userViewModel.getEmail());
 
+        // Configuración de los menús
         view.findViewById(R.id.menu_saves).setOnClickListener(v -> openFragment(new MyactFragment()));
         view.findViewById(R.id.editProfile).setOnClickListener(v -> openFragment(new EditProfileFragment()));
 //        view.findViewById(R.id.menu_notifications).setOnClickListener(v -> openFragment(new NotificationsFragment()));
@@ -56,6 +59,9 @@ public class ProfileFragment extends Fragment {
     }
 
 
+    /**
+     * Método genérico para abrir un fragment en el contenedor principal de la actividad.
+     */
     private void openFragment(Fragment fragment) {
         if (getActivity() != null) {
             getActivity().getSupportFragmentManager()
@@ -66,10 +72,14 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    //Cierra la sesión del usuario y vuelve a la pantalla de login.
     private void logout() {
+        // Llamamos al repositorio de autenticación para cerrar sesión
         new AuthRepository().logout();
+        // Limpiamos los datos de sesión del ViewModel
         userViewModel.clearSession();
 
+        // Abrimos LoginActivity y limpiamos el stack de actividades
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

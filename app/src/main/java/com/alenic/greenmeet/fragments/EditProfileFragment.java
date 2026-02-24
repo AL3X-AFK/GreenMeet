@@ -22,6 +22,9 @@ import com.alenic.greenmeet.viewmodel.UserViewModel;
 
 public class EditProfileFragment extends Fragment {
 
+    /**
+     * Fragment encargado de editar el perfil del usuario.
+     */
     private EditText etName, etEmail, etPhone;
     private Spinner spinnerGender;
     private AppCompatButton btnSave;
@@ -65,6 +68,7 @@ public class EditProfileFragment extends Fragment {
                 .get(UserViewModel.class);
     }
 
+    //Configura el Spinner con las opciones de género.
     private void setupSpinner() {
         String[] genders = {getString(R.string.noEspecificar),getString(R.string.male), getString(R.string.female), getString(R.string.otro)};
 
@@ -110,6 +114,7 @@ public class EditProfileFragment extends Fragment {
         });
     }
 
+    //Configura eventos de botones.
     private void setupListeners() {
 
         btnBack.setOnClickListener(v ->

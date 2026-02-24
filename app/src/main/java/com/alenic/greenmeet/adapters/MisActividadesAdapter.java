@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 public class MisActividadesAdapter extends ListAdapter<Act, MisActividadesAdapter.ViewHolder> {
 
+    // Listener para manejar clicks en los elementos
     private final OnItemClickListener listener;
 
     public MisActividadesAdapter(OnItemClickListener listener) {
@@ -33,16 +34,19 @@ public class MisActividadesAdapter extends ListAdapter<Act, MisActividadesAdapte
             new DiffUtil.ItemCallback<Act>() {
                 @Override
                 public boolean areItemsTheSame(@NonNull Act oldItem, @NonNull Act newItem) {
+                    // Considera que son el mismo item si tienen el mismo título
                     return oldItem.getTitulo().equals(newItem.getTitulo());
                 }
 
                 @SuppressLint("DiffUtilEquals")
                 @Override
                 public boolean areContentsTheSame(@NonNull Act oldItem, @NonNull Act newItem) {
+                    // Considera que el contenido es el mismo si todos los campos son iguales
                     return oldItem.equals(newItem);
                 }
             };
 
+    //Crear ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -51,6 +55,7 @@ public class MisActividadesAdapter extends ListAdapter<Act, MisActividadesAdapte
         return new ViewHolder(view);
     }
 
+    // Asignamos datos del Act correspondiente al ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.bind(getItem(position));
@@ -70,6 +75,7 @@ public class MisActividadesAdapter extends ListAdapter<Act, MisActividadesAdapte
             txtFecha = itemView.findViewById(R.id.txtFecha);
             btnVerMas = itemView.findViewById(R.id.btnVerMas);
 
+            // Manejo de click en el botón "Ver más"
             btnVerMas.setOnClickListener(v -> {
                 int position = getBindingAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
@@ -90,6 +96,7 @@ public class MisActividadesAdapter extends ListAdapter<Act, MisActividadesAdapte
         }
     }
 
+    //Se llama cuando se hace click en un elemento de la lista.
     public interface OnItemClickListener {
         void onItemClick(Act act);
     }
