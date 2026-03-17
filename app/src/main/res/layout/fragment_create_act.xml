@@ -164,6 +164,7 @@
                     android:layout_height="52dp"
                     android:hint="@string/intrUbicacion"
                     android:textSize="14sp"
+                    android:paddingStart="14dp"
                    />
             </com.google.android.material.textfield.TextInputLayout>
             <!-- Descripción -->

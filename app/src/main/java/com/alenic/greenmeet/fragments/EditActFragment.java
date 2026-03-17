@@ -1,36 +1,54 @@
 package com.alenic.greenmeet.fragments;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.Filter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alenic.greenmeet.R;
 import com.alenic.greenmeet.data.Act;
 import com.alenic.greenmeet.repositories.ActRepository;
+import com.alenic.greenmeet.utils.NominatimService;
 import com.alenic.greenmeet.utils.Utils;
 import com.alenic.greenmeet.viewmodel.ActViewModel;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.material.datepicker.MaterialDatePicker;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class EditActFragment extends Fragment {
 
-    private EditText etTitulo, etUbicacion, etFecha, etDescripcion;
+    private EditText etTitulo, etFecha, etDescripcion;
+    private AutoCompleteTextView etUbicacion;
     private Spinner spinnerCategoria;
     private AppCompatButton btnGuardar;
     private ImageButton btnBack;
@@ -42,6 +60,15 @@ public class EditActFragment extends Fragment {
 
     // Guardamos la fecha real en millis
     private long selectedDateMillis;
+    private double selectedLat = 0;
+    private double selectedLon = 0;
+    private double userLat = 40.416;
+    private double userLon = -3.703;
+    private ArrayAdapter<NominatimService.NominatimResult> locationAdapter;
+    private final ActivityResultLauncher<String> locationPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
+                if (granted) obtenerUbicacion();
+            });
 
     public EditActFragment() {}
 
@@ -56,6 +83,7 @@ public class EditActFragment extends Fragment {
         setupSpinner();
         setupObservers();
         setupListeners();
+        pedirUbicacion();
 
         return rootView;
     }
@@ -73,6 +101,8 @@ public class EditActFragment extends Fragment {
         btnBack = header.findViewById(R.id.btnBack);
         tvTitle = header.findViewById(R.id.tvTitle);
         tvTitle.setText(getString(R.string.editarAct));
+
+        setupLocationAutocomplete();
     }
 
     private void setupViewModel() {
@@ -99,6 +129,101 @@ public class EditActFragment extends Fragment {
         spinnerCategoria.setAdapter(adapter);
     }
 
+    private void pedirUbicacion() {
+        if (ActivityCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            obtenerUbicacion();
+        } else {
+            locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+    }
+
+    private void obtenerUbicacion() {
+        FusedLocationProviderClient fusedClient =
+                LocationServices.getFusedLocationProviderClient(requireActivity());
+
+        if (ActivityCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) return;
+
+        fusedClient.getLastLocation().addOnSuccessListener(location -> {
+            if (location != null) {
+                userLat = location.getLatitude();
+                userLon = location.getLongitude();
+            }
+        });
+    }
+
+    private void setupLocationAutocomplete() {
+        locationAdapter = new ArrayAdapter<NominatimService.NominatimResult>(
+                requireContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                new ArrayList<>()) {
+
+            @Override
+            public Filter getFilter() {
+                return new Filter() {
+                    @Override
+                    protected FilterResults performFiltering(CharSequence constraint) {
+                        FilterResults r = new FilterResults();
+                        r.values = null; r.count = 0;
+                        return r;
+                    }
+                    @Override
+                    protected void publishResults(CharSequence constraint, FilterResults results) {}
+                };
+            }
+        };
+
+        etUbicacion.setAdapter(locationAdapter);
+
+        etUbicacion.addTextChangedListener(new TextWatcher() {
+            private final Handler searchHandler = new Handler(Looper.getMainLooper());
+
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String query = s.toString().trim();
+                searchHandler.removeCallbacksAndMessages(null);
+                if (query.length() >= 3) {
+                    searchHandler.postDelayed(() -> buscarUbicaciones(query), 500);
+                } else {
+                    locationAdapter.clear();
+                    locationAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+        etUbicacion.setOnItemClickListener((parent, view, position, id) -> {
+            NominatimService.NominatimResult result =
+                    (NominatimService.NominatimResult) parent.getItemAtPosition(position);
+            selectedLat = result.lat;
+            selectedLon = result.lon;
+            etUbicacion.setText(result.displayName);
+            etUbicacion.dismissDropDown();
+        });
+    }
+
+    private void buscarUbicaciones(String query) {
+        NominatimService.search(query, userLat, userLon, new NominatimService.NominatimCallback() {
+            @Override
+            public void onResults(List<NominatimService.NominatimResult> results) {
+                if (getActivity() == null || !isAdded()) return;
+                getActivity().runOnUiThread(() -> {
+                    locationAdapter.clear();
+                    locationAdapter.addAll(results);
+                    locationAdapter.notifyDataSetChanged();
+                    if (!results.isEmpty()) etUbicacion.showDropDown();
+                });
+            }
+            @Override
+            public void onError(String error) {
+                Log.e("Photon", "Error: " + error);
+            }
+        });
+    }
+
     private void setupObservers() {
 
         actViewModel.getSelectedAct().observe(getViewLifecycleOwner(), act -> {
@@ -109,6 +234,8 @@ public class EditActFragment extends Fragment {
             etUbicacion.setText(act.getUbicacion());
             etDescripcion.setText(act.getDescripcion());
 
+            selectedLat = act.getLatitud();
+            selectedLon = act.getLongitud();
             // Fecha long → formateada a texto
             selectedDateMillis = act.getFecha();
 
@@ -175,12 +302,7 @@ public class EditActFragment extends Fragment {
 
         Act actOriginal = actViewModel.getSelectedAct().getValue();
 
-        if (actOriginal == null) {
-            Toast.makeText(requireContext(),
-                    getString(R.string.errorObtenerActividad),
-                    Toast.LENGTH_SHORT).show();
-            return;
-        }
+        if (actOriginal == null) return;
 
         String titulo = etTitulo.getText().toString().trim();
         String ubicacion = etUbicacion.getText().toString().trim();
@@ -203,7 +325,7 @@ public class EditActFragment extends Fragment {
                 descripcion,
                 actOriginal.getImagenUrl(),
                 actOriginal.getUserUid(),
-                1.0,1.0
+                selectedLat,selectedLon
         );
 
         // Mantenemos ID
