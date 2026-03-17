@@ -1,9 +1,13 @@
 package com.alenic.greenmeet.activities;
 
+import static com.google.android.libraries.identity.googleid.GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CancellationSignal;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -11,24 +15,38 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.credentials.Credential;
+import androidx.credentials.CredentialManager;
+import androidx.credentials.CredentialManagerCallback;
+import androidx.credentials.CustomCredential;
+import androidx.credentials.GetCredentialRequest;
+import androidx.credentials.GetCredentialResponse;
+import androidx.credentials.exceptions.GetCredentialException;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alenic.greenmeet.MainActivity;
 import com.alenic.greenmeet.R;
 import com.alenic.greenmeet.viewmodel.AuthViewModel;
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption;
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.concurrent.Executors;
 
 public class LoginActivity extends AppCompatActivity {
 
 //    Activity encargada del inicio de sesión del usuario.
 //    Valida los campos de entrada y se comunica con el AuthViewModel
+    private static final String TAG = "LoginActivity";
     private TextInputLayout emailLayout, passwordLayout;
     private TextInputEditText etEmail, etPassword;
-    private MaterialButton btnLogin;
+    private MaterialButton btnLogin,btnGoogle;
     private AuthViewModel viewModel;
     private TextView txtRedirect;
+    private CredentialManager credentialManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
 
         initViews();
         setupViewModel();
+        credentialManager = CredentialManager.create(this);
         setupListeners();
         observeViewModel();
     }
@@ -47,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        btnGoogle     = findViewById(R.id.btnGoogle);
         txtRedirect = findViewById(R.id.txtPregunta);
     }
 
@@ -63,9 +83,98 @@ public class LoginActivity extends AppCompatActivity {
         );
 
         btnLogin.setOnClickListener(v -> validarCampos());
-
+        btnGoogle.setOnClickListener(v -> launchGoogleSignIn());
         etEmail.addTextChangedListener(emailWatcher);
         etPassword.addTextChangedListener(passwordWatcher);
+    }
+
+    // Google Sign-In
+    private void launchGoogleSignIn() {
+        //Construir la solicitud Google según la guía oficial
+        GetGoogleIdOption googleIdOption = new GetGoogleIdOption.Builder()
+                .setFilterByAuthorizedAccounts(true)        // primero cuentas ya usadas
+                .setServerClientId(getString(R.string.default_web_client_id))
+                .build();
+
+        GetCredentialRequest request = new GetCredentialRequest.Builder()
+                .addCredentialOption(googleIdOption)
+                .build();
+
+        //Lanzar Credential Manager
+        CancellationSignal cancellationSignal = new CancellationSignal();
+
+        credentialManager.getCredentialAsync(
+                this,
+                request,
+                cancellationSignal,
+                Executors.newSingleThreadExecutor(),
+                new CredentialManagerCallback<GetCredentialResponse, GetCredentialException>() {
+                    @Override
+                    public void onResult(GetCredentialResponse result) {
+                        runOnUiThread(() -> handleSignIn(result.getCredential()));
+                    }
+
+                    @Override
+                    public void onError(@NonNull GetCredentialException e) {
+                        // Sin cuentas autorizadas, mostrar todas las cuentas del dispositivo
+                        runOnUiThread(() -> launchGoogleSignInAllAccounts());
+                    }
+                }
+        );
+    }
+
+    //muestra selector con TODAS las cuentas Google
+    private void launchGoogleSignInAllAccounts() {
+        GetGoogleIdOption googleIdOption = new GetGoogleIdOption.Builder()
+                .setFilterByAuthorizedAccounts(false)       // ← diferencia clave
+                .setServerClientId(getString(R.string.default_web_client_id))
+                .build();
+
+        GetCredentialRequest request = new GetCredentialRequest.Builder()
+                .addCredentialOption(googleIdOption)
+                .build();
+
+        CancellationSignal cancellationSignal = new CancellationSignal();
+
+        credentialManager.getCredentialAsync(
+                this,
+                request,
+                cancellationSignal,
+                Executors.newSingleThreadExecutor(),
+                new CredentialManagerCallback<GetCredentialResponse, GetCredentialException>() {
+                    @Override
+                    public void onResult(GetCredentialResponse result) {
+                        runOnUiThread(() -> handleSignIn(result.getCredential()));
+                    }
+
+                    @Override
+                    public void onError(@NonNull GetCredentialException e) {
+                        runOnUiThread(() -> Toast.makeText(LoginActivity.this,
+                                "Error Google: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    }
+                }
+        );
+    }
+
+    //Manejar la credencial recibida
+    private void handleSignIn(Credential credential) {
+        if (credential instanceof CustomCredential
+                && credential.getType().equals(TYPE_GOOGLE_ID_TOKEN_CREDENTIAL)) {
+
+            CustomCredential customCredential = (CustomCredential) credential;
+            GoogleIdTokenCredential googleIdTokenCredential =
+                    GoogleIdTokenCredential.createFrom(customCredential.getData());
+
+            String idToken = googleIdTokenCredential.getIdToken();
+            String nombreGoogle = googleIdTokenCredential.getDisplayName() != null
+                    ? googleIdTokenCredential.getDisplayName() : "";
+
+            // Sin diálogo — el repositorio decide si es nuevo o no
+            viewModel.loginWithGoogle(idToken, nombreGoogle);
+
+        } else {
+            Log.w(TAG, "Credential is not of type Google ID!");
+        }
     }
 
     private void validarCampos() {
@@ -139,7 +248,7 @@ public class LoginActivity extends AppCompatActivity {
 
         viewModel.getSuccess().observe(this, isSuccess -> {
             if (Boolean.TRUE.equals(isSuccess)) {
-                Toast.makeText(this, "Credenciales correctas", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Credenciales correctas", Toast.LENGTH_SHORT).show();
 
                 startActivity(new Intent(this, MainActivity.class));
                 // Cerrar LoginActivity para que no se pueda volver atrás

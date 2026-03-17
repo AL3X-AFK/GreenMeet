@@ -161,6 +161,7 @@
     <string name="date_example" translatable="false">14 Feb - 18 Feb</string>
     <string name="title_example" translatable="false">Reforestación Urbana</string>
     <string name="loading">Cargando...</string>
+    <string name="default_web_client_id" translatable="false">736310735735-vv66da9ch0nvkqikqonssidclb0gavh7.apps.googleusercontent.com</string>
 
 
 </resources>

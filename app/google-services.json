@@ -12,7 +12,20 @@
           "package_name": "com.alenic.greenmeet"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "736310735735-vv66da9ch0nvkqikqonssidclb0gavh7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alenic.greenmeet",
+            "certificate_hash": "87aa13e29ad113d0a753a03499b8f24cd0dc0efc"
+          }
+        },
+        {
+          "client_id": "736310735735-c9can94tbrp9dacpbh5m5trv443hjd19.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAT-LEv8cxRGsRtK1X7EIa4DJAX9fjL1pM"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "736310735735-c9can94tbrp9dacpbh5m5trv443hjd19.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
