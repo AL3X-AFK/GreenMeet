@@ -10,6 +10,8 @@ public class Act {
     private String imagenUrl;
     private long fechaCreacion;
     private String userUid;
+    private double latitud;
+    private double longitud;
 
     public Act() {
     }
@@ -20,7 +22,9 @@ public class Act {
                String ubicacion,
                String descripcion,
                String imagenUrl,
-               String ownerUid) {
+               String ownerUid,
+               double latitud,
+               double longitud) {
 
         this.titulo = titulo;
         this.categoria = categoria;
@@ -30,6 +34,8 @@ public class Act {
         this.imagenUrl = imagenUrl;
         this.userUid = ownerUid;
         this.fechaCreacion = System.currentTimeMillis();
+        this.latitud = latitud;
+        this.longitud = longitud;
     }
 
     // Getters y setters
@@ -104,5 +110,9 @@ public class Act {
     public void setUbicacion(String ubicacion) {
         this.ubicacion = ubicacion;
     }
+    public double getLatitud() { return latitud; }
+    public double getLongitud() { return longitud; }
+    public void setLatitud(double latitud) { this.latitud = latitud; }
+    public void setLongitud(double longitud) { this.longitud = longitud; }
 
 }

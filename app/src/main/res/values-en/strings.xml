@@ -101,5 +101,6 @@
     <string name="spanish">Spanish</string>
     <string name="intTele">Enter your phone</string>
     <string name="loading">Loading...</string>
+    <string name="continuar_con_google">Continue with Google</string>
 
 </resources>

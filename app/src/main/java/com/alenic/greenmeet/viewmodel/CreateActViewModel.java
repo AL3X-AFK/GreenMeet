@@ -55,7 +55,9 @@ public class CreateActViewModel extends ViewModel {
                           long fechaMillis,
                           String ubicacion,
                           String descripcion,
-                          String categoria) {
+                          String categoria,
+                          double latitud,
+                          double longitud) {
 
         if (imageUri == null) {
             uploadError.postValue("Selecciona una imagen primero");
@@ -123,7 +125,7 @@ public class CreateActViewModel extends ViewModel {
                 }
 
                 // Crear objeto Act
-                Act act = new Act(titulo, categoria, fechaMillis, ubicacion, descripcion, publicUrl, user.getUid());
+                Act act = new Act(titulo, categoria, fechaMillis, ubicacion, descripcion, publicUrl, user.getUid(), latitud, longitud);
 
                 repository.addAct(act, new ActRepository.ActCallback<Void>() {
                     @Override

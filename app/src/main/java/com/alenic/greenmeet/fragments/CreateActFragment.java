@@ -1,35 +1,49 @@
 package com.alenic.greenmeet.fragments;
 
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 
+import android.os.Handler;
+import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alenic.greenmeet.R;
+import com.alenic.greenmeet.utils.NominatimService;
 import com.alenic.greenmeet.utils.Utils;
 import com.alenic.greenmeet.viewmodel.CreateActViewModel;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -49,13 +63,20 @@ public class CreateActFragment extends Fragment {
     private Uri imageUri;
     private TextView tvTitle;
     private View header;
-    private TextInputEditText etTitulo, etUbicacion, etDescripcion, etDate;
+    private TextInputEditText etTitulo, etDescripcion, etDate;
+    private AutoCompleteTextView etUbicacion;
     private AutoCompleteTextView actvCategoria;
 
     private Button btnNext, btnCancel;
 
     private LinearLayout layoutUpload;
     private long selectedDateMillis = 0;
+    private double selectedLat = 0;
+    private double selectedLon = 0;
+    private ArrayAdapter<NominatimService.NominatimResult> locationAdapter;
+
+    private double userLat = 40.416; // Madrid por defecto
+    private double userLon = -3.703;
 
     /**
      * Launcher moderno para abrir el selector de imágenes
@@ -69,6 +90,10 @@ public class CreateActFragment extends Fragment {
                     imgUpload.setVisibility(View.VISIBLE);
                 }
             });
+    private final ActivityResultLauncher<String> locationPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
+                if (granted) obtenerUbicacion();
+            });
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,13 +104,36 @@ public class CreateActFragment extends Fragment {
         initViews(view);
         initViewModel();
         setupListeners();
-
+        pedirUbicacion();
         return view;
+    }
+    private void pedirUbicacion() {
+        if (ActivityCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            obtenerUbicacion();
+        } else {
+            locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+    }
+
+    private void obtenerUbicacion() {
+        FusedLocationProviderClient fusedClient =
+                LocationServices.getFusedLocationProviderClient(requireActivity());
+
+        if (ActivityCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) return;
+
+        fusedClient.getLastLocation().addOnSuccessListener(location -> {
+            if (location != null) {
+                userLat = location.getLatitude();
+                userLon = location.getLongitude();
+                Log.d("Location", "Ubicación obtenida: " + userLat + ", " + userLon);
+            }
+        });
     }
 
     private void initViews(View view) {
         etTitulo = view.findViewById(R.id.tietTitle);
-        etUbicacion = view.findViewById(R.id.tietLocation);
         etDescripcion = view.findViewById(R.id.tietDescription);
         etDate = view.findViewById(R.id.etDate);
         actvCategoria = view.findViewById(R.id.actvCategoria);
@@ -99,6 +147,8 @@ public class CreateActFragment extends Fragment {
 
         btnNext = view.findViewById(R.id.btnNext);
         btnCancel = view.findViewById(R.id.btnCancel);
+        etUbicacion = view.findViewById(R.id.tietLocation);
+        setupLocationAutocomplete();
 
         // Configuración de categoría
         String[] categorias = {(getString(R.string.arteUrbano)), (getString(R.string.verdeYnaturaleza)), (getString(R.string.limpUrbana)), (getString(R.string.salYdeporte)), (getString(R.string.cultYsociedad))};
@@ -127,6 +177,87 @@ public class CreateActFragment extends Fragment {
         viewModel.getUploadError().observe(getViewLifecycleOwner(), error -> {
             if (error != null) {
                 Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setupLocationAutocomplete() {
+        locationAdapter = new ArrayAdapter<NominatimService.NominatimResult>(
+                requireContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                new ArrayList<>()) {
+
+            // Desactiva el filtro interno — nosotros controlamos los resultados
+            @Override
+            public Filter getFilter() {
+                return new Filter() {
+                    @Override
+                    protected FilterResults performFiltering(CharSequence constraint) {
+                        FilterResults results = new FilterResults();
+                        results.values = null;
+                        results.count = 0;
+                        return results;
+                    }
+
+                    @Override
+                    protected void publishResults(CharSequence constraint, FilterResults results) {
+                        // No hacer nada — el adapter ya tiene los datos correctos
+                    }
+                };
+            }
+        };
+
+        etUbicacion.setAdapter(locationAdapter);
+
+        etUbicacion.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            private final Handler searchHandler = new Handler(Looper.getMainLooper());
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String query = s.toString().trim();
+                searchHandler.removeCallbacksAndMessages(null);
+                if (query.length() >= 3) {
+                    searchHandler.postDelayed(() -> buscarUbicaciones(query), 500);
+                } else {
+                    locationAdapter.clear();
+                    locationAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        etUbicacion.setOnItemClickListener((parent, view, position, id) -> {
+            NominatimService.NominatimResult result =
+                    (NominatimService.NominatimResult) parent.getItemAtPosition(position);
+            selectedLat = result.lat;
+            selectedLon = result.lon;
+            etUbicacion.setText(result.displayName);
+            etUbicacion.dismissDropDown();
+        });
+    }
+
+    private void buscarUbicaciones(String query) {
+        Log.d("Photon", "Buscando: " + query);
+        NominatimService.search(query, userLat, userLon, new NominatimService.NominatimCallback() {
+            @Override
+            public void onResults(List<NominatimService.NominatimResult> results) {
+                Log.d("Photon", "Resultados: " + results.size());
+                if (getActivity() == null || !isAdded()) return;
+                getActivity().runOnUiThread(() -> {
+                    locationAdapter.clear();
+                    locationAdapter.addAll(results);
+                    locationAdapter.notifyDataSetChanged();
+                    if (!results.isEmpty()) etUbicacion.showDropDown();
+                });
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.e("Photon", "Error: " + error);
             }
         });
     }
@@ -184,6 +315,13 @@ public class CreateActFragment extends Fragment {
             return;
         }
 
-        viewModel.uploadAct(requireContext(), imageUri, titulo, fecha, ubicacion, descripcion, categoria);
+        // Validar que se haya seleccionado del autocompletado
+        if (selectedLat == 0 && selectedLon == 0) {
+            Toast.makeText(requireContext(),
+                    "Selecciona una ubicación de la lista", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        viewModel.uploadAct(requireContext(), imageUri, titulo, fecha, ubicacion, descripcion, categoria,selectedLat, selectedLon);
     }
 }

@@ -202,7 +202,8 @@ public class EditActFragment extends Fragment {
                 ubicacion,
                 descripcion,
                 actOriginal.getImagenUrl(),
-                actOriginal.getUserUid()
+                actOriginal.getUserUid(),
+                1.0,1.0
         );
 
         // Mantenemos ID

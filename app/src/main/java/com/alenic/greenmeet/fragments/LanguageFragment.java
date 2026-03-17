@@ -5,7 +5,9 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.os.LocaleListCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -81,19 +83,9 @@ public class LanguageFragment extends Fragment {
         // Botón Guardar
         btnSave = view.findViewById(R.id.btnSave);
         btnSave.setOnClickListener(v -> {
-
             int position = spinnerLanguage.getSelectedItemPosition();
-            String langCode;
-
-            if (position == 0) {
-                langCode = "es";
-            } else {
-                langCode = "en";
-            }
-
-            saveLanguage(langCode);
+            String langCode = (position == 0) ? "es" : "en";
             setLocale(langCode);
-
         });
 
 
@@ -118,20 +110,12 @@ public class LanguageFragment extends Fragment {
      * Se recrea la Activity para que todos los recursos se actualicen.
      */
     private void setLocale(String langCode) {
+        // Guarda primero
+        saveLanguage(langCode);
 
-        Locale locale = new Locale(langCode);
-        Locale.setDefault(locale);
-
-        Configuration config = new Configuration();
-        config.setLocale(locale);
-
-        requireActivity().getResources().updateConfiguration(
-                config,
-                requireActivity().getResources().getDisplayMetrics()
-        );
-
-        // Recrea la Activity para aplicar cambios
-        requireActivity().recreate();
+        // Usa AppCompatDelegate (funciona en Android 13+)
+        LocaleListCompat appLocale = LocaleListCompat.forLanguageTags(langCode);
+        AppCompatDelegate.setApplicationLocales(appLocale);
     }
 
 }

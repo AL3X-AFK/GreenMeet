@@ -202,7 +202,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:cornerRadius="6dp"
-        android:text="Continuar con Google"
+        android:text="@string/continuar_con_google"
         android:textColor="@android:color/black"
         app:icon="@drawable/ic_google"
         app:iconGravity="textStart"
