@@ -5,10 +5,10 @@
     <string name="screen2desc">Conecta con personas que comparten tus ideas e intereses.  Crea experiencias juntos..</string>
     <string name="screen3desc">Entra y descubre.</string>
 
-<!--    act_card-->
+    <!--    act_card-->
     <string name="MeApunto">Me apunto</string>
 
-<!--    activity_login y signup-->
+    <!--    activity_login y signup-->
     <string name="IniciarSesion">Iniciar Sesión</string>
     <string name="Email" translatable="false">E-mail</string>
     <string name="Contrasena">Contraseña</string>
@@ -22,7 +22,7 @@
     <string name="registrarse">Registrarse</string>
     <string name="tienesIniSesion">¿Tienes una cuenta? Inicia Sesión</string>
 
-<!--    Menu Main-->
+    <!--    Menu Main-->
     <string name="inicio">Inicio</string>
     <string name="explorar">Explorar</string>
     <string name="inscrito">Inscrito</string>
@@ -35,28 +35,28 @@
         <item>Otro</item>
     </string-array>
 
-<!--    Activity Navigation-->
+    <!--    Activity Navigation-->
     <string name="siguiente">Siguiente</string>
     <string name="omitir">Omitir</string>
 
-<!--    Dialog Password-->
+    <!--    Dialog Password-->
     <string name="confirmarContrasena">Confirmar contraseña</string>
     <string name="contrasenaActual">Contraseña actual</string>
 
-<!--    View Header Back-->
+    <!--    View Header Back-->
     <string name="titulo">Título</string>
 
-<!--    Tarjeta Guardadas-->
+    <!--    Tarjeta Guardadas-->
     <string name="verMas">Ver más</string>
 
-<!--    Slider Screen-->
+    <!--    Slider Screen-->
     <string name="bienv">Bienvenido a GreenMeet</string>
     <string name="descSliderScreen">Descubre una aplicación para crear y realizar actividades al aire libre con personas que comparten tus intereses.</string>
 
-<!--    Myacts  Card-->
+    <!--    Myacts  Card-->
     <string name="editar">Editar</string>
 
-<!--    Fragemnt Create, Edit, Details Act-->
+    <!--    Fragemnt Create, Edit, Details Act-->
     <string name="subirImagen">Subir una imagen</string>
     <string name="intrTitulo">Introduce el título</string>
     <string name="categoria">Categoría</string>
@@ -75,15 +75,15 @@
     <string name="guardarCambios">Guardar cambios</string>
     <string name="completed">Reailizada</string>
 
-<!--Edit Profile-->
+    <!--Edit Profile-->
     <string name="telefono">Teléfono</string>
     <string name="genero">Género</string>
 
-<!--    Fragment Explore-->
+    <!--    Fragment Explore-->
     <string name="mapaProx">Mapa proximamente</string>
     <string name="expAcciones">Explora acciones</string>
 
-<!--    Fragment home-->
+    <!--    Fragment home-->
     <string name="hola">Hola, </string>
     <string name="categorias">Categorías</string>
     <string name="arteUrbano">Arte urbano</string>
@@ -94,20 +94,20 @@
     <string name="accProx">Acciones próximas</string>
     <string name="sugerencias">Sugerencias</string>
 
-<!--    Fragmen Inscriptions-->
+    <!--    Fragmen Inscriptions-->
     <string name="misInscrip">Mis inscripciones</string>
     <string name="proximas">Próximas</string>
     <string name="realizadas">Realizadas</string>
 
-<!--    Fragment Language-->
+    <!--    Fragment Language-->
     <string name="selecIdioma">Selecciona el idioma de la app</string>
     <string name="spanish">Español</string>
     <string name="english">Inglés</string>
 
-<!--    Fragment License-->
+    <!--    Fragment License-->
     <string name="credits_text">"     Créditos de imágenes       Las imágenes utilizadas en esta aplicación provienen de Unsplash y se utilizan bajo la Unsplash License.       Foto de Ryoji Iwata en Unsplash      Foto de Martin Sanchez en Unsplash      Foto de RhondaK Native Florida Folk Artist en Unsplash      Foto de Eugene Golovesov en Unsplash      Foto de Guillermo Casales en Unsplash      Foto de Gia Duabav en Unsplash      Foto de Hannah Busing en Unsplash     "</string>
 
-<!--    Fragment Notifications-->
+    <!--    Fragment Notifications-->
     <string name="tituloNoti1">Título de la notificación</string>
     <string name="descNoti1">Aquí va el mensaje de la notificación. Puede ser largo y descriptivo.</string>
     <string name="tiempoNoti1">Hace 2 horas</string>
@@ -121,7 +121,7 @@
     <!--Fragment Privacity-->
     <string name="privacy_policy_text" translatable="false">"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur? "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?"</string>
 
-<!--    Fragment profile-->
+    <!--    Fragment profile-->
     <string name="misActs">Mis Actividades</string>
     <string name="idioma">Idioma</string>
     <string name="polPrivacidad">Política de Privacidad</string>
@@ -154,8 +154,7 @@
     <string name="intTele">Introduce tu teléfono</string>
 
 
-
-<!--    Fragment Notifications-->
+    <!--    Fragment Notifications-->
     <string name="imgDescription" translatable="false">imgDescription</string>
     <string name="cdBtnBack" translatable="false">cdBtnBack</string>
     <string name="date_example" translatable="false">14 Feb - 18 Feb</string>
@@ -165,6 +164,7 @@
     <string name="default_web_client_id" translatable="false">736310735735-vv66da9ch0nvkqikqonssidclb0gavh7.apps.googleusercontent.com</string>
 
     <string name="continuar_con_google">Continuar con Google</string>
+    <string name="descubrir">Descubrir</string>
 
 
 </resources>

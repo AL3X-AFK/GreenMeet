@@ -6,6 +6,8 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +20,7 @@ import com.alenic.greenmeet.R;
 import com.alenic.greenmeet.adapters.ActAdapter;
 import com.alenic.greenmeet.adapters.GuardadosAdapter;
 import com.alenic.greenmeet.data.Act;
+import com.alenic.greenmeet.utils.Utils;
 import com.alenic.greenmeet.viewmodel.ActViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -32,6 +35,9 @@ import java.util.ArrayList;
 
         private ActViewModel actViewModel;
         private ActAdapter adapter;
+        private ImageButton btnBack;
+        private TextView tvTitle;
+        private View header;
 
         public ExploreFragment() {
             // Required empty public constructor
@@ -45,6 +51,14 @@ import java.util.ArrayList;
                 Bundle savedInstanceState) {
 
             View view = inflater.inflate(R.layout.fragment_explore, container, false);
+
+            header = view.findViewById(R.id.headerBack);
+            btnBack = header.findViewById(R.id.btnBack);
+            tvTitle = header.findViewById(R.id.tvTitle);
+            tvTitle.setText(getString(R.string.explorar));
+
+            btnBack.setOnClickListener(v ->
+                    Utils.volver(this));
 
             initViewModel();
             setupRecyclerView(view);

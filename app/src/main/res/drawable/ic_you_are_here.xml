@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Sombra exterior -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/gray"/>
+            <size android:width="52dp" android:height="52dp"/>
+        </shape>
+    </item>
+
+    <!-- Círculo verde principal -->
+    <item
+        android:left="4dp"
+        android:top="4dp"
+        android:right="4dp"
+        android:bottom="4dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/darkgreen"/>
+            <size android:width="44dp" android:height="44dp"/>
+        </shape>
+    </item>
+
+    <!-- Punto verde claro central -->
+    <item
+        android:left="16dp"
+        android:top="16dp"
+        android:right="16dp"
+        android:bottom="16dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/green_100"/>
+        </shape>
+    </item>
+
+</layer-list>

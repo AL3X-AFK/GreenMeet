@@ -4,40 +4,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
-    <TextView
-        android:id="@+id/tvExplorar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/explorar"
+    <include
+        android:id="@+id/headerBack"
+        layout="@layout/view_header_back"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:textAlignment="center"
-        android:paddingTop="30dp"
-        android:paddingBottom="20dp"
-        android:textSize="20sp"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:id="@+id/tvMapa"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/mapaProx"
-        app:layout_constraintTop_toBottomOf="@+id/tvExplorar"
-        app:layout_constraintStart_toStartOf="parent"
-        android:textAlignment="center"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:textSize="15sp"
-        android:textStyle="italic"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- Buscador -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/searchLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginTop="16dp"
         app:hintEnabled="false"
         app:startIconDrawable="@drawable/search_icon"
         app:boxBackgroundColor="@color/white"
@@ -45,7 +27,7 @@
         app:boxCornerRadiusTopEnd="12dp"
         app:boxCornerRadiusBottomStart="12dp"
         app:boxCornerRadiusBottomEnd="12dp"
-        app:layout_constraintTop_toBottomOf="@id/tvMapa"
+        app:layout_constraintTop_toBottomOf="@id/headerBack"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -72,7 +54,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="20dp"
-        android:paddingHorizontal="20dp"
         />
 
 
