@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alenic.greenmeet.adapters.ActAdapter;
 import com.alenic.greenmeet.R;
 import com.alenic.greenmeet.data.Act;
+import com.alenic.greenmeet.utils.Utils;
 import com.alenic.greenmeet.viewmodel.ActViewModel;
 import com.alenic.greenmeet.viewmodel.UserViewModel;
 import com.bumptech.glide.Glide;
@@ -98,17 +99,22 @@ public class HomeFragment extends Fragment {
         loadingLayout = view.findViewById(R.id.loadingLayout);
     }
 //Configura listeners de categorías.
-    private void setupListeners(){
-        catArte.setOnClickListener(v -> openCategory(getString(R.string.arteUrbano)));
+private void setupListeners(){
+    catArte.setOnClickListener(v ->
+            openCategory(Utils.categoriaToKey(requireContext(), getString(R.string.arteUrbano))));
 
-        catNaturaleza.setOnClickListener(v -> openCategory(getString(R.string.verdeYnaturaleza)));
+    catNaturaleza.setOnClickListener(v ->
+            openCategory(Utils.categoriaToKey(requireContext(), getString(R.string.verdeYnaturaleza))));
 
-        catLimpieza.setOnClickListener(v -> openCategory(getString(R.string.limpUrbana)));
+    catLimpieza.setOnClickListener(v ->
+            openCategory(Utils.categoriaToKey(requireContext(), getString(R.string.limpUrbana))));
 
-        catSalud.setOnClickListener(v -> openCategory(getString(R.string.salYdeporte)));
+    catSalud.setOnClickListener(v ->
+            openCategory(Utils.categoriaToKey(requireContext(), getString(R.string.salYdeporte))));
 
-        catCultura.setOnClickListener(v -> openCategory(getString(R.string.cultYsociedad)));
-    }
+    catCultura.setOnClickListener(v ->
+            openCategory(Utils.categoriaToKey(requireContext(), getString(R.string.cultYsociedad))));
+}
 
     //Configura RecyclerViews horizontales.
     private void setupRecyclerViews(View view) {

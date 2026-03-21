@@ -62,13 +62,7 @@ public class EditActFragment extends Fragment {
     private long selectedDateMillis;
     private double selectedLat = 0;
     private double selectedLon = 0;
-    private double userLat = 40.416;
-    private double userLon = -3.703;
     private ArrayAdapter<NominatimService.NominatimResult> locationAdapter;
-    private final ActivityResultLauncher<String> locationPermissionLauncher =
-            registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
-                if (granted) obtenerUbicacion();
-            });
 
     public EditActFragment() {}
 
@@ -83,8 +77,6 @@ public class EditActFragment extends Fragment {
         setupSpinner();
         setupObservers();
         setupListeners();
-        pedirUbicacion();
-
         return rootView;
     }
 
@@ -129,29 +121,6 @@ public class EditActFragment extends Fragment {
         spinnerCategoria.setAdapter(adapter);
     }
 
-    private void pedirUbicacion() {
-        if (ActivityCompat.checkSelfPermission(requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            obtenerUbicacion();
-        } else {
-            locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
-        }
-    }
-
-    private void obtenerUbicacion() {
-        FusedLocationProviderClient fusedClient =
-                LocationServices.getFusedLocationProviderClient(requireActivity());
-
-        if (ActivityCompat.checkSelfPermission(requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) return;
-
-        fusedClient.getLastLocation().addOnSuccessListener(location -> {
-            if (location != null) {
-                userLat = location.getLatitude();
-                userLon = location.getLongitude();
-            }
-        });
-    }
 
     private void setupLocationAutocomplete() {
         locationAdapter = new ArrayAdapter<NominatimService.NominatimResult>(
@@ -206,7 +175,7 @@ public class EditActFragment extends Fragment {
     }
 
     private void buscarUbicaciones(String query) {
-        NominatimService.search(query, userLat, userLon, new NominatimService.NominatimCallback() {
+        NominatimService.search(query, new NominatimService.NominatimCallback() {
             @Override
             public void onResults(List<NominatimService.NominatimResult> results) {
                 if (getActivity() == null || !isAdded()) return;
@@ -217,9 +186,10 @@ public class EditActFragment extends Fragment {
                     if (!results.isEmpty()) etUbicacion.showDropDown();
                 });
             }
+
             @Override
             public void onError(String error) {
-                Log.e("Photon", "Error: " + error);
+                Log.e("Nominatim", "Error: " + error);
             }
         });
     }
@@ -247,9 +217,8 @@ public class EditActFragment extends Fragment {
             ArrayAdapter<String> adapter =
                     (ArrayAdapter<String>) spinnerCategoria.getAdapter();
 
-            spinnerCategoria.setSelection(
-                    adapter.getPosition(act.getCategoria())
-            );
+            String textoCategoria = Utils.keyToCategoria(requireContext(), act.getCategoria());
+            spinnerCategoria.setSelection(adapter.getPosition(textoCategoria));
 
             // Cargar imagen
             Glide.with(this)
@@ -315,11 +284,18 @@ public class EditActFragment extends Fragment {
                     Toast.LENGTH_SHORT).show();
             return;
         }
+        // Validar que se haya seleccionado del autocompletado
+        if (selectedLat == 0 && selectedLon == 0) {
+            Toast.makeText(requireContext(),
+                    "Selecciona una ubicación de la lista", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String categoriaKey = Utils.categoriaToKey(requireContext(), categoria);
 
         // Creamos nueva Act manteniendo datos importantes
         Act actActualizada = new Act(
                 titulo,
-                categoria,
+                categoriaKey,
                 selectedDateMillis,
                 ubicacion,
                 descripcion,

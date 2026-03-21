@@ -16,6 +16,7 @@ import com.alenic.greenmeet.fragments.CreateActFragment;
 import com.alenic.greenmeet.fragments.ExploreFragment;
 import com.alenic.greenmeet.fragments.HomeFragment;
 import com.alenic.greenmeet.fragments.InscriptionsFragment;
+import com.alenic.greenmeet.fragments.MapFragment;
 import com.alenic.greenmeet.fragments.ProfileFragment;
 import com.alenic.greenmeet.viewmodel.UserViewModel;
 
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             if (id == R.id.home) {
                 replaceFragment(new HomeFragment());
             } else if (id == R.id.explore) {
-                replaceFragment(new ExploreFragment());
+                replaceFragment(new MapFragment());
             } else if (id == R.id.collection) {
                 replaceFragment(new InscriptionsFragment());
             } else if (id == R.id.profile) {

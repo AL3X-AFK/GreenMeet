@@ -75,9 +75,6 @@ public class CreateActFragment extends Fragment {
     private double selectedLon = 0;
     private ArrayAdapter<NominatimService.NominatimResult> locationAdapter;
 
-    private double userLat = 40.416; // Madrid por defecto
-    private double userLon = -3.703;
-
     /**
      * Launcher moderno para abrir el selector de imágenes
      * y recibir el resultado.
@@ -90,10 +87,6 @@ public class CreateActFragment extends Fragment {
                     imgUpload.setVisibility(View.VISIBLE);
                 }
             });
-    private final ActivityResultLauncher<String> locationPermissionLauncher =
-            registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
-                if (granted) obtenerUbicacion();
-            });
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -104,32 +97,7 @@ public class CreateActFragment extends Fragment {
         initViews(view);
         initViewModel();
         setupListeners();
-        pedirUbicacion();
         return view;
-    }
-    private void pedirUbicacion() {
-        if (ActivityCompat.checkSelfPermission(requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            obtenerUbicacion();
-        } else {
-            locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
-        }
-    }
-
-    private void obtenerUbicacion() {
-        FusedLocationProviderClient fusedClient =
-                LocationServices.getFusedLocationProviderClient(requireActivity());
-
-        if (ActivityCompat.checkSelfPermission(requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) return;
-
-        fusedClient.getLastLocation().addOnSuccessListener(location -> {
-            if (location != null) {
-                userLat = location.getLatitude();
-                userLon = location.getLongitude();
-                Log.d("Location", "Ubicación obtenida: " + userLat + ", " + userLon);
-            }
-        });
     }
 
     private void initViews(View view) {
@@ -152,7 +120,8 @@ public class CreateActFragment extends Fragment {
 
         // Configuración de categoría
         String[] categorias = {(getString(R.string.arteUrbano)), (getString(R.string.verdeYnaturaleza)), (getString(R.string.limpUrbana)), (getString(R.string.salYdeporte)), (getString(R.string.cultYsociedad))};
-        ArrayAdapter<String> categoriaAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, categorias);
+
+        ArrayAdapter<String> categoriaAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line,categorias);
         actvCategoria.setAdapter(categoriaAdapter);
         // Evita escritura manual (solo selección)
         actvCategoria.setKeyListener(null);
@@ -241,11 +210,9 @@ public class CreateActFragment extends Fragment {
     }
 
     private void buscarUbicaciones(String query) {
-        Log.d("Photon", "Buscando: " + query);
-        NominatimService.search(query, userLat, userLon, new NominatimService.NominatimCallback() {
+        NominatimService.search(query, new NominatimService.NominatimCallback() {
             @Override
             public void onResults(List<NominatimService.NominatimResult> results) {
-                Log.d("Photon", "Resultados: " + results.size());
                 if (getActivity() == null || !isAdded()) return;
                 getActivity().runOnUiThread(() -> {
                     locationAdapter.clear();
@@ -257,7 +224,7 @@ public class CreateActFragment extends Fragment {
 
             @Override
             public void onError(String error) {
-                Log.e("Photon", "Error: " + error);
+                Log.e("Nominatim", "Error: " + error);
             }
         });
     }
@@ -322,6 +289,8 @@ public class CreateActFragment extends Fragment {
             return;
         }
 
-        viewModel.uploadAct(requireContext(), imageUri, titulo, fecha, ubicacion, descripcion, categoria,selectedLat, selectedLon);
+        String categoriaKey = Utils.categoriaToKey(requireContext(), categoria);
+
+        viewModel.uploadAct(requireContext(), imageUri, titulo, fecha, ubicacion, descripcion, categoriaKey,selectedLat, selectedLon);
     }
 }

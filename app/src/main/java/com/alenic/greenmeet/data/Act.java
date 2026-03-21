@@ -1,5 +1,7 @@
 package com.alenic.greenmeet.data;
 
+import com.google.firebase.firestore.Exclude;
+
 public class Act {
     private String uid;
     private String titulo;
@@ -39,6 +41,8 @@ public class Act {
     }
 
     // Getters y setters
+
+    @Exclude
     public String getUid() {
         return uid;
     }
