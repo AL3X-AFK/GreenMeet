@@ -1,6 +1,7 @@
 package com.alenic.greenmeet.fragments;
 
 import android.app.AlertDialog;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.alenic.greenmeet.R;
 import com.alenic.greenmeet.utils.Utils;
 import com.alenic.greenmeet.viewmodel.UserViewModel;
+import com.google.android.material.imageview.ShapeableImageView;
 
 public class EditProfileFragment extends Fragment {
 
@@ -32,6 +34,8 @@ public class EditProfileFragment extends Fragment {
     private ImageButton btnBack;
     private TextView tvTitle;
     private View header;
+    private ShapeableImageView imgProfile;
+    private Uri selectedImageUri; // Para guardar la imagen elegida de la galería
 
     public EditProfileFragment() {}
 
