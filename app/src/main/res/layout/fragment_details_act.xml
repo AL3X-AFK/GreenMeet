@@ -117,8 +117,9 @@
 
                 <!-- Participantes -->
                 <TextView
+                    android:id="@+id/tvParticipantesLabel"
                     android:layout_marginTop="20dp"
-                    android:text="Participantes"
+                    android:text="@string/participantes"
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:layout_width="wrap_content"

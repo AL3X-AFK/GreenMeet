@@ -50,6 +50,7 @@ public class DetailsActFragment extends Fragment {
     private UserRepository userRepository;
 
     private ActRepository actRepository;
+    private TextView tvParticipantesLabel;
 
 
     public DetailsActFragment() {
@@ -73,6 +74,7 @@ public class DetailsActFragment extends Fragment {
         btnBack = view.findViewById(R.id.btnBack);
         btnApuntarse = view.findViewById(R.id.btnApuntarse);
         rvTeam = view.findViewById(R.id.rvTeam);
+        tvParticipantesLabel = view.findViewById(R.id.tvParticipantesLabel);
 
         //Inicializar repositorio
         userRepository = new UserRepository();
@@ -166,17 +168,21 @@ public class DetailsActFragment extends Fragment {
     private void cargarParticipantes(Act act) {
         if (act == null || act.getUid() == null) return;
 
-        // Llamamos al método limpio del repositorio
         actRepository.getAsistentesByAct(act.getUid(), new ActRepository.ActCallback<List<User>>() {
             @Override
             public void onSuccess(List<User> asistentes) {
-                // El adapter simplemente recibe la lista final
+                // 1. Actualizar el RecyclerView como ya hacíamos
                 userAdapter.setUsers(asistentes);
+
+                // 2. Calcular el tamaño y actualizar el label
+                int conteo = (asistentes != null) ? asistentes.size() : 0;
+                tvParticipantesLabel.setText("Participantes (" + conteo + ")");
             }
 
             @Override
             public void onError(String error) {
-                // Manejar error de carga si es necesario
+                // En caso de error, mostramos (0) para no dejar el texto roto
+                tvParticipantesLabel.setText("Participantes (0)");
             }
         });
     }
