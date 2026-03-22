@@ -103,5 +103,6 @@
     <string name="loading">Loading...</string>
     <string name="continuar_con_google">Continue with Google</string>
     <string name="descubrir">Discover</string>
+    <string name="participantes">Team</string>
 
 </resources>
