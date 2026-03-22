@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,11 +18,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alenic.greenmeet.R;
+import com.alenic.greenmeet.adapters.UserAdapter;
 import com.alenic.greenmeet.data.Act;
+import com.alenic.greenmeet.repositories.ActRepository;
 import com.alenic.greenmeet.utils.Utils;
 import com.alenic.greenmeet.viewmodel.ActViewModel;
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
+import com.alenic.greenmeet.data.User;
+import com.alenic.greenmeet.repositories.UserRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Fragment que muestra el detalle completo de una actividad.
@@ -36,6 +45,12 @@ public class DetailsActFragment extends Fragment {
     private ImageView imgHeader;
     private ImageButton btnBack;
     private MaterialButton btnApuntarse;
+    private RecyclerView rvTeam;
+    private UserAdapter userAdapter;
+    private UserRepository userRepository;
+
+    private ActRepository actRepository;
+
 
     public DetailsActFragment() {
         // Required empty public constructor
@@ -57,6 +72,16 @@ public class DetailsActFragment extends Fragment {
         imgHeader = view.findViewById(R.id.imgHeader);
         btnBack = view.findViewById(R.id.btnBack);
         btnApuntarse = view.findViewById(R.id.btnApuntarse);
+        rvTeam = view.findViewById(R.id.rvTeam);
+
+        //Inicializar repositorio
+        userRepository = new UserRepository();
+        actRepository = new ActRepository();
+
+        //Configurar RecyclerView
+        userAdapter = new UserAdapter();
+        rvTeam.setAdapter(userAdapter);
+        rvTeam.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         // Botón volver
         btnBack.setOnClickListener(v -> Utils.volver(this));
@@ -97,6 +122,8 @@ public class DetailsActFragment extends Fragment {
                 btnApuntarse.setEnabled(true);
                 actViewModel.comprobarSiEstaApuntado(act);
             }
+            userAdapter.setUsers(new ArrayList<>());
+            cargarParticipantes(act);
         });
 
         // Click en apuntarse / desapuntarse
@@ -131,5 +158,26 @@ public class DetailsActFragment extends Fragment {
             btnApuntarse.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.green_100));
             btnApuntarse.setTextColor(Color.BLACK);
         }
+    }
+
+    /**
+     *Cargar participantes desde Firestore
+     */
+    private void cargarParticipantes(Act act) {
+        if (act == null || act.getUid() == null) return;
+
+        // Llamamos al método limpio del repositorio
+        actRepository.getAsistentesByAct(act.getUid(), new ActRepository.ActCallback<List<User>>() {
+            @Override
+            public void onSuccess(List<User> asistentes) {
+                // El adapter simplemente recibe la lista final
+                userAdapter.setUsers(asistentes);
+            }
+
+            @Override
+            public void onError(String error) {
+                // Manejar error de carga si es necesario
+            }
+        });
     }
 }

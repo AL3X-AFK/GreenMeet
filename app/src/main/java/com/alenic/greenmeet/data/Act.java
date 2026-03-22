@@ -2,6 +2,8 @@ package com.alenic.greenmeet.data;
 
 import com.google.firebase.firestore.Exclude;
 
+import java.util.List;
+
 public class Act {
     private String uid;
     private String titulo;
@@ -14,6 +16,7 @@ public class Act {
     private String userUid;
     private double latitud;
     private double longitud;
+    private List<String> asistentes;
 
     public Act() {
     }
@@ -118,5 +121,13 @@ public class Act {
     public double getLongitud() { return longitud; }
     public void setLatitud(double latitud) { this.latitud = latitud; }
     public void setLongitud(double longitud) { this.longitud = longitud; }
+
+    public List<String> getAsistentes() {
+        return asistentes;
+    }
+
+    public void setAsistentes(List<String> asistentes) {
+        this.asistentes = asistentes;
+    }
 
 }

@@ -1,6 +1,7 @@
 package com.alenic.greenmeet.repositories;
 
 import com.alenic.greenmeet.data.Act;
+import com.alenic.greenmeet.data.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -343,6 +344,53 @@ public class ActRepository {
                                 callback.onSuccess(lista);
                             }
                         }
+                    }
+                })
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
+    }
+
+    // Obtener la lista de objetos User que están apuntados a una actividad
+    public void getAsistentesByAct(String actUid, ActCallback<List<User>> callback) {
+        db.collection("acciones")
+                .document(actUid)
+                .collection("asistentes")
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    List<User> listaUsuarios = new ArrayList<>();
+                    int totalAsistentes = querySnapshot.size();
+
+                    if (totalAsistentes == 0) {
+                        callback.onSuccess(listaUsuarios);
+                        return;
+                    }
+
+                    // Contador para controlar las peticiones asíncronas
+                    final int[] procesados = {0};
+
+                    for (DocumentSnapshot doc : querySnapshot.getDocuments()) {
+                        String userUid = doc.getId(); // El ID del doc es el UID del usuario
+
+                        // Reutilizamos la lógica de buscar usuario por ID
+                        // (Asumiendo que tienes acceso a UserRepository o la misma lógica aquí)
+                        db.collection("usuarios").document(userUid).get()
+                                .addOnSuccessListener(userDoc -> {
+                                    User usuario = userDoc.toObject(User.class);
+                                    if (usuario != null) {
+                                        usuario.setUid(userDoc.getId());
+                                        listaUsuarios.add(usuario);
+                                    }
+
+                                    procesados[0]++;
+                                    if (procesados[0] == totalAsistentes) {
+                                        callback.onSuccess(listaUsuarios);
+                                    }
+                                })
+                                .addOnFailureListener(e -> {
+                                    procesados[0]++;
+                                    if (procesados[0] == totalAsistentes) {
+                                        callback.onSuccess(listaUsuarios);
+                                    }
+                                });
                     }
                 })
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));

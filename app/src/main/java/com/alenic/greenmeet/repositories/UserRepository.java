@@ -60,4 +60,19 @@ public class UserRepository {
                 .addOnSuccessListener(unused -> callback.onSuccess(null))
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
+
+    public void getUserById(String uid, UserCallback<User> callback) {
+
+        db.collection("usuarios")
+                .document(uid)
+                .get()
+                .addOnSuccessListener(doc -> {
+                    User user = doc.toObject(User.class);
+                    if (user != null) {
+                        user.setUid(uid);
+                    }
+                    callback.onSuccess(user);
+                })
+                .addOnFailureListener(e -> callback.onError(e.getMessage()));
+    }
 }
