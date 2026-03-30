@@ -32,13 +32,24 @@ public class ProfileFragment extends Fragment {
         TextView tvName = view.findViewById(R.id.tvProfileName);
         TextView tvEmail = view.findViewById(R.id.tvProfileEmail);
 
+        com.google.android.material.imageview.ShapeableImageView ivProfile = view.findViewById(R.id.ivProfileMain);
+
         userViewModel = new ViewModelProvider(requireActivity())
                 .get(UserViewModel.class);
+
+        userViewModel.loadUser();
 
         // Observamos los datos del usuario
         userViewModel.getUsuario().observe(getViewLifecycleOwner(), usuario -> {
             if (usuario != null) {
                 tvName.setText(usuario.getNombre());
+
+                // CARGAR IMAGEN
+                if (usuario.getImagenProfileURL() != null && !usuario.getImagenProfileURL().isEmpty()) {
+                    com.bumptech.glide.Glide.with(this)
+                            .load(usuario.getImagenProfileURL())
+                            .into(ivProfile);
+                }
             }
         });
 

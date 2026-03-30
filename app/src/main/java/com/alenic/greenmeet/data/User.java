@@ -8,6 +8,7 @@ public class User {
     private String nombre;
     private String telefono;
     private String genero;
+    private String imagenProfileURL;
 
     public User() {
     }
@@ -33,6 +34,7 @@ public class User {
     public String getGenero() {
         return genero;
     }
+    public String getImagenProfileURL() { return imagenProfileURL;  }
     @Exclude
     public void setUid(String uid) {
         this.uid = uid;
@@ -49,4 +51,6 @@ public class User {
     public void setGenero(String genero) {
         this.genero = genero;
     }
+
+    public void setImagenProfileURL(String imagenProfileURL) { this.imagenProfileURL = imagenProfileURL;}
 }

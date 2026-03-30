@@ -21,6 +21,10 @@ import com.alenic.greenmeet.R;
 import com.alenic.greenmeet.utils.Utils;
 import com.alenic.greenmeet.viewmodel.UserViewModel;
 import com.google.android.material.imageview.ShapeableImageView;
+import android.app.Activity;
+import android.content.Intent;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 
 public class EditProfileFragment extends Fragment {
 
@@ -36,6 +40,14 @@ public class EditProfileFragment extends Fragment {
     private View header;
     private ShapeableImageView imgProfile;
     private Uri selectedImageUri; // Para guardar la imagen elegida de la galería
+
+    private final ActivityResultLauncher<Intent> pickImageLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                    selectedImageUri = result.getData().getData();
+                    imgProfile.setImageURI(selectedImageUri);
+                }
+            });
 
     public EditProfileFragment() {}
 
@@ -65,6 +77,8 @@ public class EditProfileFragment extends Fragment {
         btnBack = header.findViewById(R.id.btnBack);
         tvTitle = header.findViewById(R.id.tvTitle);
         tvTitle.setText(getString(R.string.editarPefil));
+
+        imgProfile = view.findViewById(R.id.imgProfile);
     }
 
     private void setupViewModel() {
@@ -93,6 +107,15 @@ public class EditProfileFragment extends Fragment {
 
             etName.setText(u.getNombre());
             etPhone.setText(u.getTelefono());
+
+            // CARGAR IMAGEN CON GLIDE
+            if (u.getImagenProfileURL() != null && !u.getImagenProfileURL().isEmpty()) {
+                com.bumptech.glide.Glide.with(this)
+                        .load(u.getImagenProfileURL())
+                        .placeholder(R.drawable.profile_icon) // Imagen mientras carga
+                        .error(R.drawable.profile_icon)       // Imagen si falla
+                        .into(imgProfile);
+            }
 
             ArrayAdapter adapter = (ArrayAdapter) spinnerGender.getAdapter();
             spinnerGender.setSelection(adapter.getPosition(u.getGenero()));
@@ -130,8 +153,16 @@ public class EditProfileFragment extends Fragment {
             String telefono = etPhone.getText().toString().trim();
             String genero = spinnerGender.getSelectedItem().toString();
 
-            userViewModel.updateProfile(nombre, telefono, genero);
+            userViewModel.updateProfile(nombre, telefono, genero, selectedImageUri, requireContext());
         });
+
+        imgProfile.setOnClickListener(v -> openFileChooser());
+    }
+
+    private void openFileChooser() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        pickImageLauncher.launch(intent);
     }
 
 }
