@@ -7,62 +7,41 @@
     android:background="@color/white"
     tools:context=".fragments.DetailsActFragment">
 
-    <!-- Imagen superior -->
-    <ImageView
-        android:id="@+id/imgHeader"
+    <ScrollView
+        android:id="@+id/mainScrollView"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
-        android:scaleType="centerInside"
-        android:contentDescription="@string/imgDescription"
-        android:src="@drawable/placeholder"
+        android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toTopOf="@id/btnApuntarse">
 
-    <!-- Boton atras -->
-    <ImageButton
-        android:id="@+id/btnBack"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_margin="16dp"
-        android:background="@drawable/circle_bg_back"
-        android:clickable="true"
-        android:contentDescription="@string/cdBtnBack"
-        android:src="@drawable/arrow_back_icon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/black" />
-    <!-- Card blanca -->
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardContent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/imgHeader"
-        app:layout_constraintBottom_toTopOf="@id/btnApuntarse"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="480dp"
-            android:padding="10dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imgHeader"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/imgDescription"
+                android:src="@drawable/placeholder" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="20dp">
 
-                <!-- Título -->
                 <TextView
                     android:id="@+id/tvTitulo"
                     android:text="@string/titulo"
-                    android:textSize="22sp"
+                    android:textSize="24sp"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-                <!-- Categoría -->
+
                 <TextView
                     android:id="@+id/tvCategory"
                     android:text="@string/categoria"
@@ -73,7 +52,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <!-- Ubicación -->
                 <TextView
                     android:id="@+id/tvUbicacion"
                     android:textSize="14sp"
@@ -81,7 +59,7 @@
                     android:layout_marginTop="4dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-                <!-- Horario -->
+
                 <TextView
                     android:layout_marginTop="20dp"
                     android:text="@string/fecha"
@@ -98,7 +76,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <!-- Descripción -->
                 <TextView
                     android:layout_marginTop="20dp"
                     android:text="@string/descripcion"
@@ -115,7 +92,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-                <!-- Participantes -->
                 <TextView
                     android:id="@+id/tvParticipantesLabel"
                     android:layout_marginTop="20dp"
@@ -128,24 +104,37 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvTeam"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </androidx.recyclerview.widget.RecyclerView>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:nestedScrollingEnabled="false" />
 
             </LinearLayout>
-        </ScrollView>
+        </LinearLayout>
+    </ScrollView>
 
-    </com.google.android.material.card.MaterialCardView>
-    <!-- Botón -->
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:elevation="10dp"
+        android:background="@drawable/circle_bg_back"
+        android:src="@drawable/arrow_back_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/black" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnApuntarse"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_margin="16dp"
         android:text="@string/meApunto"
         android:textAllCaps="false"
         android:textStyle="bold"
         android:backgroundTint="@color/green_100"
         android:textColor="@android:color/black"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        app:layout_constraintTop_toBottomOf="@id/cardContent"
+        app:cornerRadius="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
