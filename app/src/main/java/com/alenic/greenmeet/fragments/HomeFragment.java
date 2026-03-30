@@ -38,6 +38,7 @@ public class HomeFragment extends Fragment {
     private LinearLayout catArte,catNaturaleza,catLimpieza,catSalud,catCultura;
     private ImageView imgArte, imgNaturaleza, imgLimpieza, imgSalud, imgCultura;
     private View loadingLayout;
+    private ImageView imgUserProfileHome;
 
     private boolean isUserLoaded = false;
     private boolean isActsCreateLoaded = false;
@@ -96,6 +97,9 @@ public class HomeFragment extends Fragment {
         imgSalud = view.findViewById(R.id.imgSalud);
         imgCultura = view.findViewById(R.id.imgCultura);
 
+        loadingLayout = view.findViewById(R.id.loadingLayout);
+
+        imgUserProfileHome = view.findViewById(R.id.imgUserProfileHome);
         loadingLayout = view.findViewById(R.id.loadingLayout);
     }
 //Configura listeners de categorías.
@@ -171,7 +175,21 @@ private void setupListeners(){
     private void observeUser() {
         userViewModel.getUsuario().observe(getViewLifecycleOwner(), usuario -> {
             if (usuario != null) {
-                tvNombre.setText(getString(R.string.hola) + usuario.getNombre());
+                tvNombre.setText(getString(R.string.hola) + " " + usuario.getNombre());
+
+                // CARGAR FOTO
+                if (usuario.getImagenProfileURL() != null && !usuario.getImagenProfileURL().isEmpty()) {
+                    Glide.with(this)
+                            .load(usuario.getImagenProfileURL())
+                            .placeholder(R.drawable.profile_icon)
+                            .error(R.drawable.profile_icon)
+                            .circleCrop() // Hace la imagen circular
+                            .into(imgUserProfileHome);
+                } else {
+                    // Si no tiene foto, nos aseguramos de poner la de por defecto
+                    imgUserProfileHome.setImageResource(R.drawable.profile_icon);
+                }
+
                 isUserLoaded = true;
                 checkIfAllLoaded();
             }
