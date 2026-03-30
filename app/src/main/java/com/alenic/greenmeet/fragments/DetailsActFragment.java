@@ -171,7 +171,7 @@ public class DetailsActFragment extends Fragment {
         actRepository.getAsistentesByAct(act.getUid(), new ActRepository.ActCallback<List<User>>() {
             @Override
             public void onSuccess(List<User> asistentes) {
-                // 1. Actualizar el RecyclerView como ya hacíamos
+                // 1. Actualizar el RecyclerView
                 userAdapter.setUsers(asistentes);
 
                 // 2. Calcular el tamaño y actualizar el label
