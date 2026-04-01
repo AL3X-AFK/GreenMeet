@@ -18,11 +18,15 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alenic.greenmeet.R;
 import com.alenic.greenmeet.data.Act;
+import com.alenic.greenmeet.utils.Utils;
 import com.alenic.greenmeet.viewmodel.ActViewModel;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -37,6 +41,8 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
+import org.osmdroid.events.MapEventsReceiver;
+import org.osmdroid.views.overlay.MapEventsOverlay;
 
 import java.util.List;
 
@@ -45,6 +51,12 @@ public class MapFragment extends Fragment {
     private MapView mapView;
     private MyLocationNewOverlay locationOverlay;
     private ActViewModel actViewModel;
+    private View cardPreviewAct;
+    private TextView tvPreviewTitulo;
+    private TextView tvPreviewUbicacion;
+    private TextView tvPreviewFecha;
+    private ImageView imgPreview;
+    private View btnVerMas;
 
     private final ActivityResultLauncher<String> locationPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
@@ -74,6 +86,21 @@ public class MapFragment extends Fragment {
         mapView.setMultiTouchControls(true);
         mapView.setBuiltInZoomControls(false);
 
+        MapEventsReceiver mReceive = new MapEventsReceiver() {
+            @Override
+            public boolean singleTapConfirmedHelper(GeoPoint p) {
+                if (cardPreviewAct.getVisibility() == View.VISIBLE) {
+                    cardPreviewAct.setVisibility(View.GONE);
+                }
+                return false;
+            }
+            @Override
+            public boolean longPressHelper(GeoPoint p) {
+                return false;
+            }
+        };
+        mapView.getOverlays().add(new MapEventsOverlay(mReceive));
+
         // Pide el permiso al entrar al fragment
         if (ActivityCompat.checkSelfPermission(requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -89,7 +116,14 @@ public class MapFragment extends Fragment {
         );
         view.findViewById(R.id.btnOpenExplorer).setOnClickListener(v -> openFragment(new ExploreFragment()));
 
-        actViewModel = new ViewModelProvider(this).get(ActViewModel.class);
+        cardPreviewAct = view.findViewById(R.id.cardPreviewAct);
+        tvPreviewTitulo = view.findViewById(R.id.tvPreviewTitulo);
+        tvPreviewUbicacion = view.findViewById(R.id.tvPreviewUbicacion);
+        tvPreviewFecha = view.findViewById(R.id.tvPreviewFecha);
+        btnVerMas = view.findViewById(R.id.btnVerMas);
+        imgPreview = view.findViewById(R.id.imgPreview);
+
+        actViewModel = new ViewModelProvider(requireActivity()).get(ActViewModel.class);
         actViewModel.loadActsByFecha(); // Solo actividades futuras
         actViewModel.getActsByFecha().observe(getViewLifecycleOwner(), this::pintarActividades);
 
@@ -191,18 +225,45 @@ public class MapFragment extends Fragment {
 
     private void pintarActividades(List<Act> acts) {
         // Elimina marcadores anteriores de actividades (no el de ubicación)
-        mapView.getOverlays().removeIf(o -> o instanceof Marker && ((Marker) o).getTitle() != null);
-
+        mapView.getOverlays().removeIf(o -> o instanceof Marker && ((Marker) o).getRelatedObject() != null);
         for (Act act : acts) {
             if (act.getLatitud() == 0 && act.getLongitud() == 0) continue;
 
             Marker marker = new Marker(mapView);
             marker.setPosition(new GeoPoint(act.getLatitud(), act.getLongitud()));
-            marker.setTitle(act.getTitulo());
-            marker.setSnippet(act.getDescripcion());
+            marker.setRelatedObject(act); // Guardamos el objeto Act dentro del marcador
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-            marker.setIcon(ResourcesCompat.getDrawable(
-                    getResources(), R.drawable.ic_act_marker, null));
+            marker.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_act_marker, null));
+
+            // Interceptar el click en el marcador
+            marker.setOnMarkerClickListener((m, map) -> {
+                // Centrar el mapa en la actividad pulsada
+                mapView.getController().animateTo(m.getPosition());
+
+                // Rellenar los datos de la tarjeta
+                Act actClickeada = (Act) m.getRelatedObject();
+                tvPreviewTitulo.setText(actClickeada.getTitulo());
+                tvPreviewUbicacion.setText("📍 " + actClickeada.getUbicacion());
+                tvPreviewFecha.setText(Utils.formatDate(actClickeada.getFecha()));
+                // Imagen con Glide
+                Glide.with(requireContext())
+                        .load(actClickeada.getImagenUrl())
+                        .centerCrop()
+                        .placeholder(R.drawable.placeholder)
+                        .into(imgPreview);
+
+                // 3. Mostrar la tarjeta
+                cardPreviewAct.setVisibility(View.VISIBLE);
+
+                btnVerMas.setOnClickListener(v -> {
+                    actViewModel.selectAct(actClickeada); // Pasa la actividad al ViewModel
+                    openFragment(new DetailsActFragment()); // Abre tu vista detallada
+                });
+
+                //Devolver true indica que ya hemos manejado el evento
+                // y evita que salte la burbuja por defecto de OSMDroid.
+                return true;
+            });
 
             mapView.getOverlays().add(marker);
         }
