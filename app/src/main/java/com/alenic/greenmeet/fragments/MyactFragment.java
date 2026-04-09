@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ public class MyactFragment extends Fragment {
     private View header;
     private MisActividadesAdapter adapter;
     private ActRepository repository;
+    private LinearLayout layoutEmpty;
 
     public MyactFragment() {
         // Required empty public constructor
@@ -46,6 +48,8 @@ public class MyactFragment extends Fragment {
 
         btnBack = header.findViewById(R.id.btnBack);
         tvTitle = header.findViewById(R.id.tvTitle);
+
+        layoutEmpty = view.findViewById(R.id.layoutEmpty);
 
         tvTitle.setText(getString(R.string.misActs));
         btnBack.setOnClickListener(v -> Utils.volver(this));
@@ -86,15 +90,23 @@ public class MyactFragment extends Fragment {
         repository.getMyActs(new ActRepository.ActCallback<List<Act>>() {
             @Override
             public void onSuccess(List<Act> result) {
-                if (result.isEmpty()) {
-                    Toast.makeText(getContext(), getString(R.string.noHayActiv), Toast.LENGTH_SHORT).show();
+                if (result == null || result.isEmpty()) {
+                    // Si no hay datos: mostramos aviso y ocultamos lista
+                    layoutEmpty.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                } else {
+                    // Si hay datos: ocultamos aviso y mostramos lista
+                    layoutEmpty.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    adapter.submitList(result);
                 }
-                adapter.submitList(result); // Actualizamos el RecyclerView
             }
 
             @Override
             public void onError(String error) {
-                Toast.makeText(getContext(), getString(R.string.error) + error, Toast.LENGTH_SHORT).show();
+                // En caso de error, también es bueno mostrar el estado vacío o un error visual
+                layoutEmpty.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
             }
         });
     }

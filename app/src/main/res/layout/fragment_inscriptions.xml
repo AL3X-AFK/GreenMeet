@@ -39,6 +39,34 @@
             android:layout_height="match_parent"
             android:text="@string/realizadas"/>
     </com.google.android.material.tabs.TabLayout>
+    <LinearLayout
+        android:id="@+id/layoutEmptyInscriptions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/tabLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/rain"
+            app:tint="@color/gray" />
+
+        <TextView
+            android:id="@+id/tvEmptyMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/noHayActiv"
+            android:textSize="16sp"
+            android:textColor="@color/gray"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <!-- Recycler Próximos -->
     <androidx.recyclerview.widget.RecyclerView

@@ -104,5 +104,7 @@
     <string name="continuar_con_google">Continue with Google</string>
     <string name="descubrir">Discover</string>
     <string name="participantes">Team</string>
+    <string name="no_proximas">You have no upcoming registrations</string>
+    <string name="no_realizadas">You haven\'t completed any activities yet</string>
 
 </resources>

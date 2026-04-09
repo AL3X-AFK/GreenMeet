@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +24,7 @@ import com.alenic.greenmeet.viewmodel.ActViewModel;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class InscriptionsFragment extends Fragment {
 
@@ -30,6 +33,9 @@ public class InscriptionsFragment extends Fragment {
     private ActAdapter adapterProximos;
     private ActAdapter adapterRealizadas;
     private ActViewModel actViewModel;
+    private LinearLayout layoutEmpty;
+    private TextView tvEmptyMessage;
+    private TabLayout tabLayout;
 
     public InscriptionsFragment(){}
 
@@ -43,9 +49,11 @@ public class InscriptionsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_inscriptions, container, false);
 
-        TabLayout tabLayout = view.findViewById(R.id.tabLayout);
+        tabLayout = view.findViewById(R.id.tabLayout);
         rvProximos = view.findViewById(R.id.rvProximos);
         rvRealizadas = view.findViewById(R.id.rvRealizadas);
+        layoutEmpty = view.findViewById(R.id.layoutEmptyInscriptions);
+        tvEmptyMessage = view.findViewById(R.id.tvEmptyMessage);
 
         // ViewModel
         actViewModel = new ViewModelProvider(requireActivity())
@@ -63,16 +71,17 @@ public class InscriptionsFragment extends Fragment {
 
         // Observamos actividades próximas
         actViewModel.getActsProximos().observe(getViewLifecycleOwner(), acts -> {
-            if (acts != null) {
-                adapterProximos.submitList(acts);
-
+            adapterProximos.submitList(acts);
+            if (tabLayout.getSelectedTabPosition() == 0) {
+                updateEmptyState(acts);
             }
         });
 
         // Observamos actividades realizadas
         actViewModel.getActsRealizadas().observe(getViewLifecycleOwner(), acts -> {
-            if (acts != null ) {
-                adapterRealizadas.submitList(acts);
+            adapterRealizadas.submitList(acts);
+            if (tabLayout.getSelectedTabPosition() == 1) {
+                updateEmptyState(acts);
             }
         });
 
@@ -80,19 +89,20 @@ public class InscriptionsFragment extends Fragment {
         actViewModel.loadActsProximos();
         actViewModel.loadActsRealizadas();
 
-        // Tabs
+        // Gestión de Tabs
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 0) {
                     rvProximos.setVisibility(View.VISIBLE);
                     rvRealizadas.setVisibility(View.GONE);
+                    updateEmptyState(actViewModel.getActsProximos().getValue());
                 } else {
                     rvProximos.setVisibility(View.GONE);
                     rvRealizadas.setVisibility(View.VISIBLE);
+                    updateEmptyState(actViewModel.getActsRealizadas().getValue());
                 }
             }
-
             @Override public void onTabUnselected(TabLayout.Tab tab) {}
             @Override public void onTabReselected(TabLayout.Tab tab) {}
         });
@@ -111,5 +121,19 @@ public class InscriptionsFragment extends Fragment {
                 .replace(R.id.frame_layout, fragment)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    private void updateEmptyState(List<Act> lista) {
+        if (lista == null || lista.isEmpty()) {
+            layoutEmpty.setVisibility(View.VISIBLE);
+            // Opcional: Cambiar el texto según la pestaña
+            if (tabLayout.getSelectedTabPosition() == 0) {
+                tvEmptyMessage.setText(R.string.no_proximas);
+            } else {
+                tvEmptyMessage.setText(R.string.no_realizadas);
+            }
+        } else {
+            layoutEmpty.setVisibility(View.GONE);
+        }
     }
 }
