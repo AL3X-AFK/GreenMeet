@@ -108,6 +108,60 @@
                     android:layout_marginTop="8dp"
                     android:nestedScrollingEnabled="false" />
 
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="vertical"-->
+<!--                    android:layout_marginTop="24dp"-->
+<!--                    android:paddingBottom="20dp">-->
+
+<!--                    <RelativeLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content">-->
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/tvForoLabel"-->
+<!--                            android:text="Foro de dudas"-->
+<!--                            android:textStyle="bold"-->
+<!--                            android:textSize="18sp"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content" />-->
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/btnVerTodoForo"-->
+<!--                            android:text="Ver todo"-->
+<!--                            android:textColor="@color/darkgreen"-->
+<!--                            android:textStyle="bold"-->
+<!--                            android:layout_alignParentEnd="true"-->
+<!--                            android:layout_centerVertical="true"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:clickable="true"-->
+<!--                            android:focusable="true" />-->
+<!--                    </RelativeLayout>-->
+
+<!--                    <androidx.recyclerview.widget.RecyclerView-->
+<!--                        android:id="@+id/rvForoPreview"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="12dp"-->
+<!--                        android:nestedScrollingEnabled="false"-->
+<!--                        tools:listitem="@layout/item_duda" />-->
+
+<!--                    <com.google.android.material.button.MaterialButton-->
+<!--                        android:id="@+id/btnHacerPregunta"-->
+<!--                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="8dp"-->
+<!--                        android:text="Escribir una duda"-->
+<!--                        app:strokeColor="@color/darkgreen"-->
+<!--                        app:rippleColor="@color/green_100"-->
+<!--                        android:textColor="@color/darkgreen"-->
+<!--                        app:cornerRadius="8dp" />-->
+<!--                </LinearLayout>-->
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
