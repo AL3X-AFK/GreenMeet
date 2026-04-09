@@ -125,7 +125,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                android:maxLines="2"
+                android:maxLines="1"
                 android:ellipsize="end"
                 app:layout_constraintStart_toEndOf="@id/cardImgPreview"
                 app:layout_constraintEnd_toEndOf="parent"
