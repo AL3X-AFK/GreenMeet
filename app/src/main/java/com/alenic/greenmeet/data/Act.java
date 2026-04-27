@@ -16,6 +16,7 @@ public class Act {
     private String userUid;
     private double latitud;
     private double longitud;
+    @Exclude
     private List<String> asistentes;
 
     public Act() {

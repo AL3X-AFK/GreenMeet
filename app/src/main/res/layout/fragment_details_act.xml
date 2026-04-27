@@ -108,59 +108,79 @@
                     android:layout_marginTop="8dp"
                     android:nestedScrollingEnabled="false" />
 
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="vertical"-->
-<!--                    android:layout_marginTop="24dp"-->
-<!--                    android:paddingBottom="20dp">-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="24dp"
+                    android:paddingBottom="20dp">
 
-<!--                    <RelativeLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content">-->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-<!--                        <TextView-->
-<!--                            android:id="@+id/tvForoLabel"-->
-<!--                            android:text="Foro de dudas"-->
-<!--                            android:textStyle="bold"-->
-<!--                            android:textSize="18sp"-->
-<!--                            android:textColor="@color/black"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content" />-->
+                        <TextView
+                            android:id="@+id/tvForoLabel"
+                            android:text="Foro de dudas"
+                            android:textStyle="bold"
+                            android:textSize="18sp"
+                            android:textColor="@color/black"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
 
-<!--                        <TextView-->
-<!--                            android:id="@+id/btnVerTodoForo"-->
-<!--                            android:text="Ver todo"-->
-<!--                            android:textColor="@color/darkgreen"-->
-<!--                            android:textStyle="bold"-->
-<!--                            android:layout_alignParentEnd="true"-->
-<!--                            android:layout_centerVertical="true"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:clickable="true"-->
-<!--                            android:focusable="true" />-->
-<!--                    </RelativeLayout>-->
+                        <TextView
+                            android:id="@+id/btnVerTodoForo"
+                            android:text="Ver todo"
+                            android:textColor="@color/darkgreen"
+                            android:textStyle="bold"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true" />
+                    </RelativeLayout>
 
-<!--                    <androidx.recyclerview.widget.RecyclerView-->
-<!--                        android:id="@+id/rvForoPreview"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="12dp"-->
-<!--                        android:nestedScrollingEnabled="false"-->
-<!--                        tools:listitem="@layout/item_duda" />-->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvForoPreview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:nestedScrollingEnabled="false"
+                        tools:listitem="@layout/item_duda" />
 
-<!--                    <com.google.android.material.button.MaterialButton-->
-<!--                        android:id="@+id/btnHacerPregunta"-->
-<!--                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="8dp"-->
-<!--                        android:text="Escribir una duda"-->
-<!--                        app:strokeColor="@color/darkgreen"-->
-<!--                        app:rippleColor="@color/green_100"-->
-<!--                        android:textColor="@color/darkgreen"-->
-<!--                        app:cornerRadius="8dp" />-->
-<!--                </LinearLayout>-->
+                    <LinearLayout
+                        android:id="@+id/containerInputChat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center_vertical"
+                        android:padding="4dp">
+
+                        <EditText
+                            android:id="@+id/etDudaInput"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Escribe tu duda..."
+                            android:padding="12dp"
+                            android:background="@drawable/bg_chat_input"
+                            android:textSize="14sp"
+                            android:maxLines="3"
+                            android:inputType="textCapSentences|textMultiLine" />
+
+                        <ImageButton
+                            android:id="@+id/btnEnviarDuda"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_marginStart="8dp"
+                            android:src="@drawable/send_icon"
+                            android:background="@drawable/circle_bg_send"
+                            app:tint="@color/white"
+                            android:contentDescription="Enviar" />
+                    </LinearLayout>
+                </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>

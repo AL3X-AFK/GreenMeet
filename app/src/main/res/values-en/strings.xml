@@ -106,5 +106,6 @@
     <string name="participantes">Team</string>
     <string name="no_proximas">You have no upcoming registrations</string>
     <string name="no_realizadas">You haven\'t completed any activities yet</string>
+    <string name="dudas">All doubts</string>
 
 </resources>

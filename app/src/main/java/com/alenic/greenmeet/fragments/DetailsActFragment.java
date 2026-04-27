@@ -1,5 +1,7 @@
 package com.alenic.greenmeet.fragments;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -12,17 +14,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alenic.greenmeet.R;
+import com.alenic.greenmeet.adapters.DudaAdapter;
 import com.alenic.greenmeet.adapters.UserAdapter;
 import com.alenic.greenmeet.data.Act;
 import com.alenic.greenmeet.repositories.ActRepository;
 import com.alenic.greenmeet.utils.Utils;
 import com.alenic.greenmeet.viewmodel.ActViewModel;
+import com.alenic.greenmeet.viewmodel.ForoViewModel;
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import com.alenic.greenmeet.data.User;
@@ -40,6 +47,9 @@ import java.util.List;
 public class DetailsActFragment extends Fragment {
 
     private ActViewModel actViewModel;
+    private ForoViewModel foroViewModel;
+    private DudaAdapter dudaAdapter;
+    private RecyclerView rvForoPreview;
 
     private TextView tvTitulo, tvCategoria, tvUbicacion, tvDescripcion, tvFecha;
     private ImageView imgHeader;
@@ -51,6 +61,9 @@ public class DetailsActFragment extends Fragment {
 
     private ActRepository actRepository;
     private TextView tvParticipantesLabel;
+    private TextView btnVerTodoForo;
+    private EditText etDudaInput;
+    private ImageButton btnEnviarDuda;
 
 
     public DetailsActFragment() {
@@ -75,6 +88,9 @@ public class DetailsActFragment extends Fragment {
         btnApuntarse = view.findViewById(R.id.btnApuntarse);
         rvTeam = view.findViewById(R.id.rvTeam);
         tvParticipantesLabel = view.findViewById(R.id.tvParticipantesLabel);
+        btnVerTodoForo = view.findViewById(R.id.btnVerTodoForo);
+        etDudaInput = view.findViewById(R.id.etDudaInput);
+        btnEnviarDuda = view.findViewById(R.id.btnEnviarDuda);
 
         //Inicializar repositorio
         userRepository = new UserRepository();
@@ -85,10 +101,16 @@ public class DetailsActFragment extends Fragment {
         rvTeam.setAdapter(userAdapter);
         rvTeam.setLayoutManager(new LinearLayoutManager(requireContext()));
 
+        //Configurar RecyclerView Foro
+        rvForoPreview = view.findViewById(R.id.rvForoPreview);
+        dudaAdapter = new DudaAdapter();
+        rvForoPreview.setAdapter(dudaAdapter);
+        rvForoPreview.setLayoutManager(new LinearLayoutManager(requireContext()));
+
         // Botón volver
         btnBack.setOnClickListener(v -> Utils.volver(this));
-        actViewModel = new ViewModelProvider(requireActivity())
-                .get(ActViewModel.class);
+        actViewModel = new ViewModelProvider(requireActivity()).get(ActViewModel.class);
+        foroViewModel = new ViewModelProvider(requireActivity()).get(ForoViewModel.class);
 
         // Observar si el usuario está apuntado
         actViewModel.getEstaApuntado().observe(getViewLifecycleOwner(), this::actualizarBoton);
@@ -96,6 +118,24 @@ public class DetailsActFragment extends Fragment {
         // Observar actividad seleccionada
         actViewModel.getSelectedAct().observe(getViewLifecycleOwner(), act -> {
             if (act == null) return;
+
+            foroViewModel.loadDudas(act.getUid());
+
+            btnEnviarDuda.setOnClickListener(v -> {
+                String texto = etDudaInput.getText().toString().trim();
+                if (!texto.isEmpty()) {
+                    // Enviamos la duda
+                    foroViewModel.enviarDuda(act.getUid(), act.getUserUid(), texto,act.getTitulo());
+
+                    // Limpiamos el input y bajamos el teclado
+                    etDudaInput.setText("");
+                    ocultarTeclado();
+
+                    Toast.makeText(requireContext(), "Pregunta enviada", Toast.LENGTH_SHORT).show();
+                } else {
+                    etDudaInput.setError("Escribe algo");
+                }
+            });
 
             // Mostrar datos
             tvTitulo.setText(act.getTitulo());
@@ -143,7 +183,43 @@ public class DetailsActFragment extends Fragment {
 
         });
 
+        btnVerTodoForo.setOnClickListener(v -> {
+            openFragment(new AllDudasFragment());
+        });
+
+        foroViewModel.getForoActividad().observe(getViewLifecycleOwner(), dudas -> {
+            if (dudas != null) {
+                btnVerTodoForo.setText("Ver todo (" + dudas.size() + ")");
+                if (dudas.size() > 2) {
+                    // Si hay más de 2, enviamos solo una sublista con las 2 primeras
+                    dudaAdapter.setDudas(dudas.subList(0, 2));
+                    btnVerTodoForo.setVisibility(View.VISIBLE); // Mostramos el botón
+                } else {
+                    dudaAdapter.setDudas(dudas);
+                    btnVerTodoForo.setVisibility(View.GONE); // Ocultamos si hay pocas
+                }
+            }
+        });
+
         return view;
+    }
+
+    private void openFragment(Fragment fragment) {
+        if (getActivity() != null) {
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.frame_layout, fragment) // Usamos el mismo contenedo  r que en MainActivity
+                    .addToBackStack(null) // Para permitir volver con el botón de retroceso
+                    .commit();
+        }
+    }
+
+    private void ocultarTeclado() {
+        View view = this.getView();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     /**
