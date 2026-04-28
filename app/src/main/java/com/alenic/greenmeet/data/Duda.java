@@ -14,6 +14,7 @@ public class Duda {
     private String respuesta;
     private boolean respondida;
     private long fechaCreacion;
+    private boolean leidaUsuario;
 
     public Duda() {}
 
@@ -27,10 +28,13 @@ public class Duda {
         this.tituloActividad = tituloActividad;
         this.respondida = false;
         this.fechaCreacion = System.currentTimeMillis();
+        this.leidaUsuario = false;
     }
 
     // Getters y Setters
     public String getId() { return id; }
+
+    @Exclude
     public void setId(String id) { this.id = id; }
     public String getActUid() { return actUid; }
     public void setActUid(String actUid) { this.actUid = actUid; }
@@ -50,4 +54,6 @@ public class Duda {
     public void setRespondida(boolean respondida) { this.respondida = respondida; }
     public long getFechaCreacion() { return fechaCreacion; }
     public void setFechaCreacion(long fechaCreacion) { this.fechaCreacion = fechaCreacion; }
+    public boolean isLeidaUsuario() { return leidaUsuario; }
+    public void setLeidaUsuario(boolean leidaUsuario) { this.leidaUsuario = leidaUsuario; }
 }

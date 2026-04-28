@@ -44,34 +44,15 @@ public class ForoRepository {
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
     }
 
-    public void getDudasPendientes(ForoCallback<List<Duda>> callback) {
-        String myUid = FirebaseAuth.getInstance().getUid();
-        db.collection("foro")
-                .whereEqualTo("creadorActUid", myUid)
-                .whereEqualTo("respondida", false)
-                .orderBy("fechaCreacion", Query.Direction.DESCENDING)
-                .addSnapshotListener((snapshot, e) -> {
-                    if (snapshot != null) {
-                        List<Duda> lista = new ArrayList<>();
-                        for (DocumentSnapshot doc : snapshot.getDocuments()) {
-                            Duda d = doc.toObject(Duda.class);
-                            d.setId(doc.getId());
-                            lista.add(d);
-                        }
-                        callback.onSuccess(lista);
-                    }
-                });
-    }
-
-    // 2. Responder y marcar como respondida
     public void responderDuda(String dudaId, String respuesta, ForoCallback<Void> callback) {
-        Map<String, Object> datos = new HashMap<>();
-        datos.put("respuesta", respuesta);
-        datos.put("respondida", true);
-
         db.collection("foro").document(dudaId)
-                .update(datos)
+                .update("respuesta", respuesta, "respondida", true)
                 .addOnSuccessListener(unused -> callback.onSuccess(null))
                 .addOnFailureListener(e -> callback.onError(e.getMessage()));
+    }
+
+    // Marcar la notificacion como leida
+    public void marcarComoLeida(String dudaId) {
+        db.collection("foro").document(dudaId).update("leidaUsuario", true);
     }
 }

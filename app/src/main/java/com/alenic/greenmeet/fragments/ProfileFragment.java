@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.alenic.greenmeet.activities.LoginActivity;
 import com.alenic.greenmeet.R;
 import com.alenic.greenmeet.repositories.AuthRepository;
+import com.alenic.greenmeet.viewmodel.ForoViewModel;
 import com.alenic.greenmeet.viewmodel.UserViewModel;
 
 public class ProfileFragment extends Fragment {
@@ -31,7 +32,7 @@ public class ProfileFragment extends Fragment {
 
         TextView tvName = view.findViewById(R.id.tvProfileName);
         TextView tvEmail = view.findViewById(R.id.tvProfileEmail);
-
+        TextView tvBadgeCount = view.findViewById(R.id.tvBadgeCount);
         com.google.android.material.imageview.ShapeableImageView ivProfile = view.findViewById(R.id.ivProfileMain);
 
         userViewModel = new ViewModelProvider(requireActivity())
@@ -56,10 +57,22 @@ public class ProfileFragment extends Fragment {
         // Mostramos el email del usuario
         tvEmail.setText(userViewModel.getEmail());
 
+        ForoViewModel foroViewModel = new ViewModelProvider(requireActivity()).get(ForoViewModel.class);
+        foroViewModel.loadNotificacionesCombinadas();
+
+        foroViewModel.getNotificaciones().observe(getViewLifecycleOwner(), dudas -> {
+            if (dudas != null && dudas.size() > 0) {
+                tvBadgeCount.setText(String.valueOf(dudas.size()));
+                tvBadgeCount.setVisibility(View.VISIBLE); // Mostrar si hay más de 0
+            } else {
+                tvBadgeCount.setVisibility(View.GONE); // Ocultar si es 0
+            }
+        });
+
         // Configuración de los menús
         view.findViewById(R.id.menu_saves).setOnClickListener(v -> openFragment(new MyactFragment()));
         view.findViewById(R.id.editProfile).setOnClickListener(v -> openFragment(new EditProfileFragment()));
-//        view.findViewById(R.id.menu_notifications).setOnClickListener(v -> openFragment(new NotificationsFragment()));
+        view.findViewById(R.id.menu_notificaciones).setOnClickListener(v -> openFragment(new ResponderDudasFragment()));
         view.findViewById(R.id.menu_language).setOnClickListener(v -> openFragment(new LanguageFragment()));
         view.findViewById(R.id.menu_privacity).setOnClickListener(v -> openFragment(new PrivacyFragment()));
         view.findViewById(R.id.menu_acerca).setOnClickListener(v -> openFragment(new LicenseFragment()));

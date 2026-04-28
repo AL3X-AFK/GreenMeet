@@ -170,6 +170,9 @@
     <string name="no_proximas">No tienes inscripciones próximas</string>
     <string name="no_realizadas">Aún no has completado actividades</string>
     <string name="dudas">Todas las dudas</string>
+    <string name="notifications">"Notificaciones "</string>
+    <string name="respuesta_del_organizador">Respuesta del Organizador</string>
+    <string name="entendido">Entendido</string>
 
 
 </resources>
