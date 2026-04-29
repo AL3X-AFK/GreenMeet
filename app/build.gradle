@@ -78,5 +78,7 @@ dependencies {
     implementation 'org.osmdroid:osmdroid-android:6.1.18'
     implementation 'androidx.preference:preference:1.2.1'
 
+    //Para el splashscreen
+    implementation 'androidx.core:core-splashscreen:1.0.1'
 
 }

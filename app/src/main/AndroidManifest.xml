@@ -19,7 +19,8 @@
         android:theme="@style/Theme.GreenMeet">
         <activity
             android:name=".activities.SplashActivity"
-            android:exported="true">
+            android:exported="true"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
