@@ -121,7 +121,7 @@
 
                         <TextView
                             android:id="@+id/tvForoLabel"
-                            android:text="Foro de dudas"
+                            android:text="@string/comentarios"
                             android:textStyle="bold"
                             android:textSize="18sp"
                             android:textColor="@color/black"
@@ -130,7 +130,7 @@
 
                         <TextView
                             android:id="@+id/btnVerTodoForo"
-                            android:text="Ver todo"
+                            android:text="@string/ver_todo"
                             android:textColor="@color/darkgreen"
                             android:textStyle="bold"
                             android:layout_alignParentEnd="true"
@@ -138,7 +138,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:clickable="true"
-                            android:focusable="true" />
+                            android:focusable="true"
+                            tools:ignore="RelativeOverlap" />
                     </RelativeLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -163,7 +164,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Escribe tu duda..."
+                            android:autofillHints=""
+                            android:hint="@string/escribe_tu_comentario"
                             android:padding="12dp"
                             android:background="@drawable/bg_chat_input"
                             android:textSize="14sp"
@@ -172,13 +174,13 @@
 
                         <ImageButton
                             android:id="@+id/btnEnviarDuda"
-                            android:layout_width="45dp"
-                            android:layout_height="45dp"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
                             android:layout_marginStart="8dp"
                             android:src="@drawable/send_icon"
                             android:background="@drawable/circle_bg_send"
                             app:tint="@color/white"
-                            android:contentDescription="Enviar" />
+                            android:contentDescription="@string/title_example" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -191,6 +193,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_margin="16dp"
+        android:contentDescription="@string/app_name"
         android:elevation="10dp"
         android:background="@drawable/circle_bg_back"
         android:src="@drawable/arrow_back_icon"

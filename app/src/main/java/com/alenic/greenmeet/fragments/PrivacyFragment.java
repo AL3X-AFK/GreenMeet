@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,12 @@ public class PrivacyFragment extends Fragment {
 
         tvTitle.setText(getString(R.string.polPrivacidad));
         btnBack.setOnClickListener(v -> Utils.volver(this));
+
+        // Configuración del Texto con Formato HTML
+        TextView tvPrivacy = view.findViewById(R.id.tvPrivacyPolicy);
+        String policyString = getString(R.string.privacy_policy_text);
+
+        tvPrivacy.setText(Html.fromHtml(policyString, Html.FROM_HTML_MODE_LEGACY));
 
         return  view;
     }

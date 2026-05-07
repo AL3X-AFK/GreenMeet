@@ -3,33 +3,164 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/white"
     android:padding="16dp">
-<include
-    android:id="@+id/headerBack"
-    layout="@layout/view_header_back"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"/>
-    <ScrollView
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/headerBack"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:padding="8dp"
-        android:layout_height="0dp"
-        android:layout_width="0dp">
 
-        <TextView
-            android:id="@+id/tvLicences"
+    <include
+        android:id="@+id/headerBack"
+        layout="@layout/view_header_back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:overScrollMode="never"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/headerBack">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/credits_text"
-            android:textSize="16sp"
-            android:textColor="#000000"
-            android:lineSpacingExtra="4dp"
-            />
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:alpha="0.7"
+                android:text="@string/about_description"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <!-- BLOQUE DESARROLLADOR 1 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="@string/desarrollador1"
+                android:textAllCaps="true"
+                android:textColor="@color/darkgreen"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/linkInstagram1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:text="@string/instagram"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:background="?attr/selectableItemBackground" />
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/gray_light" />
+
+                <TextView
+                    android:id="@+id/linkLinkedin1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:text="@string/linkedin"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:background="?attr/selectableItemBackground" />
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/gray_light" />
+
+                <TextView
+                    android:id="@+id/linkEmail1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:text="@string/Email"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:background="?attr/selectableItemBackground" />
+            </LinearLayout>
+
+            <!-- BLOQUE DESARROLLADOR 2 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/desarrollador2"
+                android:textAllCaps="true"
+                android:textColor="@color/darkgreen"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/linkInstagram2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:text="@string/instagram"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:background="?attr/selectableItemBackground" />
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/gray_light" />
+
+                <TextView
+                    android:id="@+id/linkLinkedin2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:text="@string/linkedin"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:background="?attr/selectableItemBackground" />
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/gray_light" />
+
+                <TextView
+                    android:id="@+id/linkEmail2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:text="@string/Email"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:background="?attr/selectableItemBackground" />
+            </LinearLayout>
+
+            <!-- CRÉDITOS Y AGRADECIMIENTOS (Final de la página) -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:text="@string/section_credits_images"
+                android:textAllCaps="true"
+                android:textColor="@color/darkgreen"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvListaAutores"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="40dp"
+                android:alpha="0.7"
+                android:lineSpacingExtra="4dp" />
+
+        </LinearLayout>
     </ScrollView>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

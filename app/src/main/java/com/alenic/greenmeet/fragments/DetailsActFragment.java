@@ -131,7 +131,7 @@ public class DetailsActFragment extends Fragment {
                     etDudaInput.setText("");
                     ocultarTeclado();
 
-                    Toast.makeText(requireContext(), "Pregunta enviada", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), R.string.pregunta_enviada, Toast.LENGTH_SHORT).show();
                 } else {
                     etDudaInput.setError("Escribe algo");
                 }
@@ -189,7 +189,7 @@ public class DetailsActFragment extends Fragment {
 
         foroViewModel.getForoActividad().observe(getViewLifecycleOwner(), dudas -> {
             if (dudas != null) {
-                btnVerTodoForo.setText("Ver todo (" + dudas.size() + ")");
+                btnVerTodoForo.setText(getString(R.string.ver_todo)+" (" + dudas.size() + ")");
                 if (dudas.size() > 2) {
                     // Si hay más de 2, enviamos solo una sublista con las 2 primeras
                     dudaAdapter.setDudas(dudas.subList(0, 2));
@@ -252,13 +252,13 @@ public class DetailsActFragment extends Fragment {
 
                 // 2. Calcular el tamaño y actualizar el label
                 int conteo = (asistentes != null) ? asistentes.size() : 0;
-                tvParticipantesLabel.setText("Participantes (" + conteo + ")");
+                tvParticipantesLabel.setText(getString(R.string.participantes)+" (" + conteo + ")");
             }
 
             @Override
             public void onError(String error) {
                 // En caso de error, mostramos (0) para no dejar el texto roto
-                tvParticipantesLabel.setText("Participantes (0)");
+                tvParticipantesLabel.setText(getString(R.string.participantes)+" (0)");
             }
         });
     }

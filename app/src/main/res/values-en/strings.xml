@@ -66,7 +66,6 @@
     <string name="realizadas">Made</string>
     <string name="selecIdioma">"Select the app language "</string>
     <string name="english">English</string>
-    <string name="credits_text">The images used in this application come from Unsplash and are used under the Unsplash License.  \nPhoto by Ryoji Iwata on Unsplash \nPhoto by Martin Sanchez on Unsplash \nPhoto by RhondaK Native Florida Folk Artist on Unsplash \nPhoto by Eugene Golovesov on Unsplash \nPhoto by Guillermo Casales on Unsplash \nPhoto by Gia Duabav on Unsplash \nPhoto by Hannah Busing on Unsplash</string>
     <string name="tituloNoti1">Noti title</string>
     <string name="descNoti1">Here is the notification message. It can be long and descriptive.</string>
     <string name="tiempoNoti1">2 hours ago</string>
@@ -106,9 +105,77 @@
     <string name="participantes">Team</string>
     <string name="no_proximas">You have no upcoming registrations</string>
     <string name="no_realizadas">You haven\'t completed any activities yet</string>
-    <string name="dudas">All doubts</string>
+    <string name="dudas">All comments</string>
     <string name="notifications">Notifications</string>
     <string name="respuesta_del_organizador">Response from the organizer</string>
     <string name="entendido">Got it</string>
+
+    <string name="privacy_policy_text">
+        <![CDATA[
+        <b>Privacy Policy</b><br><br>
+        This application respects and protects the privacy of its users. This document describes how personal information is collected, used, and protected when using the app.<br><br>
+        <b>1. Information Collected</b><br>
+        The app collects personal data provided by the user, including information necessary for the app’s proper functioning.<br><br>
+        <b>2. Third-Party Services</b><br>
+        The app uses third-party services that may collect information to identify the user:<br>
+        • <b>Firebase (Google LLC):</b> Analytics, authentication, and storage.<br>
+        • <b>Supabase:</b> Backend and data management.<br><br>
+        <b>3. Use of Information</b><br>
+        Information is used to improve functionality and user experience. It is not sold or shared with third parties outside the service requirements.<br><br>
+        <b>4. Security</b><br>
+        Reasonable measures are taken to protect personal information and prevent unauthorized access.<br><br>
+        <b>5. Children’s Privacy</b><br>
+        This app is not intended for children under 13 years of age.<br><br>
+        <b>6. Changes to this Policy</b><br>
+        This Privacy Policy may be updated occasionally. We recommend checking this page periodically.<br><br>
+        <b>7. Contact</b><br>
+        📧 greenmeet26@gmail.com
+        ]]>
+    </string>
+
+    <!-- About / Credits Section -->
+    <string name="about_title">About of</string>
+    <string name="about_description">Our mission is to connect people through unique experiences and events that help us to care the planet. Thank you for being part of our community.</string>
+
+    <string name="section_social_media">Our Social Media</string>
+    <string name="follow_us">Follow us to stay up to date with all the news.</string>
+
+    <string name="section_credits_images">Image Credits</string>
+    <string name="photo_by">Photo by %1$s on Unsplash</string>
+
+    <!-- Authors stay the same -->
+    <string name="author_ryoji">Ryoji Iwata</string>
+    <string name="author_martin">Martin Sanchez</string>
+    <string name="author_rhondak">RhondaK Native Florida Folk Artist</string>
+    <string name="author_eugene">Eugene Golovesov</string>
+    <string name="author_guillermo">Guillermo Casales</string>
+    <string name="author_gia">Gia Duabav</string>
+    <string name="author_hannah">Hannah Busing</string>
+    <string name="desarrollador1">DEVELOPER 1 - Nicolás Guañuna</string>
+    <string name="desarrollador2">DEVELOPER 2 - Álex Valdez</string>
+    <string name="response_blank">The answer cannot be empty.</string>
+    <string name="responder_comentario">Reply to comment</string>
+    <string name="escribe_tu_respuesta_aqu">Write your answer here...</string>
+    <string name="enviar_respuesta">" Send Reply"</string>
+    <string name="comentarios">Comments</string>
+    <string name="ver_todo">See all</string>
+    <string name="escribe_tu_comentario">"Write your comment... "</string>
+    <string name="pulsa_para_responder">PULSA PARA RESPONDER</string>
+    <string name="permiso_de_ubicaci_n_denegado">"Location permission denied "</string>
+    <string name="error_al_actualizar_el_perfil">"Error updating profile "</string>
+    <string name="pregunta_enviada">"Question submitted "</string>
+    <string name="t_preguntaste">You asked:\n</string>
+    <string name="confirmar_envio">⚠️ Confirm</string>
+    <string name="confirmar_texto_envio">Once sent, the response will be public and you won\'t be able to delete or modify it. Are you sure?</string>
+    <string name="s_enviar">YES, SEND</string>
+    <string name="respuesta_enviada_correctamente">"Response sent successfully "</string>
+    <string name="error_al_enviar">"Error sending "</string>
+    <string name="revisar">REVIEW</string>
+    <string name="duda_en">"Comment in: "</string>
+    <string name="de">"From: "</string>
+    <string name="te_han_respondido_en">"They have replied to you at: "</string>
+    <string name="organizador">Organizer:</string>
+    <string name="pulsa_para_ver">"CLICK TO VIEW "</string>
+
 
 </resources>

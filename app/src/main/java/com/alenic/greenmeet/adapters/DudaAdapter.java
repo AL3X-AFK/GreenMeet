@@ -3,6 +3,7 @@ package com.alenic.greenmeet.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -11,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import com.alenic.greenmeet.R;
 import com.alenic.greenmeet.data.Duda;
+import com.bumptech.glide.Glide;
+
 import android.text.format.DateUtils;
 
 public class DudaAdapter extends RecyclerView.Adapter<DudaAdapter.DudaViewHolder> {
@@ -35,6 +38,13 @@ public class DudaAdapter extends RecyclerView.Adapter<DudaAdapter.DudaViewHolder
 
         holder.itemAutor.setText(duda.getNombreAutor());
         holder.itemPregunta.setText(duda.getPregunta());
+
+        Glide.with(holder.itemView.getContext())
+                .load(duda.getUrlFotoAutor())
+                .placeholder(R.drawable.profile_icon) // Imagen mientras carga
+                .error(R.drawable.profile_icon)       // Imagen si falla o no tiene
+                .circleCrop()                        // Recorte circular
+                .into(holder.imgAutorDuda);
 
         long ahora = System.currentTimeMillis();
         long tiempoDuda = duda.getFechaCreacion();
@@ -63,6 +73,7 @@ public class DudaAdapter extends RecyclerView.Adapter<DudaAdapter.DudaViewHolder
     public static class DudaViewHolder extends RecyclerView.ViewHolder {
         TextView itemAutor, itemPregunta, itemRespuesta,itemFecha;
         LinearLayout layoutRespuesta;
+        ImageView imgAutorDuda;
 
         public DudaViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -71,6 +82,7 @@ public class DudaAdapter extends RecyclerView.Adapter<DudaAdapter.DudaViewHolder
             itemRespuesta = itemView.findViewById(R.id.itemRespuesta);
             itemFecha = itemView.findViewById(R.id.itemFecha);
             layoutRespuesta = itemView.findViewById(R.id.layoutRespuesta);
+            imgAutorDuda = itemView.findViewById(R.id.imgAutorDuda);
         }
     }
 }

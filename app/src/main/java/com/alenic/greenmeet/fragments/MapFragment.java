@@ -64,7 +64,7 @@ public class MapFragment extends Fragment {
                     iniciarMapa();
                 } else {
                     Toast.makeText(requireContext(),
-                            "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show();
+                            R.string.permiso_de_ubicaci_n_denegado, Toast.LENGTH_SHORT).show();
                     // Carga el mapa igualmente sin ubicación
                     iniciarMapaSinUbicacion();
                 }

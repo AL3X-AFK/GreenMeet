@@ -15,14 +15,16 @@ public class Duda {
     private boolean respondida;
     private long fechaCreacion;
     private boolean leidaUsuario;
+    private String urlFotoAutor;
 
     public Duda() {}
 
-    public Duda(String actUid, String creadorActUid, String userUidPregunta, String nombreAutor, String pregunta,String tituloActividad) {
+    public Duda(String actUid, String creadorActUid, String userUidPregunta, String nombreAutor,String urlFotoAutor, String pregunta,String tituloActividad) {
         this.actUid = actUid;
         this.creadorActUid = creadorActUid;
         this.userUidPregunta = userUidPregunta;
         this.nombreAutor = nombreAutor;
+        this.urlFotoAutor = urlFotoAutor;
         this.pregunta = pregunta;
         this.respuesta = "";
         this.tituloActividad = tituloActividad;
@@ -56,4 +58,6 @@ public class Duda {
     public void setFechaCreacion(long fechaCreacion) { this.fechaCreacion = fechaCreacion; }
     public boolean isLeidaUsuario() { return leidaUsuario; }
     public void setLeidaUsuario(boolean leidaUsuario) { this.leidaUsuario = leidaUsuario; }
+    public String getUrlFotoAutor() { return urlFotoAutor; }
+    public void setUrlFotoAutor(String urlFotoAutor) { this.urlFotoAutor = urlFotoAutor; }
 }

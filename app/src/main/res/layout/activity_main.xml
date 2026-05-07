@@ -42,5 +42,5 @@
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:translationY="28dp"/>
+        android:translationY="18dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

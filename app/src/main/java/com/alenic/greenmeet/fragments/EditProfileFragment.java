@@ -136,7 +136,7 @@ public class EditProfileFragment extends Fragment {
 
             } else {
 
-                Toast.makeText(getContext(), "Error al actualizar el perfil", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.error_al_actualizar_el_perfil, Toast.LENGTH_SHORT).show();
             }
         });
     }

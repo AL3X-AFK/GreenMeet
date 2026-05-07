@@ -7,12 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import com.alenic.greenmeet.R;
@@ -81,12 +84,19 @@ public class ResponderDudasFragment extends Fragment {
         // Vinculamos las vistas
         TextView tvActividad = sheetView.findViewById(R.id.tvContextoActividad);
         TextView tvPregunta = sheetView.findViewById(R.id.tvContextoPregunta);
+        ImageView imgAutor = sheetView.findViewById(R.id.imgContextoAutor);
         EditText etRespuesta = sheetView.findViewById(R.id.etRespuestaDuda);
         com.google.android.material.button.MaterialButton btnEnviar = sheetView.findViewById(R.id.btnConfirmarRespuesta);
 
         //Rellenar los datos
         tvActividad.setText("📍 " + duda.getTituloActividad() + "  |  👤 " + duda.getNombreAutor());
         tvPregunta.setText(duda.getPregunta());
+
+        Glide.with(requireContext())
+                .load(duda.getUrlFotoAutor())
+                .placeholder(R.drawable.profile_icon)
+                .circleCrop()
+                .into(imgAutor);
 
         // Configurar el botón de enviar
         btnEnviar.setOnClickListener(v -> {
@@ -95,7 +105,7 @@ public class ResponderDudasFragment extends Fragment {
                 bottomSheetDialog.dismiss(); // Cerrar el panel inferior
                 confirmarEnvioFinal(duda.getId(), respuesta); // Lanzar el aviso final de seguridad
             } else {
-                Toast.makeText(requireContext(), "La respuesta no puede estar vacía", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), R.string.response_blank, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -116,7 +126,7 @@ public class ResponderDudasFragment extends Fragment {
         TextView tvLaRespuesta = sheetView.findViewById(R.id.tvLaRespuesta);
         com.google.android.material.button.MaterialButton btnEntendido = sheetView.findViewById(R.id.btnEntendido);
 
-        tvMiPregunta.setText("Tú preguntaste:\n" + duda.getPregunta());
+        tvMiPregunta.setText(getString(R.string.t_preguntaste) + duda.getPregunta());
         tvLaRespuesta.setText(duda.getRespuesta());
 
         btnEntendido.setOnClickListener(v -> {
@@ -130,21 +140,21 @@ public class ResponderDudasFragment extends Fragment {
 
     private void confirmarEnvioFinal(String dudaId, String respuesta) {
         new AlertDialog.Builder(requireContext())
-                .setTitle("⚠️ Confirmar envío")
-                .setMessage("Una vez enviada, la respuesta será pública y no podrás borrarla ni modificarla. ¿Estás seguro?")
-                .setPositiveButton("SÍ, ENVIAR", (dialog, which) -> {
+                .setTitle(R.string.confirmar_envio)
+                .setMessage(R.string.confirmar_texto_envio)
+                .setPositiveButton(R.string.s_enviar, (dialog, which) -> {
                     foroViewModel.responder(dudaId, respuesta, new ForoRepository.ForoCallback<Void>() {
                         @Override
                         public void onSuccess(Void result) {
-                            Toast.makeText(requireContext(), "Respuesta enviada correctamente", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(requireContext(), R.string.respuesta_enviada_correctamente, Toast.LENGTH_SHORT).show();
                         }
                         @Override
                         public void onError(String error) {
-                            Toast.makeText(requireContext(), "Error al enviar", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(requireContext(), R.string.error_al_enviar, Toast.LENGTH_SHORT).show();
                         }
                     });
                 })
-                .setNegativeButton("REVISAR", null)
+                .setNegativeButton(R.string.revisar, null)
                 .show();
     }
 }

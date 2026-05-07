@@ -12,42 +12,58 @@
         android:layout_height="4dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="20dp"
-        android:background="#D0D0D0"
-        app:cornerRadius="2dp" />
+        android:background="#D0D0D0" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Responder Duda"
+        android:text="@string/responder_comentario"
         android:textColor="@color/black"
         android:textSize="22sp"
         android:textStyle="bold" />
 
+    <!-- Caja de Contexto con Foto -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@drawable/bg_context_box"
-        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/tvContextoActividad"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" Actividad |  Usuario"
-            android:textColor="@color/darkgreen"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgContextoAutor"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/profile_icon"
+            app:shapeAppearanceOverlay="@style/CircleImage" />
 
-        <TextView
-            android:id="@+id/tvContextoPregunta"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Aquí va la pregunta del usuario"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:layout_marginStart="12dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvContextoActividad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Actividad | Usuario"
+                android:textColor="@color/darkgreen"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvContextoPregunta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Aquí va la pregunta del usuario"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+        </LinearLayout>
     </LinearLayout>
 
     <EditText
@@ -55,9 +71,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:autofillHints=""
         android:background="@drawable/bg_chat_input"
         android:gravity="top|start"
-        android:hint="Escribe tu respuesta aquí..."
+        android:hint="@string/escribe_tu_respuesta_aqu"
         android:inputType="textMultiLine|textCapSentences"
         android:minLines="4"
         android:padding="16dp"
@@ -68,7 +85,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_marginTop="24dp"
-        android:text="Enviar Respuesta"
+        android:text="@string/enviar_respuesta"
         android:textAllCaps="false"
         android:textSize="16sp"
         android:textStyle="bold"

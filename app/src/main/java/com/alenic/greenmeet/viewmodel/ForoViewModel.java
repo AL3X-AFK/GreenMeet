@@ -15,8 +15,10 @@ import java.util.List;
 
 public class ForoViewModel extends ViewModel {
     private final ForoRepository repository = new ForoRepository();
+
     private final MutableLiveData<List<Duda>> foroActividad = new MutableLiveData<>();
     public LiveData<List<Duda>> getForoActividad() { return foroActividad; }
+
     private final MutableLiveData<List<Duda>> notificaciones = new MutableLiveData<>();
     public LiveData<List<Duda>> getNotificaciones() { return notificaciones; }
 
@@ -30,34 +32,32 @@ public class ForoViewModel extends ViewModel {
     }
 
     public void enviarDuda(String actUid, String creadorActUid, String pregunta, String titulo) {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        if (auth.getCurrentUser() == null) return;
-        String miUid = auth.getCurrentUser().getUid();
+        String miUid = repository.getCurrentUserUid();
+        if (miUid == null) return;
 
-        //buscar el nombre del usuario en Firebase
-        FirebaseFirestore.getInstance().collection("usuarios").document(miUid)
-                .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    String nombre = "Usuario"; // Valor por defecto por si falla
-                    // Si el documento existe, sacamos el campo "nombre"
-                    if (documentSnapshot.exists() && documentSnapshot.getString("nombre") != null) {
-                        nombre = documentSnapshot.getString("nombre");
-                    }
-                    // creamos la Duda
-                    Duda nueva = new Duda(actUid, creadorActUid, miUid, nombre, pregunta, titulo);
+        repository.getDatosUsuario(miUid, new ForoRepository.ForoCallback<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot doc) {
+                String nombre = "Usuario";
+                String fotoUrl = "";
 
-                    repository.addDuda(nueva, new ForoRepository.ForoCallback<Void>() {
-                        @Override
-                        public void onSuccess(Void result) {
-                            loadDudas(actUid); // Recargar al enviar
-                        }
-                        @Override
-                        public void onError(String error) {
-                        }
-                    });
-                })
-                .addOnFailureListener(e -> {
+                if (doc.exists()) {
+                    if (doc.getString("nombre") != null) nombre = doc.getString("nombre");
+                    if (doc.getString("imagenProfileURL") != null) fotoUrl = doc.getString("imagenProfileURL");
+                }
+
+                Duda nueva = new Duda(actUid, creadorActUid, miUid, nombre, fotoUrl, pregunta, titulo);
+                repository.addDuda(nueva, new ForoRepository.ForoCallback<Void>() {
+                    @Override
+                    public void onSuccess(Void result) { loadDudas(actUid); }
+                    @Override
+                    public void onError(String error) {}
                 });
+            }
+
+            @Override
+            public void onError(String error) {}
+        });
     }
 
     public void responder(String dudaId, String respuesta, ForoRepository.ForoCallback<Void> callback) {
@@ -65,47 +65,16 @@ public class ForoViewModel extends ViewModel {
     }
 
     public void loadNotificacionesCombinadas() {
-        String myUid = FirebaseAuth.getInstance().getUid();
-        if (myUid == null) return;
+        String miUid = repository.getCurrentUserUid();
+        if (miUid == null) return;
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        // Ver las dudas para responder
-        db.collection("foro")
-                .whereEqualTo("creadorActUid", myUid)
-                .whereEqualTo("respondida", false)
-                .addSnapshotListener((snap1, e1) -> {
-
-                    // Ver las dudas con respuesta y no leído
-                    db.collection("foro")
-                            .whereEqualTo("userUidPregunta", myUid)
-                            .whereEqualTo("respondida", true)
-                            .whereEqualTo("leidaUsuario", false)
-                            .addSnapshotListener((snap2, e2) -> {
-
-                                List<Duda> listaUnida = new ArrayList<>();
-
-                                if (snap1 != null) {
-                                    for (DocumentSnapshot doc : snap1.getDocuments()) {
-                                        Duda d = doc.toObject(Duda.class);
-                                        d.setId(doc.getId());
-                                        listaUnida.add(d);
-                                    }
-                                }
-
-                                if (snap2 != null) {
-                                    for (DocumentSnapshot doc : snap2.getDocuments()) {
-                                        Duda d = doc.toObject(Duda.class);
-                                        d.setId(doc.getId());
-                                        listaUnida.add(d);
-                                    }
-                                }
-
-                                // Ordenar la listaUnida por fecha
-                                listaUnida.sort((d1, d2) -> Long.compare(d2.getFechaCreacion(), d1.getFechaCreacion()));
-
-                                notificaciones.setValue(listaUnida);
-                            });
-                });
+        repository.setNotificacionesListener(miUid, new ForoRepository.ForoCallback<List<Duda>>() {
+            @Override
+            public void onSuccess(List<Duda> result) {
+                notificaciones.setValue(result);
+            }
+            @Override
+            public void onError(String error) {}
+        });
     }
 }

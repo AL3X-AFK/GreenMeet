@@ -11,45 +11,61 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/tvInfoActividad"
+        <!-- Foto de perfil circular -->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgNotificacionDuda"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/profile_icon"
+            app:shapeAppearanceOverlay="@style/CircleImage" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Actividad"
-            android:textColor="@color/darkgreen"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:layout_marginStart="12dp"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvUsuarioPregunta"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Por: Usuario"
-            android:textColor="@color/gray"
-            android:textSize="12sp"
-            android:layout_marginTop="2dp"/>
+            <TextView
+                android:id="@+id/tvInfoActividad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Actividad"
+                android:textColor="@color/darkgreen"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tvPreguntaTexto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="¿Pregunta?"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
+            <TextView
+                android:id="@+id/tvUsuarioPregunta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Por: Usuario"
+                android:textColor="@color/gray"
+                android:textSize="12sp"
+                android:layout_marginTop="2dp"/>
 
-        <TextView
-            android:id="@+id/tvAccionDuda"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="12dp"
-            android:text="PULSA PARA RESPONDER"
-            android:textColor="@color/darkgreen"
-            android:textSize="11sp"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tvPreguntaTexto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="¿Pregunta?"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tvAccionDuda"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="12dp"
+                android:text="@string/pulsa_para_responder"
+                android:textColor="@color/darkgreen"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

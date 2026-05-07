@@ -13,61 +13,91 @@
         android:orientation="vertical"
         android:padding="12dp">
 
-        <RelativeLayout
+        <!-- Contenedor Horizontal: Foto + (Nombre, Fecha y Pregunta) -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/itemAutor"
-                android:text="Juan Pérez"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:textColor="@color/gray"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <!-- Foto de perfil circular -->
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imgAutorDuda"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="2dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/placeholder"
+                app:shapeAppearanceOverlay="@style/CircleImage" />
 
-            <TextView
-                android:id="@+id/itemFecha"
-                android:text="hace 5 min"
-                android:textSize="11sp"
-                android:textColor="#999999"
-                android:layout_alignParentEnd="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
+            <!-- Contenedor de Textos (Nombre, Fecha y Pregunta) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/itemPregunta"
-            android:text="¿Habrá comida vegetariana en el evento?"
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            android:layout_marginTop="4dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
+                    <TextView
+                        android:id="@+id/itemAutor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Juan Pérez"
+                        android:textColor="@color/gray"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/itemFecha"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:text="hace 5 min"
+                        android:textColor="#999999"
+                        android:textSize="11sp" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/itemPregunta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="¿Habrá comida vegetariana en el evento?"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Sección de Respuesta: Alineada con el texto de la pregunta (margen de 52dp = 40 foto + 12 margen) -->
         <LinearLayout
             android:id="@+id/layoutRespuesta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="52dp"
+            android:layout_marginTop="12dp"
+            android:background="#F1F8E9"
             android:orientation="vertical"
-            android:layout_marginTop="10dp"
-            android:padding="8dp"
-            android:background="#F1F8E9"> <TextView
-            android:text="Respuesta del Organizador"
-            android:textSize="11sp"
-            android:textStyle="bold"
-            android:textColor="@color/darkgreen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:padding="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/respuesta_del_organizador"
+                android:textColor="@color/darkgreen"
+                android:textSize="11sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/itemRespuesta"
-                android:text="¡Sí! Tendremos un catering variado."
-                android:textSize="14sp"
-                android:textColor="@color/black"
-                android:layout_marginTop="2dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="¡Sí! Tendremos un catering variado."
+                android:textColor="@color/black"
+                android:textSize="14sp" />
         </LinearLayout>
 
     </LinearLayout>

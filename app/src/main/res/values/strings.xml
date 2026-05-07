@@ -10,7 +10,7 @@
 
     <!--    activity_login y signup-->
     <string name="IniciarSesion">Iniciar Sesión</string>
-    <string name="Email" translatable="false">E-mail</string>
+    <string name="Email" translatable="false">Email</string>
     <string name="Contrasena">Contraseña</string>
     <string name="IntrEmail">Introduce tu email</string>
     <string name="IntrContraseña">Introduce tu contraseña</string>
@@ -104,9 +104,6 @@
     <string name="spanish">Español</string>
     <string name="english">Inglés</string>
 
-    <!--    Fragment License-->
-    <string name="credits_text">"     Créditos de imágenes       Las imágenes utilizadas en esta aplicación provienen de Unsplash y se utilizan bajo la Unsplash License.       Foto de Ryoji Iwata en Unsplash      Foto de Martin Sanchez en Unsplash      Foto de RhondaK Native Florida Folk Artist en Unsplash      Foto de Eugene Golovesov en Unsplash      Foto de Guillermo Casales en Unsplash      Foto de Gia Duabav en Unsplash      Foto de Hannah Busing en Unsplash     "</string>
-
     <!--    Fragment Notifications-->
     <string name="tituloNoti1">Título de la notificación</string>
     <string name="descNoti1">Aquí va el mensaje de la notificación. Puede ser largo y descriptivo.</string>
@@ -119,14 +116,35 @@
     <string name="tiempoNoti3">Hace 1 mes</string>
 
     <!--Fragment Privacity-->
-    <string name="privacy_policy_text" translatable="false">"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur? "But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?"</string>
+    <string name="privacy_policy_text">
+        <![CDATA[
+        <b>Política de Privacidad</b><br><br>
+        Esta aplicación respeta y protege la privacidad de sus usuarios. El presente documento describe cómo se recopila, utiliza y protege la información personal cuando se utiliza la aplicación.<br><br>
+        <b>1. Información que se recopila</b><br>
+        La aplicación recopila datos personales proporcionados por el usuario, que pueden incluir información necesaria para el funcionamiento correcto de la app.<br><br>
+        <b>2. Uso de servicios de terceros</b><br>
+        La aplicación utiliza servicios de terceros que pueden recopilar información para identificar al usuario:<br>
+        • <b>Firebase (Google LLC):</b> Análisis, autenticación y almacenamiento.<br>
+        • <b>Supabase:</b> Backend y gestión de datos.<br><br>
+        <b>3. Uso de la información</b><br>
+        La información se utiliza para mejorar la funcionalidad y la experiencia del usuario. No se vende ni se comparte con terceros ajenos al servicio.<br><br>
+        <b>4. Seguridad</b><br>
+        Se toman medidas razonables para proteger la información personal y evitar accesos no autorizados.<br><br>
+        <b>5. Privacidad de menores</b><br>
+        Esta aplicación no está dirigida a menores de 13 años.<br><br>
+        <b>6. Cambios en esta política</b><br>
+        Esta Política puede actualizarse ocasionalmente. Se recomienda revisar esta página periódicamente.<br><br>
+        <b>7. Contacto</b><br>
+        📧 greenmeet26@gmail.com
+        ]]>
+    </string>
 
     <!--    Fragment profile-->
     <string name="misActs">Mis Actividades</string>
     <string name="idioma">Idioma</string>
     <string name="polPrivacidad">Política de Privacidad</string>
     <string name="licencias">Licencias</string>
-    <string name="desconectarse">Desconectase</string>
+    <string name="desconectarse">Desconectarse</string>
 
 
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
@@ -169,10 +187,58 @@
     <string name="participantes">Participantes</string>
     <string name="no_proximas">No tienes inscripciones próximas</string>
     <string name="no_realizadas">Aún no has completado actividades</string>
-    <string name="dudas">Todas las dudas</string>
+    <string name="dudas">Tods los comentarios</string>
     <string name="notifications">"Notificaciones "</string>
     <string name="respuesta_del_organizador">Respuesta del Organizador</string>
     <string name="entendido">Entendido</string>
+
+    <!-- Sección Acerca de / Créditos -->
+    <string name="about_title">Acerca de</string>
+    <string name="about_description">Nuestra misión es conectar personas a través de experiencias y eventos únicos que nos ayuden a cuidar el planeta. Gracias por ser parte de nuestra comunidad.</string>
+
+    <string name="section_social_media">Nuestras Redes Sociales</string>
+    <string name="follow_us">Síguenos para estar al día de todas las novedades.</string>
+
+    <string name="section_credits_images">Créditos de Imágenes</string>
+    <string name="photo_by">Foto de %1$s en Unsplash</string>
+
+    <!-- Listado de autores para usar con photo_by -->
+    <string name="author_ryoji">Ryoji Iwata</string>
+    <string name="author_martin">Martin Sanchez</string>
+    <string name="author_rhondak">RhondaK Native Florida Folk Artist</string>
+    <string name="author_eugene">Eugene Golovesov</string>
+    <string name="author_guillermo">Guillermo Casales</string>
+    <string name="author_gia">Gia Duabav</string>
+    <string name="author_hannah">Hannah Busing</string>
+
+
+    <string name="desarrollador1">DESARROLLADOR 1 - Nicolás Guañuna</string>
+    <string name="instagram" translatable="false">Instagram</string>
+    <string name="linkedin" translatable="false">LinkedIn</string>
+    <string name="desarrollador2">DESARROLLADOR 2 - Álex Valdez</string>
+    <string name="response_blank">La respuesta no puede estar vacía</string>
+    <string name="responder_comentario">Responder comentario</string>
+    <string name="escribe_tu_respuesta_aqu">Escribe tu respuesta aquí...</string>
+    <string name="enviar_respuesta">Enviar Respuesta</string>
+    <string name="comentarios">Comentarios</string>
+    <string name="ver_todo">Ver todo</string>
+    <string name="escribe_tu_comentario">Escribe tu comentario...</string>
+    <string name="pulsa_para_responder">PULSA PARA RESPONDER</string>
+    <string name="permiso_de_ubicaci_n_denegado">Permiso de ubicación denegado</string>
+    <string name="error_al_actualizar_el_perfil">Error al actualizar el perfil</string>
+    <string name="pregunta_enviada">Pregunta enviada</string>
+    <string name="t_preguntaste">Tú preguntaste:\n</string>
+    <string name="confirmar_envio">⚠️ Confirmar envío</string>
+    <string name="confirmar_texto_envio">Una vez enviada, la respuesta será pública y no podrás borrarla ni modificarla. ¿Estás seguro?</string>
+    <string name="s_enviar">SÍ, ENVIAR</string>
+    <string name="respuesta_enviada_correctamente">Respuesta enviada correctamente</string>
+    <string name="error_al_enviar">Error al enviar</string>
+    <string name="revisar">REVISAR</string>
+    <string name="duda_en">"Comentario en: "</string>
+    <string name="de">"De: "</string>
+    <string name="te_han_respondido_en">"Te han respondido en: "</string>
+    <string name="organizador">Organizador:</string>
+    <string name="pulsa_para_ver">PULSA PARA VER</string>
 
 
 </resources>

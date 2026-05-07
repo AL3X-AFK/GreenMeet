@@ -34,6 +34,7 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:contentDescription="@string/app_name"
                 android:src="@drawable/manage_search_icon"
                 app:tint="@color/green_100" />
 
