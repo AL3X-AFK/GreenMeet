@@ -57,7 +57,7 @@ Dentro de la opción de perfil encontrarás:
 - **Desconectarse**: Cierra la sesión actual al hacer click.
 
 
-<img src="imgs/profile.png" width="300"/> <img src="imgs/edit_profile.png" width="300"/> <img src="imgs/notifications.png" width="300"/> <img src="imgs/languages.png" width="300"/> <img src="imgs/acercaDe.png" width="300"/>
+<img src="imgs/profile.png" width="300"/> <img src="imgs/edit_profile.png" width="300"/> <img src="imgs/notifications.png" width="300"/> <img src="imgs/languages.png" width="300"/> <img src="imgs/acerdaDe.png" width="300"/>
 
 
 ### 6. **Autenticación de Usuarios**
