@@ -42,9 +42,9 @@ public class LicenseFragment extends Fragment {
         view.findViewById(R.id.linkEmail1).setOnClickListener(v -> enviarEmail("nicolasguanuna19@gmail.com"));
 
         // --- ENLACES PERSONA 2 ---
-        view.findViewById(R.id.linkInstagram2).setOnClickListener(v -> abrirUrl("https://instagram.com/user2"));
-        view.findViewById(R.id.linkLinkedin2).setOnClickListener(v -> abrirUrl("https://linkedin.com/in/user2"));
-        view.findViewById(R.id.linkEmail2).setOnClickListener(v -> enviarEmail("correo2@ejemplo.com"));
+        view.findViewById(R.id.linkInstagram2).setOnClickListener(v -> abrirUrl("https://www.instagram.com/alx.valdez666"));
+        view.findViewById(R.id.linkLinkedin2).setOnClickListener(v -> abrirUrl("https://www.linkedin.com/in/alex-valdez-87a96a408/"));
+        view.findViewById(R.id.linkEmail2).setOnClickListener(v -> enviarEmail("alexvvaldezv@gmiail.com"));
 
         // Lista de autores de fotos
         TextView tvListaAutores = view.findViewById(R.id.tvListaAutores);
