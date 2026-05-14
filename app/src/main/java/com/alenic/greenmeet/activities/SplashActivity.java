@@ -29,7 +29,7 @@ public class SplashActivity extends AppCompatActivity {
         Animation scale = AnimationUtils.loadAnimation(this, R.anim.scale_in);
 
         // Animaciones seguras
-        logo.startAnimation(scale);
+        logo.startAnimation(fade);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             title.startAnimation(fade);
