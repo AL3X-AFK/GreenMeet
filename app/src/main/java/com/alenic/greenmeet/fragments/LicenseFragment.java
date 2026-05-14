@@ -37,14 +37,14 @@ public class LicenseFragment extends Fragment {
         btnBack.setOnClickListener(v -> Utils.volver(this));
 
         // --- ENLACES PERSONA 1 ---
-        view.findViewById(R.id.linkInstagram1).setOnClickListener(v -> abrirUrl("https://instagram.com/niicokngzz._"));
-        view.findViewById(R.id.linkLinkedin1).setOnClickListener(v -> abrirUrl("https://www.linkedin.com/in/nicolas-gua%C3%B1una-45aa00332/"));
-        view.findViewById(R.id.linkEmail1).setOnClickListener(v -> enviarEmail("nicolasguanuna19@gmail.com"));
+        view.findViewById(R.id.linkInstagram0).setOnClickListener(v -> abrirUrl("https://github.com/Nicoooo26"));
+        view.findViewById(R.id.linkLinkedin0).setOnClickListener(v -> abrirUrl("https://instagram.com/niicokngzz._"));
+        view.findViewById(R.id.linkEmail0).setOnClickListener(v -> enviarEmail("https://www.linkedin.com/in/nicolas-gua%C3%B1una-45aa00332/"));
 
         // --- ENLACES PERSONA 2 ---
-        view.findViewById(R.id.linkInstagram2).setOnClickListener(v -> abrirUrl("https://www.instagram.com/alx.valdez666"));
-        view.findViewById(R.id.linkLinkedin2).setOnClickListener(v -> abrirUrl("https://www.linkedin.com/in/alex-valdez-87a96a408/"));
-        view.findViewById(R.id.linkEmail2).setOnClickListener(v -> enviarEmail("alexvvaldezv@gmiail.com"));
+        view.findViewById(R.id.linkInstagram1).setOnClickListener(v -> abrirUrl("https://github.com/AL3X-AFK"));
+        view.findViewById(R.id.linkLinkedin1).setOnClickListener(v -> abrirUrl("https://www.instagram.com/alx.valdez666"));
+        view.findViewById(R.id.linkEmail1).setOnClickListener(v -> enviarEmail("https://www.linkedin.com/in/alex-valdez-87a96a408/"));
 
         // Lista de autores de fotos
         TextView tvListaAutores = view.findViewById(R.id.tvListaAutores);

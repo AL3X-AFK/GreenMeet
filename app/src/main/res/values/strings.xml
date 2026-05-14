@@ -212,10 +212,12 @@
     <string name="author_hannah">Hannah Busing</string>
 
 
-    <string name="desarrollador1">DESARROLLADOR 1 - Nicolás Guañuna</string>
+    <string name="desarrollador1">Nicolás Guañuna</string>
     <string name="instagram" translatable="false">Instagram</string>
+    <string name="developer" translatable="false">Developer</string>
+
     <string name="linkedin" translatable="false">LinkedIn</string>
-    <string name="desarrollador2">DESARROLLADOR 2 - Alex Valdez</string>
+    <string name="desarrollador2">" Alex Valdez"</string>
     <string name="response_blank">La respuesta no puede estar vacía</string>
     <string name="responder_comentario">Responder comentario</string>
     <string name="escribe_tu_respuesta_aqu">Escribe tu respuesta aquí...</string>
@@ -239,6 +241,14 @@
     <string name="te_han_respondido_en">"Te han respondido en: "</string>
     <string name="organizador">Organizador:</string>
     <string name="pulsa_para_ver">PULSA PARA VER</string>
+
+
+    <string name="gitA" translatable="false">AL3X-AFK</string>
+    <string name="gitN" translatable="false">Nicoooo26</string>
+    <string name="igA" translatable="false">\@alx.valdez</string>
+    <string name="igN" translatable="false">\@niicokn</string>
+    <string name="linkedin2" translatable="false">Linkedin</string>
+
 
 
 
