@@ -54,7 +54,7 @@
                         android:id="@+id/profileDev0"
                         android:layout_width="64dp"
                         android:layout_height="64dp"
-                        android:src="@drawable/go"
+                        android:src="@drawable/nico"
                         android:scaleType="centerCrop"
                         android:background="@drawable/circle_bg_back"
                         android:clipToOutline="true" />

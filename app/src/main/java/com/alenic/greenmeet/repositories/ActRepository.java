@@ -39,7 +39,9 @@ public class ActRepository {
             return;
         }
 
-        // Recorremos la colección de Firebase
+        long currentTime = System.currentTimeMillis();
+
+        // 1. A Firebase SOLO le pedimos que ordene por fecha de creación
         db.collection("acciones")
                 .orderBy("fechaCreacion", Query.Direction.DESCENDING)
                 .get()
@@ -49,8 +51,15 @@ public class ActRepository {
                         Act act = doc.toObject(Act.class);
                         if (act != null) {
                             act.setUid(doc.getId());
-                            // Excluir mis propias actividades
-                            if (!currentUser.getUid().equals(act.getUserUid())) {
+
+                            // 2. Comprobamos que no sea nuestra propia actividad
+                            boolean isNotMine = !currentUser.getUid().equals(act.getUserUid());
+
+                            // 3. FILTRO MANUAL: Comprobamos que la fecha sea mayor o igual a hoy
+                            boolean isFutureAct = act.getFecha() >= currentTime;
+
+                            // Solo la añadimos a la lista si cumple ambas condiciones
+                            if (isNotMine && isFutureAct) {
                                 acts.add(act);
                             }
                         }
