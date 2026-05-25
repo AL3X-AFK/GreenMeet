@@ -228,13 +228,11 @@ public class MapFragment extends Fragment {
         mapView.getOverlays().removeIf(o -> o instanceof Marker && ((Marker) o).getRelatedObject() != null);
         for (Act act : acts) {
             if (act.getLatitud() == 0 && act.getLongitud() == 0) continue;
-
             Marker marker = new Marker(mapView);
             marker.setPosition(new GeoPoint(act.getLatitud(), act.getLongitud()));
             marker.setRelatedObject(act); // Guardamos el objeto Act dentro del marcador
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
             marker.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_act_marker, null));
-
             // Interceptar el click en el marcador
             marker.setOnMarkerClickListener((m, map) -> {
                 // Centrar el mapa en la actividad pulsada
@@ -251,23 +249,17 @@ public class MapFragment extends Fragment {
                         .centerCrop()
                         .placeholder(R.drawable.placeholder)
                         .into(imgPreview);
-
-                // 3. Mostrar la tarjeta
                 cardPreviewAct.setVisibility(View.VISIBLE);
-
                 btnVerMas.setOnClickListener(v -> {
                     actViewModel.selectAct(actClickeada); // Pasa la actividad al ViewModel
                     openFragment(new DetailsActFragment()); // Abre tu vista detallada
                 });
-
                 //Devolver true indica que ya hemos manejado el evento
                 // y evita que salte la burbuja por defecto de OSMDroid.
                 return true;
             });
-
             mapView.getOverlays().add(marker);
         }
-
         mapView.invalidate();
     }
 }

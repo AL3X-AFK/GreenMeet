@@ -2,9 +2,9 @@
 <resources>
     <string name="app_name">GreenMeet</string>
     <string name="screen1">Welcome to GreenMeet</string>
-    <string name="misActs">My Activities</string>
+    <string name="misActs">My Actions</string>
     <string name="idioma">Language</string>
-    <string name="screen1desc">"Discover an app to create and enjoy activities you love in the urban environment. The city is your space. "</string>
+    <string name="screen1desc">"Discover an app to create and enjoy actions you love in the urban environment. The city is your space. "</string>
     <string name="screen2desc">"Connect with people who share your ideas and interests. Create experiences together. "</string>
     <string name="screen3desc">"Come in and discover. "</string>
     <string name="MeApunto">I’m in</string>
@@ -29,13 +29,13 @@
     <string name="titulo">Title</string>
     <string name="verMas">More</string>
     <string name="bienv">Welcome to GreenMeet</string>
-    <string name="descSliderScreen">"Discover an app to create and do outdoor activities with people who share your interests. "</string>
+    <string name="descSliderScreen">"Discover an app to create and do outdoor actions with people who share your interests. "</string>
     <string name="editar">Edit</string>
     <string name="subirImagen">Upload image</string>
     <string name="intrTitulo">Enter the title</string>
     <string name="categoria">Category</string>
     <string name="selecCategoria">Select a category</string>
-    <string name="fechaAct">Activity Date</string>
+    <string name="fechaAct">Action Date</string>
     <string name="selecFecha">Selecct a date</string>
     <string name="ubicacion">Location</string>
     <string name="intrUbicacion">Enter a location</string>
@@ -78,14 +78,14 @@
     <string name="polPrivacidad">"Privacy Policy "</string>
     <string name="licencias">Licences</string>
     <string name="desconectarse">Sign out</string>
-    <string name="actCreadaConExito">Activity created successfully</string>
-    <string name="crearActividad">Create actividad</string>
+    <string name="actCreadaConExito">Action created successfully</string>
+    <string name="crearActividad">Create Action</string>
     <string name="rellenaTodosLosCampos">Fill in all the fields</string>
     <string name="editarAct">Edit Activity</string>
     <string name="desapuntarse">Unsubscribe</string>
-    <string name="errorObtenerActividad">Error getting activity</string>
+    <string name="errorObtenerActividad">Error getting action</string>
     <string name="complCamposObl">"Complete the required fields "</string>
-    <string name="actActualizada">Activity updated</string>
+    <string name="actActualizada">Action updated</string>
     <string name="editarPefil">Edit profile</string>
     <string name="verif">Verification</string>
     <string name="conf">Confirm</string>
@@ -95,7 +95,7 @@
     <string name="otro">Other</string>
     <string name="perfilActualizado">Profile updated</string>
     <string name="idiomaGuard">Language Saved</string>
-    <string name="noHayActiv">There aren\'t activities</string>
+    <string name="noHayActiv">There aren\'t actions</string>
     <string name="notificaciones">Notifications</string>
     <string name="spanish">Spanish</string>
     <string name="intTele">Enter your phone</string>
@@ -104,7 +104,7 @@
     <string name="descubrir">Discover</string>
     <string name="participantes">Team</string>
     <string name="no_proximas">You have no upcoming registrations</string>
-    <string name="no_realizadas">You haven\'t completed any activities yet</string>
+    <string name="no_realizadas">You haven\'t completed any actions yet</string>
     <string name="dudas">All comments</string>
     <string name="notifications">Notifications</string>
     <string name="respuesta_del_organizador">Response from the organizer</string>

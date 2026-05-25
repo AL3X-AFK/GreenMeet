@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">GreenMeet</string>
     <string name="screen1">Bienvenido a GreenMeet</string>
-    <string name="screen1desc">Descubre una app para crear y realizar actividades que te gustan en el espacio urbano. La ciudad es tu espacio.</string>
+    <string name="screen1desc">Descubre una app para crear y realizar acciones que te gustan en el espacio urbano. La ciudad es tu espacio.</string>
     <string name="screen2desc">Conecta con personas que comparten tus ideas e intereses.  Crea experiencias juntos..</string>
     <string name="screen3desc">Entra y descubre.</string>
 
@@ -51,7 +51,7 @@
 
     <!--    Slider Screen-->
     <string name="bienv">Bienvenido a GreenMeet</string>
-    <string name="descSliderScreen">Descubre una aplicación para crear y realizar actividades al aire libre con personas que comparten tus intereses.</string>
+    <string name="descSliderScreen">Descubre una aplicación para crear y realizar acciones al aire libre con personas que comparten tus intereses.</string>
 
     <!--    Myacts  Card-->
     <string name="editar">Editar</string>
@@ -61,7 +61,7 @@
     <string name="intrTitulo">Introduce el título</string>
     <string name="categoria">Categoría</string>
     <string name="selecCategoria">Selecciona una categoría</string>
-    <string name="fechaAct">Fecha Actividad</string>
+    <string name="fechaAct">Fecha Acción</string>
     <string name="selecFecha">Selecciona la fecha</string>
     <string name="ubicacion">Ubicación</string>
     <string name="intrUbicacion">Introduce la ubicación</string>
@@ -140,7 +140,7 @@
     </string>
 
     <!--    Fragment profile-->
-    <string name="misActs">Mis Actividades</string>
+    <string name="misActs">Mis Acciones</string>
     <string name="idioma">Idioma</string>
     <string name="polPrivacidad">Política de Privacidad</string>
     <string name="licencias">Licencias</string>
@@ -149,14 +149,14 @@
 
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 
-    <string name="actCreadaConExito">Actividad creada con éxito</string>
-    <string name="crearActividad">Crear actividad</string>
+    <string name="actCreadaConExito">Acción creada con éxito</string>
+    <string name="crearActividad">Crear acción</string>
     <string name="rellenaTodosLosCampos">Rellena todos los campos</string>
-    <string name="editarAct">Editar actividad</string>
+    <string name="editarAct">Editar acción</string>
     <string name="desapuntarse">Desapuntarse</string>
-    <string name="errorObtenerActividad">Error al obtener actividad</string>
+    <string name="errorObtenerActividad">Error al obtener acción</string>
     <string name="complCamposObl">Completa los campos obligatorios</string>
-    <string name="actActualizada">Actividad actualizada</string>
+    <string name="actActualizada">Acción actualizada</string>
     <string name="editarPefil">Editar perfil</string>
     <string name="noEspecificar">No especificar</string>
     <string name="male">Masculino</string>
@@ -166,7 +166,7 @@
     <string name="verif">Verificacion</string>
     <string name="conf">Confirmar</string>
     <string name="idiomaGuard">Idioma guardado</string>
-    <string name="noHayActiv">No hay actividades</string>
+    <string name="noHayActiv">No hay acciones</string>
     <string name="error" translatable="false">Error</string>
     <string name="notificaciones">Notificaciones</string>
     <string name="intTele">Introduce tu teléfono</string>
@@ -186,8 +186,8 @@
 
     <string name="participantes">Participantes</string>
     <string name="no_proximas">No tienes inscripciones próximas</string>
-    <string name="no_realizadas">Aún no has completado actividades</string>
-    <string name="dudas">Tods los comentarios</string>
+    <string name="no_realizadas">Aún no has completado acciones</string>
+    <string name="dudas">Todos los comentarios</string>
     <string name="notifications">"Notificaciones "</string>
     <string name="respuesta_del_organizador">Respuesta del Organizador</string>
     <string name="entendido">Entendido</string>
